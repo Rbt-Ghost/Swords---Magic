@@ -61,8 +61,8 @@
 
         window->clear();
         window->draw(background);
-        window->draw(player->get_Sprite());
         window->draw(FlyDemon->getSprite());
+        window->draw(player->get_Sprite());
         
         window->display();
     }
