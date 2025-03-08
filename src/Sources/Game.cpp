@@ -180,7 +180,6 @@
     }
 
 
-
     void Game::setW(unsigned int width)
     {
         this->width=width;

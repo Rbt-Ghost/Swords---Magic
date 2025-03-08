@@ -91,8 +91,6 @@ public:
     void move(float x, float y);
     void jump();
     void updatePhysics();
-    //bool animationFinished();
-    //float getCurrentAttackDuration();
 
     //void atk1();
     //void atk2();

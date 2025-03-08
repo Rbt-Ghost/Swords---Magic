@@ -346,22 +346,3 @@ void Player::updatePhysics()
         isFalling = true;
     }
 }
-
-/*
-bool Player::animationFinished()
-{
-    if (isAttacking1 && currentFrame >= 5) return true; // Atk 1 has 6 frames
-    if (isAttacking2 && currentFrame >= 4) return true; // Atk 2 has 5 frames
-    if (isAttacking3 && currentFrame >= 5) return true; // Atk 3 has 6 frames
-    return false;
-}
-
-
-float Player::getCurrentAttackDuration() 
-{
-    if (isAttacking1) return 0.6f;  // Adjust based on animation time
-    if (isAttacking2) return 0.5f;
-    if (isAttacking3) return 0.6f;
-    return 0.0f;
-}
-*/
