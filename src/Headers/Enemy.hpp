@@ -3,14 +3,22 @@
 
 #pragma once
 
-class Enemy
+#include "Entity.hpp"
+
+class Enemy : public Entity
 {
-public:
-    Enemy();
-    ~Enemy();
-
 private:
+    string Name;
+    int Hp;
+    int Atk;
+    float Speed;
 
+public:
+    Enemy(string Name, int Hp, int Atk, float Speed);
+    virtual ~Enemy();
+
+    Enemy& operator+=(int Heal);
+    Enemy& operator-=(int Damage);
 };
 
 #endif

@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 //#include <memory>
 #include "Player.hpp"
-#include "Enemy.hpp"
+#include "FlyingDemon.hpp"
 
 class Game 
 {
@@ -19,6 +19,7 @@ private:
     sf::Texture *texture;
 
     Player *player;
+    FlyingDemon *FlyDemon;
 
     void processEvents();
     void update();

@@ -5,6 +5,7 @@
     Game::Game(unsigned int width, unsigned int height): 
     window(new sf::RenderWindow (sf::VideoMode({width,height}), "Swords & Magic")),
     player(new Player("Hero", 10, 3, 1.5f)),
+    FlyDemon(new FlyingDemon("Flying Demon", 5, 1, 1.85f)),
     texture(new sf::Texture (sf::Texture()))
     {
         setW(width);
@@ -20,6 +21,7 @@
     { 
         delete window;
         delete player;
+        delete FlyDemon;
         delete texture;
     }
     
@@ -47,6 +49,7 @@
         handlePlayerInput();
         player->updatePhysics();
         player->updateAnimation();
+        FlyDemon->updateAnimation();
     }
     
     void Game::render()
@@ -59,6 +62,7 @@
         window->clear();
         window->draw(background);
         window->draw(player->get_Sprite());
+        window->draw(FlyDemon->getSprite());
         
         window->display();
     }
