@@ -1,0 +1,1 @@
+g++ -o "bin/Swords & Magic.exe" main.cpp "C:\Users\Robert\MyCode\Swords & Magic\src\Sources\Game.cpp" "C:\Users\Robert\MyCode\Swords & Magic\src\Sources\Entity.cpp" "C:\Users\Robert\MyCode\Swords & Magic\src\Sources\Player.cpp" resource.o -I"include" -L"lib" -lsfml-graphics -lsfml-window -lsfml-system
