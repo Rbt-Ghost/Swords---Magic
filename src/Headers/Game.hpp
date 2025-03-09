@@ -14,6 +14,7 @@ private:
     unsigned int width;
     unsigned int height;
 
+    sf::Clock clock;
 
     sf::RenderWindow *window;
     sf::Texture *texture;
@@ -26,7 +27,7 @@ private:
     void render();
 
     void handlePlayerInput();
-    //void checkCollisions();
+    bool checkCollisions();
 
     void setW(unsigned int width);
     void setH(unsigned int height);

@@ -2,7 +2,8 @@
 
     FlyingDemon::FlyingDemon(string Name, int Hp, int Atk, float Speed):
     Enemy(Name,Hp,Atk,Speed),
-    sprite(idleTexture)
+    sprite(idleTexture),
+    fireballSprite(fireballTexture)
     {
         if (!idleTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/with_outline/IDLE.png"))
         {
@@ -21,6 +22,10 @@
             std::cerr << "ERROR :: COULD NOT LOAD HURT SPRITE" << std::endl;
         }
         if (!deathTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/with_outline/DEATH.png"))
+        {
+            std::cerr << "ERROR :: COULD NOT LOAD DEATH SPRITE" << std::endl;
+        }
+        if (!fireballTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/projectile.png"))
         {
             std::cerr << "ERROR :: COULD NOT LOAD DEATH SPRITE" << std::endl;
         }
@@ -50,8 +55,15 @@
 
         sprite.setTextureRect(idleFrames[0]);
         sprite.setScale(sf::Vector2f(1.8f,1.8f));
-        sprite.setOrigin({48,42});
-        sprite.setPosition({1000, 700});
+        sprite.setOrigin({40.5,35.5});
+        sprite.setPosition({xPos=1000, yPos=700});
+
+        hitbox.setSize({120.f,90.f});
+        hitbox.setFillColor(sf::Color::Transparent);
+        hitbox.setOutlineColor(sf::Color::Red);
+        hitbox.setOutlineThickness(1.f);
+        hitbox.setOrigin({hitbox.getSize().x/2, hitbox.getSize().y/2});
+        hitbox.setPosition({xPos,yPos});
     }
 
     FlyingDemon::~FlyingDemon()
@@ -80,9 +92,21 @@
     }
 
 
-    sf::Sprite& FlyingDemon::getSprite()
+    sf::Sprite& FlyingDemon::get_Sprite()
     {
         return sprite;
+    }
+    sf::Sprite& FlyingDemon::get_FireballSprite()
+    {
+        return fireballSprite;
+    }
+    sf::RectangleShape& FlyingDemon::get_hitbox()
+    {
+        return hitbox;
+    }
+    sf::CircleShape& FlyingDemon::get_fireballHitbox()
+    {
+        return fireballHitbox;
     }
     bool FlyingDemon::get_isIdle()
     {
@@ -104,6 +128,19 @@
     {
         return isDead;
     }
+
+
+    FlyingDemon& FlyingDemon::operator+=(int Heal)
+    {
+        Enemy::operator+=(Heal);
+        return *this;
+    }
+    FlyingDemon& FlyingDemon::operator-=(int Damage)
+    {
+        Enemy::operator-=(Damage);
+        return *this;
+    }
+
 
     void FlyingDemon::updateAnimation()
     {

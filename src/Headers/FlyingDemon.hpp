@@ -20,6 +20,9 @@ private:
     sf::Texture deathTexture;
     sf::Sprite sprite;
 
+    sf::Texture fireballTexture;
+    sf::Sprite fireballSprite;
+
     sf::IntRect idleFrames[4];
     sf::IntRect flyingFrames[4];
     sf::IntRect attackFrames[8];
@@ -33,7 +36,13 @@ private:
     bool isFlying = false;
     bool isAttacking = false;
     bool isHurt = false;
-    bool isDead = false; 
+    bool isDead = false;
+    
+    float xPos;
+    float yPos;
+
+    sf::RectangleShape hitbox;
+    sf::CircleShape fireballHitbox;
 
 public:
     FlyingDemon(string Name = "Flying Demon", int Hp = 5, int Atk = 1, float Speed = 1.85);
@@ -45,12 +54,18 @@ public:
     void set_isHurt(bool isHurt);
     void set_isDead(bool isDead);
 
-    sf::Sprite& getSprite();
+    sf::Sprite& get_Sprite();
+    sf::Sprite& get_FireballSprite();
+    sf::RectangleShape& get_hitbox();
+    sf::CircleShape& get_fireballHitbox();
     bool get_isIdle();
     bool get_isFlying();
     bool get_isAttacking();
     bool get_isHurt();
     bool get_isDead();
+
+    FlyingDemon& operator+=(int Heal);
+    FlyingDemon& operator-=(int Damage);
 
     void updateAnimation();
 

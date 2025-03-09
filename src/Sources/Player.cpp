@@ -93,7 +93,14 @@ sprite(idleTexture)
     sprite.setTextureRect(idleFrames[0]);
     sprite.setScale(sf::Vector2f(2.f,2.f));
     sprite.setOrigin({48,42});
-    sprite.setPosition({1440/2, 800/4});
+    sprite.setPosition({xPos, yPos});
+    
+    hitbox.setSize({40.f,70.f});
+    hitbox.setFillColor(sf::Color::Transparent);
+    hitbox.setOutlineColor(sf::Color::Red);
+    hitbox.setOutlineThickness(1.f);
+    hitbox.setOrigin({hitbox.getSize().x/2, hitbox.getSize().y/2});
+    hitbox.setPosition({xPos,yPos});
 }
 
 Player::~Player() 
@@ -140,9 +147,14 @@ void Player::set_isDead(bool isDead)
     this->isDead = isDead;
 }
 
+
 sf::Sprite& Player::get_Sprite()
 {
     return sprite;
+}
+sf::RectangleShape& Player::get_Hitbox()
+{
+    return hitbox;
 }
 int Player::get_currentFrame()
 {
@@ -264,7 +276,6 @@ void Player::updateAnimation()
         }
         else if (isMovingR)
         {
-            sprite.setScale(sf::Vector2f(2.f, 2.f));
             if (currentFrame >= 8)
                 currentFrame = 0;
             sprite.setTexture(walkTexture);
@@ -272,7 +283,6 @@ void Player::updateAnimation()
         }
         else if (isMovingL)
         {
-            sprite.setScale(sf::Vector2f(-2.f, 2.f));
             if (currentFrame >= 8)
                 currentFrame = 0;
             sprite.setTexture(walkTexture);
@@ -331,12 +341,14 @@ void Player::updatePhysics()
     if (isJumping || isFalling)
     {
         yVelocity += 0.8f; // Apply gravity
-    sprite.move({0, yVelocity}); // Move sprite based on velocity
+        sprite.move({0, yVelocity}); // Move sprite based on velocity
+        hitbox.move({0, yVelocity});
     }
 
     if (sprite.getPosition().y >= groundLevel)
     {
         sprite.setPosition({sprite.getPosition().x, groundLevel});
+        hitbox.setPosition({hitbox.getPosition().x, groundLevel});
         isJumping = false;
         isFalling = false;
         yVelocity = 0;

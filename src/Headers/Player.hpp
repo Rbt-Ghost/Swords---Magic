@@ -52,9 +52,12 @@ private:
     bool isHurt = false;
     bool isDead = false;
 
+    float xPos=1440/2;
+    float yPos=800/4;
     float yVelocity = 0;
     float groundLevel = 700;
 
+    sf::RectangleShape hitbox;
 
 public:
     Player(string Name="Hero", int Hp=10, int Atk=3, float Speed=1);
@@ -72,6 +75,7 @@ public:
     void set_isDead(bool isDead);
 
     sf::Sprite& get_Sprite();
+    sf::RectangleShape& get_Hitbox();
     int get_currentFrame();
     bool get_isMovingR();
     bool get_isMovingL();

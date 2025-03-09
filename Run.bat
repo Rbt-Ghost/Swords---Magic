@@ -1,1 +1,7 @@
-g++ -o "bin/Swords & Magic.exe" main.cpp "C:\Users\Robert\MyCode\Swords & Magic\src\Sources\Game.cpp" "C:\Users\Robert\MyCode\Swords & Magic\src\Sources\Entity.cpp" "C:\Users\Robert\MyCode\Swords & Magic\src\Sources\Player.cpp" "C:\Users\Robert\MyCode\Swords & Magic\src\Sources\Enemy.cpp" "C:\Users\Robert\MyCode\Swords & Magic\src\Sources\FlyingDemon.cpp" resource.o -I"include" -L"lib" -lsfml-graphics -lsfml-window -lsfml-system
+g++ -o "bin/Swords & Magic.exe" main.cpp ^
+    "src/Sources/Game.cpp" ^
+    "src/Sources/Entity.cpp" ^
+    "src/Sources/Player.cpp" ^
+    "src/Sources/Enemy.cpp" ^
+    "src/Sources/FlyingDemon.cpp" ^
+    resource.o -I"include" -L"lib" -lsfml-graphics -lsfml-window -lsfml-system
