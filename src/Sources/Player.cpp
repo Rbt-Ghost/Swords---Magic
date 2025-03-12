@@ -146,6 +146,10 @@ void Player::set_isDead(bool isDead)
 {
     this->isDead = isDead;
 }
+void Player::set_currentFrame(int currentFrame)
+{
+    this->currentFrame = currentFrame;
+}
 
 
 sf::Sprite& Player::get_Sprite()
@@ -199,6 +203,14 @@ bool Player::get_isHurt()
 bool Player::get_isDead()
 {
     return isDead;
+}
+float Player::get_xPos()
+{
+    return xPos;
+}
+float Player::get_yPos()
+{
+    return yPos;
 }
 
 
@@ -304,6 +316,7 @@ void Player::updateAnimation()
             if(currentFrame == 11)
             {
                 sprite.setPosition({-1000,-1000});
+                hitbox.setPosition({-1000,-1000});
             }
         }
         else
@@ -322,6 +335,9 @@ void Player::updateAnimation()
 void Player::move(float x, float y)
 {
     sprite.move({x,y});
+    hitbox.move({x,y});
+    xPos+=x;
+    yPos+=y;
 }
 
 
@@ -341,8 +357,7 @@ void Player::updatePhysics()
     if (isJumping || isFalling)
     {
         yVelocity += 0.8f; // Apply gravity
-        sprite.move({0, yVelocity}); // Move sprite based on velocity
-        hitbox.move({0, yVelocity});
+        move(0,yVelocity);
     }
 
     if (sprite.getPosition().y >= groundLevel)

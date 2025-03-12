@@ -4,6 +4,10 @@
 #pragma once
 
 #include "Enemy.hpp"
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
 
 class FlyingDemon : public Enemy
 {
@@ -53,6 +57,7 @@ public:
     void set_isAttacking(bool isAttacking);
     void set_isHurt(bool isHurt);
     void set_isDead(bool isDead);
+    void set_CurrentFrame(int CurrentFrame);
 
     sf::Sprite& get_Sprite();
     sf::Sprite& get_FireballSprite();
@@ -63,11 +68,18 @@ public:
     bool get_isAttacking();
     bool get_isHurt();
     bool get_isDead();
+    float get_xPos();
+    float get_yPos();
+    float get_CurrentFrame();
 
     FlyingDemon& operator+=(int Heal);
     FlyingDemon& operator-=(int Damage);
 
     void updateAnimation();
+    void checkHp();
+    void escape();
+    void ifAttack();
+    void move(float x, float y);
 
 };
 

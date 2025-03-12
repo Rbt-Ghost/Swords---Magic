@@ -27,7 +27,7 @@
         }
         if (!fireballTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/projectile.png"))
         {
-            std::cerr << "ERROR :: COULD NOT LOAD DEATH SPRITE" << std::endl;
+            std::cerr << "ERROR :: COULD NOT LOAD PROJECTILE SPRITE" << std::endl;
         }
 
         sprite.setTexture(idleTexture);
@@ -58,12 +58,14 @@
         sprite.setOrigin({40.5,35.5});
         sprite.setPosition({xPos=1000, yPos=700});
 
-        hitbox.setSize({120.f,90.f});
+        hitbox.setSize({110.f,80.f});
         hitbox.setFillColor(sf::Color::Transparent);
         hitbox.setOutlineColor(sf::Color::Red);
         hitbox.setOutlineThickness(1.f);
         hitbox.setOrigin({hitbox.getSize().x/2, hitbox.getSize().y/2});
         hitbox.setPosition({xPos,yPos});
+
+        srand(time(NULL));
     }
 
     FlyingDemon::~FlyingDemon()
@@ -89,6 +91,10 @@
     void FlyingDemon::set_isDead(bool isDead)
     {
         this->isDead = isDead;
+    }
+    void FlyingDemon::set_CurrentFrame(int CurrentFrame)
+    {
+        this->CurrentFrame = CurrentFrame;
     }
 
 
@@ -128,6 +134,18 @@
     {
         return isDead;
     }
+    float FlyingDemon::get_xPos()
+    {
+        return xPos;
+    }
+    float FlyingDemon::get_yPos()
+    {
+        return yPos;
+    }
+    float FlyingDemon::get_CurrentFrame()
+    {
+        return CurrentFrame;
+    }
 
 
     FlyingDemon& FlyingDemon::operator+=(int Heal)
@@ -137,6 +155,7 @@
     }
     FlyingDemon& FlyingDemon::operator-=(int Damage)
     {
+        Damage = max(0, Damage);
         Enemy::operator-=(Damage);
         return *this;
     }
@@ -171,10 +190,13 @@
             }
             else if (isDead)
             {
-                if (CurrentFrame >= 7)
-                    CurrentFrame = 0;
                 sprite.setTexture(deathTexture);
                 sprite.setTextureRect(deathFrames[CurrentFrame]);
+                if (CurrentFrame == 6)
+                {
+                    sprite.setPosition({2000,700});
+                    hitbox.setPosition({2000,700});
+                }
             }
             else
             {
@@ -185,4 +207,46 @@
             }
             AnimationClock.restart();
         }
+    }
+
+    void FlyingDemon::checkHp()
+    {
+        if (getHp() == 0)
+        {
+            isHurt = false;
+            isDead = true;
+            CurrentFrame = 0;
+        }
+    }
+
+    void FlyingDemon::escape()
+    {
+        int r = rand()%7 + 1;
+        cout<<endl<<r;
+
+        if ( r == 4)
+        {
+            isHurt = false;
+            isFlying = true;
+        }
+    }
+
+    void FlyingDemon::ifAttack()
+    {
+        int r = rand()%3 + 1;
+        cout<<endl<<r;
+
+        if ( r == 2)
+        {
+            isAttacking = true;
+            isFlying = false;
+        }
+    }
+
+    void FlyingDemon::move(float x, float y)
+    {
+        sprite.move({x,y});
+        hitbox.move({x,y});
+        xPos+=x;
+        yPos+=y;
     }

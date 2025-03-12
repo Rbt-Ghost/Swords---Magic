@@ -7,6 +7,7 @@
 //#include <memory>
 #include "Player.hpp"
 #include "FlyingDemon.hpp"
+#include <math.h>
 
 class Game 
 {
@@ -22,12 +23,18 @@ private:
     Player *player;
     FlyingDemon *FlyDemon;
 
+    bool checkAtk1 = true;
+
     void processEvents();
     void update();
     void render();
 
     void handlePlayerInput();
+    void enemyLogic();
     bool checkCollisions();
+    float distance();
+    bool playerLeft();
+    bool playerRight();
 
     void setW(unsigned int width);
     void setH(unsigned int height);

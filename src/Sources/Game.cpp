@@ -4,8 +4,8 @@
 
     Game::Game(unsigned int width, unsigned int height): 
     window(new sf::RenderWindow (sf::VideoMode({width,height}), "Swords & Magic")),
-    player(new Player("Hero", 10, 1, 1.5f)),
-    FlyDemon(new FlyingDemon("Flying Demon", 5, 1, 1.85f)),
+    player(new Player("Hero", 30, 1, 1.5f)),
+    FlyDemon(new FlyingDemon("Flying Demon", 10, 1, 1.85f)),
     texture(new sf::Texture (sf::Texture()))
     {
         setW(width);
@@ -46,11 +46,8 @@
     
     void Game::update()
     {
-        //if (clock.getElapsedTime().asSeconds() > 0.1f)
-        {
-            handlePlayerInput();
-          //  clock.restart();
-        }
+        handlePlayerInput();
+        enemyLogic();
         player->updatePhysics();
         player->updateAnimation();
         FlyDemon->updateAnimation();
@@ -87,62 +84,27 @@
             if (!player->get_isAttacking2() && !player->get_isAttacking3())
             {
                 player->set_isAttacking1(true);
-                player->get_Hitbox().setSize({60.f,70.f});
-
-                if (checkCollisions())
+                if (checkAtk1)
                 {
-                    FlyDemon->set_isHurt(true);
-
-                    if (player->get_isAttacking1() && player->get_currentFrame() == 4 && clock.getElapsedTime().asSeconds() > 0.1f)
-                    {    
-                        *FlyDemon-=player->getAtk();
-                        cout<<endl<<"Demon Hp at1 "<<FlyDemon->getHp();
-                        clock.restart();
-                    }
+                    player->set_currentFrame(0);
+                    checkAtk1 = false;
                 }
-                else
-                    FlyDemon->set_isHurt(false);
+                player->get_Hitbox().setSize({80.f,70.f});
+                player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x/2, player->get_Hitbox().getSize().y/2});
             }
             else if (!player->get_isAttacking1() && !player->get_isAttacking3())
             {
                 player->set_isAttacking2(true);
-
-                if (checkCollisions())
-                {
-                    FlyDemon->set_isHurt(true);
-
-                    if (player->get_isAttacking2() && player->get_currentFrame() == 1 && clock.getElapsedTime().asSeconds() > 0.1f)
-                    {    
-                        *FlyDemon-=player->getAtk();
-                        cout<<endl<<"Demon Hp at2 "<<FlyDemon->getHp();
-                        clock.restart();
-                    }
-                }
-                else
-                    FlyDemon->set_isHurt(false);
+                checkAtk1 = true;
             }
             else if (!player->get_isAttacking1() && !player->get_isAttacking2())
             {
                 player->set_isAttacking3(true);
-
-                if (checkCollisions())
-                {
-                    FlyDemon->set_isHurt(true);
-
-                    if (player->get_isAttacking3() && player->get_currentFrame() == 3 && clock.getElapsedTime().asSeconds() > 0.1f)
-                    {
-                        *FlyDemon-=player->getAtk();
-                        cout<<endl<<"Demon Hp at3 "<<FlyDemon->getHp();
-                        clock.restart();
-                    }
-                }
-                else
-                    FlyDemon->set_isHurt(false);
             }
         }
         else
         {
-            player->get_Hitbox().setSize({40.f,70.f});
+            
             player->set_isAttacking1(false);
             player->set_isAttacking2(false);
             player->set_isAttacking3(false);
@@ -152,7 +114,12 @@
        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::K))
         {
-            player->set_isDefending(true);
+            if (!player->get_isDefending())
+            {
+                player->set_isDefending(true);
+                player->get_Hitbox().setSize({50.f,70.f});
+                player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x/2, player->get_Hitbox().getSize().y/2});
+            }
         }
         else
         {
@@ -167,6 +134,11 @@
             player->set_isRunning(false);
             return;
         }
+        else
+        {
+            player->get_Hitbox().setSize({40.f,70.f});
+            player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x/2, player->get_Hitbox().getSize().y/2});
+        }
 
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D))
@@ -174,14 +146,12 @@
             player->get_Sprite().setScale(sf::Vector2f(2.f, 2.f));
             player->set_isMovingR(true);
             player->move(player->getSpeed(), 0.f);
-            player->get_Hitbox().move({player->getSpeed(), 0.f});
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::LShift))
             {
                 player->set_isMovingR(false);
                 player->set_isRunning(true);
                 player->move(player->getSpeed() + 0.5f, 0.f);
-                player->get_Hitbox().move({player->getSpeed() + 0.5f, 0.f});
             }
             else
             {
@@ -199,14 +169,12 @@
             player->get_Sprite().setScale(sf::Vector2f(-2.f, 2.f));
             player->set_isMovingL(true);
             player->move(-player->getSpeed(), 0.f);
-            player->get_Hitbox().move({-player->getSpeed(), 0.f});
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::LShift))
             {
                 player->set_isMovingL(false);
                 player->set_isRunning(true);
                 player->move(-player->getSpeed() - 0.5f, 0.f);
-                player->get_Hitbox().move({-player->getSpeed() - 0.5f, 0.f});
             }   
             else
             {
@@ -243,6 +211,128 @@
         if (player->get_Hitbox().getGlobalBounds().findIntersection(FlyDemon->get_hitbox().getGlobalBounds()))
             return true;
         else return false;
+    }
+
+
+    void Game::enemyLogic()
+    {
+        if (playerLeft())
+            FlyDemon->get_Sprite().setScale(sf::Vector2f(1.8f,1.8f));
+        else if (playerRight())
+            FlyDemon->get_Sprite().setScale(sf::Vector2f(-1.8f,1.8f));
+
+
+        if (checkCollisions())
+        {
+            if (FlyDemon->getHp() > 0 && player->get_isAttacking1())
+            {
+                FlyDemon->set_isHurt(true);
+
+                if (player->get_currentFrame() == 4 && clock.getElapsedTime().asSeconds() > 0.4f)
+                {    
+                    FlyDemon->set_CurrentFrame(0);
+
+                    *FlyDemon-=player->getAtk();
+                    FlyDemon->checkHp();
+
+                    if (!FlyDemon->get_isDead())
+                        FlyDemon->escape();
+
+                    clock.restart();
+                }
+            }
+            
+            if (FlyDemon->getHp() > 0 && player->get_isAttacking2())
+            {
+                FlyDemon->set_isHurt(true);
+
+                if (player->get_currentFrame() == 1 && clock.getElapsedTime().asSeconds() > 0.1f)
+                {    
+                    FlyDemon->set_CurrentFrame(0);
+
+                    *FlyDemon-=player->getAtk();
+                    FlyDemon->checkHp();
+
+                    if (!FlyDemon->get_isDead())
+                        FlyDemon->escape();
+                    
+                    clock.restart();
+                }
+            }
+
+            if (FlyDemon->getHp() > 0 && player->get_isAttacking3())
+            {
+                FlyDemon->set_isHurt(true);
+
+                if (player->get_currentFrame() == 3 && clock.getElapsedTime().asSeconds() > 0.3f)
+                {
+                    FlyDemon->set_CurrentFrame(0);
+
+                    *FlyDemon-=player->getAtk();
+
+                    if (FlyDemon->getHp() != 0)
+                    {
+                        if (playerLeft())
+                        {
+                            FlyDemon->move( 60.f, 0.f);
+                        }
+                        if (playerRight())
+                        {
+                            FlyDemon->move( -60.f, 0.f);
+                        }
+                    }
+
+                    FlyDemon->checkHp();
+
+                    clock.restart();
+                }
+            }
+        }
+        else if (FlyDemon->get_isHurt() && FlyDemon->get_CurrentFrame() > 3)
+            FlyDemon->set_isHurt(false);
+
+        if ( FlyDemon->get_isFlying() && distance() < 400 )
+        {   
+            if (playerLeft())
+            {
+                FlyDemon->move(FlyDemon->getSpeed(),-FlyDemon->getSpeed());
+            }
+            if (playerRight())
+            {
+                FlyDemon->move(-FlyDemon->getSpeed(),-FlyDemon->getSpeed());
+            }
+        }
+        else
+        {
+            FlyDemon->set_isFlying(false);
+        }
+
+        if (FlyDemon->get_isAttacking() && FlyDemon->get_CurrentFrame() >= 7)
+        {
+            FlyDemon->set_isAttacking(false);
+        }
+        if (FlyDemon->get_isFlying() || FlyDemon->get_isIdle() && clock.getElapsedTime().asSeconds() > 3.0f)
+        {
+            FlyDemon->ifAttack();
+            FlyDemon->set_CurrentFrame(0);
+            clock.restart();
+        }
+    }
+
+
+    float Game::distance()
+    {
+        return sqrt (pow ( player->get_xPos()-FlyDemon->get_xPos(), 2) + pow ( player->get_yPos()-FlyDemon->get_yPos(), 2));
+    }
+
+
+    bool Game::playerLeft()
+    {
+        return (player->get_xPos() - FlyDemon->get_xPos() < 0);
+    }
+    bool Game::playerRight()
+    {
+        return (player->get_xPos() - FlyDemon->get_xPos() > 0);
     }
 
 

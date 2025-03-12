@@ -52,10 +52,10 @@ private:
     bool isHurt = false;
     bool isDead = false;
 
-    float xPos=1440/2;
-    float yPos=800/4;
     float yVelocity = 0;
     float groundLevel = 700;
+    float xPos=1440/2;
+    float yPos=groundLevel;
 
     sf::RectangleShape hitbox;
 
@@ -73,6 +73,7 @@ public:
     void set_isRunning(bool isRunning);
     void set_isHurt(bool isHurt);
     void set_isDead(bool isDead);
+    void set_currentFrame(int currentFrame);
 
     sf::Sprite& get_Sprite();
     sf::RectangleShape& get_Hitbox();
@@ -87,6 +88,8 @@ public:
     bool get_isRunning();
     bool get_isHurt();
     bool get_isDead();
+    float get_xPos();
+    float get_yPos();
 
     Player &operator+=(int Heal);
     Player &operator-=(int Damage);
