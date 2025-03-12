@@ -311,7 +311,7 @@
         {
             FlyDemon->set_isAttacking(false);
         }
-        if (FlyDemon->get_isFlying() || FlyDemon->get_isIdle() && clock.getElapsedTime().asSeconds() > 3.0f)
+        if ((FlyDemon->get_isFlying() || FlyDemon->get_isIdle()) && clock.getElapsedTime().asSeconds() > 3.0f && !FlyDemon->get_isHurt())
         {
             FlyDemon->ifAttack();
             FlyDemon->set_CurrentFrame(0);
