@@ -221,6 +221,7 @@ Player &Player::operator+=(int Heal)
 }
 Player &Player::operator-=(int Damage)
 {
+    Damage = max(0, Damage);
     Entity::operator-=(Damage);
     return *this;
 }
@@ -334,10 +335,13 @@ void Player::updateAnimation()
 
 void Player::move(float x, float y)
 {
-    sprite.move({x,y});
-    hitbox.move({x,y});
-    xPos+=x;
-    yPos+=y;
+    if (0 <= xPos + x && xPos + x <= 1440)
+    {
+        sprite.move({x,y});
+        hitbox.move({x,y});
+        xPos+=x;
+        yPos+=y;
+    }
 }
 
 
@@ -371,5 +375,16 @@ void Player::updatePhysics()
     else
     {
         isFalling = true;
+    }
+}
+
+
+void Player::checkHp()
+{
+    if (getHp() == 0)
+    {
+        isHurt = false;
+        isDead = true;
+        currentFrame = 0;
     }
 }

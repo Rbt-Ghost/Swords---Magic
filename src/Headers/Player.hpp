@@ -98,13 +98,7 @@ public:
     void move(float x, float y);
     void jump();
     void updatePhysics();
-
-    //void atk1();
-    //void atk2();
-    //void atk3();
-    //void attack();
-    //void hurt();
-    //void die();
+    void checkHp();
 };
 
 #endif

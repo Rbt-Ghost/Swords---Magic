@@ -52,18 +52,31 @@
         {
             deathFrames[i] = sf::IntRect({81*i, 0}, {81, 71});
         }
+        Projectile = sf::IntRect({0,0},{48,32});
 
         sprite.setTextureRect(idleFrames[0]);
         sprite.setScale(sf::Vector2f(1.8f,1.8f));
         sprite.setOrigin({40.5,35.5});
-        sprite.setPosition({xPos=1000, yPos=700});
+        sprite.setPosition({xPos, yPos});
 
         hitbox.setSize({110.f,80.f});
         hitbox.setFillColor(sf::Color::Transparent);
         hitbox.setOutlineColor(sf::Color::Red);
         hitbox.setOutlineThickness(1.f);
         hitbox.setOrigin({hitbox.getSize().x/2, hitbox.getSize().y/2});
-        hitbox.setPosition({xPos,yPos});
+        hitbox.setPosition({xPos, yPos});
+
+
+        fireballSprite.setTextureRect(Projectile);
+        fireballSprite.setTexture(fireballTexture);
+        fireballSprite.setScale({2.f,2.f});
+        fireballSprite.setOrigin({48/2,32/2});
+
+        fireballHitbox.setRadius(20.0f);
+        fireballHitbox.setFillColor(sf::Color::Transparent);
+        fireballHitbox.setOutlineColor(sf::Color::Red);
+        fireballHitbox.setOutlineThickness(1.f);
+        fireballHitbox.setOrigin(fireballHitbox.getGeometricCenter());
 
         srand(time(NULL));
     }
@@ -84,6 +97,10 @@
     {
         this->isAttacking = isAttacking;
     }
+    void FlyingDemon::set_Projectile(bool ProjectileLaunched)
+    {
+        this->ProjectileLaunched = ProjectileLaunched;
+    }
     void FlyingDemon::set_isHurt(bool isHurt)
     {
         this->isHurt = isHurt;
@@ -95,6 +112,22 @@
     void FlyingDemon::set_CurrentFrame(int CurrentFrame)
     {
         this->CurrentFrame = CurrentFrame;
+    }
+    void FlyingDemon::set_fireball_xPos(float fireball_xPos)
+    {
+        this->fireball_xPos = fireball_xPos;
+    }
+    void FlyingDemon::set_fireball_yPos(float fireball_yPos)
+    {
+        this->fireball_yPos = fireball_yPos;
+    }
+    void FlyingDemon::set_ProjectileDir(bool ProjectileDir)
+    {
+        this->ProjectileDir = ProjectileDir;
+    }
+    void FlyingDemon::set_comeDown(bool comedown)
+    {
+        this->comedown = comedown;
     }
 
 
@@ -126,6 +159,10 @@
     {
         return isAttacking;
     }
+    bool FlyingDemon::get_Projectile()
+    {
+        return ProjectileLaunched;
+    }
     bool FlyingDemon::get_isHurt()
     {
         return isHurt;
@@ -142,9 +179,29 @@
     {
         return yPos;
     }
+    float FlyingDemon::get_fireball_xPos()
+    {
+        return fireball_xPos;
+    }
+    float FlyingDemon::get_fireball_yPos()
+    {
+        return fireball_yPos;
+    }
     float FlyingDemon::get_CurrentFrame()
     {
         return CurrentFrame;
+    }
+    int FlyingDemon::get_ProjectileSpeed()
+    {
+        return ProjectileSpeed;
+    }
+    bool FlyingDemon::get_ProjectileDir()
+    {
+        return ProjectileDir;
+    }
+    bool FlyingDemon::get_comeDown()
+    {
+        return comedown;
     }
 
 
@@ -194,8 +251,13 @@
                 sprite.setTextureRect(deathFrames[CurrentFrame]);
                 if (CurrentFrame == 6)
                 {
-                    sprite.setPosition({2000,700});
-                    hitbox.setPosition({2000,700});
+                    //move(1000,700);                   gresit
+                    //sprite.setPosition({100,700});    gresit
+                    //hitbox.setPosition({100,700});    gresit
+                    sprite.setPosition({xPos=100,yPos=700}); // add random values
+                    hitbox.setPosition({xPos=100,yPos=700});
+                    setHp(10);
+                    isDead = false;
                 }
             }
             else
@@ -221,20 +283,28 @@
 
     void FlyingDemon::escape()
     {
-        int r = rand()%7 + 1;
-        cout<<endl<<r;
+        int r = rand()%6 + 1;
 
-        if ( r == 4)
+        if ( r == 3)
         {
             isHurt = false;
             isFlying = true;
         }
     }
 
+    void FlyingDemon::comeDown()
+    {
+        int r = rand()%2 + 1;
+
+        if ( r == 2)
+        {
+            comedown = true;
+        }
+    }
+
     void FlyingDemon::ifAttack()
     {
         int r = rand()%3 + 1;
-        cout<<endl<<r;
 
         if ( r == 2)
         {
@@ -245,8 +315,44 @@
 
     void FlyingDemon::move(float x, float y)
     {
-        sprite.move({x,y});
-        hitbox.move({x,y});
-        xPos+=x;
-        yPos+=y;
+        if (0 <= xPos + x && xPos + x <= 1440 && 0 <= yPos && yPos <= 800)
+        {
+            sprite.move({x,y});
+            hitbox.move({x,y});
+            xPos += x;
+            yPos += y;
+        }
+    }
+
+    void FlyingDemon::moveFireball(float x, float y)
+    {
+        fireballSprite.move({x,y});
+        fireballHitbox.move({x,y});
+        fireball_xPos += x;
+        fireball_yPos += y;
+    }
+
+    void FlyingDemon::rotate_projectile()
+    {
+        if (ProjectileLaunched)
+        {
+            if (rotateUp)
+            {
+                fireballSprite.rotate(sf::degrees(10));
+                rotateUp = false;
+            }
+            else
+            {
+                rotateUp = true;
+            }
+            if (rotateDown)
+            {
+                fireballSprite.rotate(sf::degrees(-10));
+                rotateDown = false;
+            }
+            else
+            {
+                rotateDown = true;
+            }
+        }
     }

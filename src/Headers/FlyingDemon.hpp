@@ -32,6 +32,7 @@ private:
     sf::IntRect attackFrames[8];
     sf::IntRect hurtFrames[4];
     sf::IntRect deathFrames[7];
+    sf::IntRect Projectile;
     int CurrentFrame = 0;
 
     sf::Clock AnimationClock;
@@ -39,11 +40,20 @@ private:
     bool isIdle = true;
     bool isFlying = false;
     bool isAttacking = false;
+    bool ProjectileLaunched = false;
     bool isHurt = false;
     bool isDead = false;
+    bool comedown = false;
+
+    bool rotateUp = true;
+    bool rotateDown = false;
+    bool ProjectileDir;
     
-    float xPos;
-    float yPos;
+    float xPos = 1000;
+    float yPos = 700;
+    float fireball_xPos = xPos;
+    float fireball_yPos = yPos;
+    int ProjectileSpeed = 10;
 
     sf::RectangleShape hitbox;
     sf::CircleShape fireballHitbox;
@@ -55,9 +65,14 @@ public:
     void set_isIdle(bool isIdle);
     void set_isFlying(bool isFlying);
     void set_isAttacking(bool isAttacking);
+    void set_Projectile(bool ProjectileLaunched);
     void set_isHurt(bool isHurt);
     void set_isDead(bool isDead);
     void set_CurrentFrame(int CurrentFrame);
+    void set_fireball_xPos(float fireball_xPos);
+    void set_fireball_yPos(float fireball_yPos);
+    void set_ProjectileDir(bool ProjectileDir);
+    void set_comeDown(bool comedown);
 
     sf::Sprite& get_Sprite();
     sf::Sprite& get_FireballSprite();
@@ -66,11 +81,17 @@ public:
     bool get_isIdle();
     bool get_isFlying();
     bool get_isAttacking();
+    bool get_Projectile();
     bool get_isHurt();
     bool get_isDead();
     float get_xPos();
     float get_yPos();
+    float get_fireball_xPos();
+    float get_fireball_yPos();
     float get_CurrentFrame();
+    int get_ProjectileSpeed();
+    bool get_ProjectileDir();
+    bool get_comeDown();
 
     FlyingDemon& operator+=(int Heal);
     FlyingDemon& operator-=(int Damage);
@@ -78,8 +99,11 @@ public:
     void updateAnimation();
     void checkHp();
     void escape();
+    void comeDown();
     void ifAttack();
     void move(float x, float y);
+    void moveFireball(float x, float y);
+    void rotate_projectile();
 
 };
 

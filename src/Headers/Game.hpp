@@ -4,7 +4,6 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-//#include <memory>
 #include "Player.hpp"
 #include "FlyingDemon.hpp"
 #include <math.h>
@@ -14,9 +13,10 @@ class Game
 private:
     unsigned int width;
     unsigned int height;
+    unsigned int groundLevel = 700;
 
     sf::Clock clock;
-
+    sf::Clock DefendClock;
     sf::RenderWindow *window;
     sf::Texture *texture;
 
@@ -29,9 +29,11 @@ private:
     void update();
     void render();
 
+    void playerTakeDmg();
     void handlePlayerInput();
-    void enemyLogic();
+    void FlyingDemonLogic();
     bool checkCollisions();
+    bool checkFireballCollision();
     float distance();
     bool playerLeft();
     bool playerRight();
