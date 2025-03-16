@@ -13,7 +13,6 @@ class Game
 private:
     unsigned int width;
     unsigned int height;
-    unsigned int groundLevel = 700;
 
     sf::Clock clock;
     sf::Clock DefendClock;
@@ -29,14 +28,14 @@ private:
     void update();
     void render();
 
-    void playerTakeDmg();
     void handlePlayerInput();
-    void FlyingDemonLogic();
-    bool checkCollisions();
-    bool checkFireballCollision();
-    float distance();
-    bool playerLeft();
-    bool playerRight();
+    
+    void playerTakeDmg();
+    void playerAttack();
+    void playerDefend();
+    void playerMoveR();
+    void playerMoveL();
+    void playerJump();
 
     void setW(unsigned int width);
     void setH(unsigned int height);

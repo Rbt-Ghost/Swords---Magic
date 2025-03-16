@@ -52,22 +52,20 @@
         {
             deathFrames[i] = sf::IntRect({81*i, 0}, {81, 71});
         }
-        Projectile = sf::IntRect({0,0},{48,32});
+        Fireball = sf::IntRect({0,0},{48,32});
 
         sprite.setTextureRect(idleFrames[0]);
         sprite.setScale(sf::Vector2f(1.8f,1.8f));
         sprite.setOrigin({40.5,35.5});
-        sprite.setPosition({xPos, yPos});
 
         hitbox.setSize({110.f,80.f});
         hitbox.setFillColor(sf::Color::Transparent);
         hitbox.setOutlineColor(sf::Color::Red);
         hitbox.setOutlineThickness(1.f);
         hitbox.setOrigin({hitbox.getSize().x/2, hitbox.getSize().y/2});
-        hitbox.setPosition({xPos, yPos});
 
 
-        fireballSprite.setTextureRect(Projectile);
+        fireballSprite.setTextureRect(Fireball);
         fireballSprite.setTexture(fireballTexture);
         fireballSprite.setScale({2.f,2.f});
         fireballSprite.setOrigin({48/2,32/2});
@@ -97,9 +95,9 @@
     {
         this->isAttacking = isAttacking;
     }
-    void FlyingDemon::set_Projectile(bool ProjectileLaunched)
+    void FlyingDemon::set_Fireball(bool FireballLaunched)
     {
-        this->ProjectileLaunched = ProjectileLaunched;
+        this->FireballLaunched = FireballLaunched;
     }
     void FlyingDemon::set_isHurt(bool isHurt)
     {
@@ -121,9 +119,9 @@
     {
         this->fireball_yPos = fireball_yPos;
     }
-    void FlyingDemon::set_ProjectileDir(bool ProjectileDir)
+    void FlyingDemon::set_FireballDir(bool FireballDir)
     {
-        this->ProjectileDir = ProjectileDir;
+        this->FireballDir = FireballDir;
     }
     void FlyingDemon::set_comeDown(bool comedown)
     {
@@ -159,9 +157,9 @@
     {
         return isAttacking;
     }
-    bool FlyingDemon::get_Projectile()
+    bool FlyingDemon::get_Fireball()
     {
-        return ProjectileLaunched;
+        return FireballLaunched;
     }
     bool FlyingDemon::get_isHurt()
     {
@@ -191,13 +189,13 @@
     {
         return CurrentFrame;
     }
-    int FlyingDemon::get_ProjectileSpeed()
+    int FlyingDemon::get_FireballSpeed()
     {
-        return ProjectileSpeed;
+        return FireballSpeed;
     }
-    bool FlyingDemon::get_ProjectileDir()
+    bool FlyingDemon::get_FireballDir()
     {
-        return ProjectileDir;
+        return FireballDir;
     }
     bool FlyingDemon::get_comeDown()
     {
@@ -220,7 +218,7 @@
 
     void FlyingDemon::updateAnimation()
     {
-        if (AnimationClock.getElapsedTime().asSeconds() > 0.175f)
+        if (AnimationClock.getElapsedTime().asSeconds() > 0.15f)
         {
             CurrentFrame++;
 
@@ -228,18 +226,6 @@
             {
                 sprite.setTexture(deathTexture);
                 sprite.setTextureRect(deathFrames[CurrentFrame]);
-                /*if (CurrentFrame == 6)
-                {
-                    sprite.setPosition({xPos=100,yPos}); // add random values
-                    hitbox.setPosition({xPos=100,yPos});
-                    setHp(10);
-                    isDead = false;
-
-                    set_fireball_xPos( get_xPos() );
-                    set_fireball_yPos( get_yPos() );
-                    get_FireballSprite().setPosition({get_xPos(), get_yPos()});
-                    get_fireballHitbox().setPosition({get_xPos(), get_yPos()});
-                }*/
             }
             else if (isFlying)
             {
@@ -272,6 +258,182 @@
             AnimationClock.restart();
         }
     }
+
+
+    void FlyingDemon::FlyingDemonLogic(Player &player)
+    {
+        if (playerLeft(player))
+            {
+                get_Sprite().setScale(sf::Vector2f(1.8f,1.8f));
+            }
+            else if (playerRight(player))
+            {
+                get_Sprite().setScale(sf::Vector2f(-1.8f,1.8f));
+            }
+
+
+            if (checkCollisions(player))
+            {
+                if (getHp() > 0 && player.get_isAttacking1())
+                {
+                    set_isHurt(true);
+
+                    if (player.get_currentFrame() == 4 && clock.getElapsedTime().asSeconds() > 0.4f)
+                    {    
+                        set_CurrentFrame(0);
+
+                        *this-=player.getAtk();
+                        checkHp();
+
+                        if (!get_isDead())
+                            escape();
+
+                        clock.restart();
+                    }
+                }
+                
+                if (getHp() > 0 && player.get_isAttacking2())
+                {
+                    set_isHurt(true);
+
+                    if (player.get_currentFrame() == 1 && clock.getElapsedTime().asSeconds() > 0.1f)
+                    {    
+                        set_CurrentFrame(0);
+
+                        *this-=player.getAtk();
+                        checkHp();
+
+                        if (!get_isDead())
+                            escape();
+                        
+                        clock.restart();
+                    }
+                }
+
+                if (getHp() > 0 && player.get_isAttacking3())
+                {
+                    set_isHurt(true);
+
+                    if (player.get_currentFrame() == 3 && clock.getElapsedTime().asSeconds() > 0.3f)
+                    {
+                        set_CurrentFrame(0);
+
+                        *this-=player.getAtk();
+
+                        if (getHp() != 0)
+                        {
+                            if (playerLeft(player))
+                            {
+                                move( 60.f, 0.f);
+                            }
+                            if (playerRight(player))
+                            {
+                                move( -60.f, 0.f);
+                            }
+                        }
+
+                        checkHp();
+
+                        clock.restart();
+                    }
+                }
+            }
+            else if (get_isHurt() && get_CurrentFrame() > 3)
+                set_isHurt(false);
+
+
+            if ( get_isFlying() && distance(player) < 400 )
+            {   
+                if (playerLeft(player))
+                {
+                    move(getSpeed(),-getSpeed());
+                }
+                if (playerRight(player))
+                {
+                    move(-getSpeed(),-getSpeed());
+                }
+            }
+            else
+            {
+                set_isFlying(false);
+            }
+
+            if (get_yPos() < groundLevel && clock.getElapsedTime().asSeconds() > 3.0f)
+            {
+                comeDown();
+                clock.restart();
+            }
+            if ( !get_isFlying() && get_comeDown() && get_yPos() < groundLevel)
+            {
+                move(0, 2*getSpeed());
+            }
+            else
+            {
+                set_comeDown(false);
+            }
+
+
+            if ((get_isFlying() || get_isIdle()) && clock.getElapsedTime().asSeconds() > 2.0f && !get_isHurt() && abs(player.get_yPos() - get_yPos()) <100 ) 
+            {
+                ifAttack();
+                set_CurrentFrame(0);
+                clock.restart();
+            }
+            if (get_isAttacking() && get_CurrentFrame() == 3)
+            {
+                set_Fireball(true);
+
+                if (playerLeft(player))
+                {
+                    set_FireballDir(true);
+                    get_FireballSprite().setPosition({get_xPos() - 55, get_yPos() + 10});
+                    get_fireballHitbox().setPosition({get_xPos() - 70, get_yPos() + 10});
+                }
+                else if (playerRight(player))
+                {
+                    set_FireballDir(false);
+                    get_FireballSprite().setPosition({get_xPos() + 55, get_yPos() + 10});
+                    get_fireballHitbox().setPosition({get_xPos() + 70, get_yPos() + 10});
+                }
+            }
+            if ((get_isAttacking() && get_CurrentFrame() >= 7 ) || get_isHurt() || get_isDead())
+            {
+                set_isAttacking(false);
+            }
+
+
+            if (get_Fireball())
+            {
+                if (get_FireballDir())
+                {
+                    get_FireballSprite().setScale(sf::Vector2f(2.f,2.f));
+                    moveFireball( -get_FireballSpeed(), 0);
+                }
+                else if (!get_FireballDir())
+                {
+                    get_FireballSprite().setScale(sf::Vector2f(-2.f,2.f));
+                    moveFireball( get_FireballSpeed(), 0);
+                }
+            }
+
+            if (-100 > get_fireball_xPos() || get_fireball_xPos() > 1440 + 100 || get_isDead() || 
+                player.get_isHurt() ||(checkFireballCollision(player) && player.get_isDefending() && 
+                ( (player.get_Sprite().getScale().x > 0 && get_FireballSprite().getScale().x > 0) || 
+                (player.get_Sprite().getScale().x < 0 && get_FireballSprite().getScale().x < 0))))
+            {
+                set_Fireball(false);
+                set_fireball_xPos( get_xPos() );
+                set_fireball_yPos( get_yPos() );
+                get_FireballSprite().setPosition({get_xPos(), get_yPos()});
+                get_fireballHitbox().setPosition({get_xPos(), get_yPos()});
+            }
+
+        if (get_isDead() && get_CurrentFrame() == 6)
+        {
+            spawn(player);
+        }
+    }
+
 
     void FlyingDemon::checkHp()
     {
@@ -308,7 +470,7 @@
     {
         int r = rand()%2 + 1;
 
-        if ( r == 2 && !isAttacking && !ProjectileLaunched)
+        if ( r == 2 && !isAttacking && !FireballLaunched)
         {
             isAttacking = true;
             isFlying = false;
@@ -334,38 +496,49 @@
         fireball_yPos += y;
     }
 
-    void FlyingDemon::rotate_projectile()
+
+    bool FlyingDemon::checkCollisions(Player &player)
     {
-        if (ProjectileLaunched)
-        {
-            if (rotateUp)
-            {
-                fireballSprite.rotate(sf::degrees(10));
-                rotateUp = false;
-            }
-            else
-            {
-                rotateUp = true;
-            }
-            if (rotateDown)
-            {
-                fireballSprite.rotate(sf::degrees(-10));
-                rotateDown = false;
-            }
-            else
-            {
-                rotateDown = true;
-            }
-        }
+        if (player.get_Hitbox().getGlobalBounds().findIntersection(get_hitbox().getGlobalBounds()))
+            return true;
+        else return false;
     }
 
-    void FlyingDemon::respawn(Player player)
-    {
 
-        if (player.get_xPos() + 500 < 1400)
-            xPos = player.get_xPos() + 500;
-        else if (player.get_xPos() - 500 > 40)
-            xPos = player.get_xPos() - 500 ;
+    bool FlyingDemon::checkFireballCollision(Player &player)
+    {
+        if (get_fireballHitbox().getGlobalBounds().findIntersection(player.get_Hitbox().getGlobalBounds()))
+            return true; 
+        else return false;
+    }
+
+
+    float FlyingDemon::distance(Player &player)
+    {
+        return sqrt (pow ( player.get_xPos() - get_xPos(), 2) + pow ( player.get_yPos() - get_yPos(), 2));
+    }
+
+
+    bool FlyingDemon::playerLeft(Player &player)
+    {
+        return (player.get_xPos() - get_xPos() < 0);
+    }
+
+
+    bool FlyingDemon::playerRight(Player &player)
+    {
+        return (player.get_xPos() - get_xPos() > 0);
+    }
+
+
+    void FlyingDemon::spawn(Player &player)
+    {
+        int r;
+        do
+        {
+            r = rand()%1400 + 40;
+        }while( abs(r - player.get_xPos()) < 250 );    
+        xPos = r;
 
         yPos = 0;
 

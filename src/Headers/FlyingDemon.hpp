@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <math.h>
 using namespace std;
 
 class FlyingDemon : public Enemy
@@ -18,7 +19,7 @@ private:
     int Atk;
     float Speed;
 
-    Player player;
+    sf::Clock clock;
 
     sf::Texture idleTexture;
     sf::Texture flyingTexture;
@@ -35,7 +36,7 @@ private:
     sf::IntRect attackFrames[8];
     sf::IntRect hurtFrames[4];
     sf::IntRect deathFrames[7];
-    sf::IntRect Projectile;
+    sf::IntRect Fireball;
     int CurrentFrame = 0;
 
     sf::Clock AnimationClock;
@@ -43,38 +44,39 @@ private:
     bool isIdle = true;
     bool isFlying = false;
     bool isAttacking = false;
-    bool ProjectileLaunched = false;
+    bool FireballLaunched = false;
     bool isHurt = false;
     bool isDead = false;
     bool comedown = false;
 
     bool rotateUp = true;
     bool rotateDown = false;
-    bool ProjectileDir;
+    bool FireballDir;
     
     float xPos = 1300;
     float yPos = 700;
+    unsigned int groundLevel = 700;
     float fireball_xPos = xPos;
     float fireball_yPos = yPos;
-    int ProjectileSpeed = 10;
+    int FireballSpeed = 15;
 
     sf::RectangleShape hitbox;
     sf::CircleShape fireballHitbox;
 
 public:
-    FlyingDemon(string Name = "Flying Demon", int Hp = 5, int Atk = 1, float Speed = 1.85);
+    FlyingDemon(string Name = "Flying Demon", int Hp = 5, int Atk = 1, float Speed = 2);
     ~FlyingDemon();
 
     void set_isIdle(bool isIdle);
     void set_isFlying(bool isFlying);
     void set_isAttacking(bool isAttacking);
-    void set_Projectile(bool ProjectileLaunched);
+    void set_Fireball(bool FireballLaunched);
     void set_isHurt(bool isHurt);
     void set_isDead(bool isDead);
     void set_CurrentFrame(int CurrentFrame);
     void set_fireball_xPos(float fireball_xPos);
     void set_fireball_yPos(float fireball_yPos);
-    void set_ProjectileDir(bool ProjectileDir);
+    void set_FireballDir(bool FireballDir);
     void set_comeDown(bool comedown);
 
     sf::Sprite& get_Sprite();
@@ -84,7 +86,7 @@ public:
     bool get_isIdle();
     bool get_isFlying();
     bool get_isAttacking();
-    bool get_Projectile();
+    bool get_Fireball();
     bool get_isHurt();
     bool get_isDead();
     float get_xPos();
@@ -92,22 +94,27 @@ public:
     float get_fireball_xPos();
     float get_fireball_yPos();
     float get_CurrentFrame();
-    int get_ProjectileSpeed();
-    bool get_ProjectileDir();
+    int get_FireballSpeed();
+    bool get_FireballDir();
     bool get_comeDown();
 
     FlyingDemon& operator+=(int Heal);
     FlyingDemon& operator-=(int Damage);
 
     void updateAnimation();
+    void FlyingDemonLogic(Player &player);
     void checkHp();
     void escape();
     void comeDown();
     void ifAttack();
     void move(float x, float y);
     void moveFireball(float x, float y);
-    void rotate_projectile();
-    void respawn(Player player);
+    bool checkCollisions(Player &player);
+    bool checkFireballCollision(Player &player);
+    float distance(Player &player);
+    bool playerLeft(Player &player);
+    bool playerRight(Player &player);
+    void spawn(Player &player);
 
 };
 
