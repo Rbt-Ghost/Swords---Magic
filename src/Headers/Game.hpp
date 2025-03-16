@@ -8,7 +8,7 @@
 #include "FlyingDemon.hpp"
 #include <math.h>
 
-class Game 
+class Game
 {
 private:
     unsigned int width;
@@ -45,7 +45,7 @@ private:
     unsigned int getH();
 
 public:
-    Game(const unsigned int width=1440, const unsigned int height=800);
+    Game(const unsigned int width = 1440, const unsigned int height = 800);
     ~Game();
 
     void run();

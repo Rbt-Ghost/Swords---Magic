@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Enemy.hpp"
+#include "Player.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -16,6 +17,8 @@ private:
     int Hp;
     int Atk;
     float Speed;
+
+    Player player;
 
     sf::Texture idleTexture;
     sf::Texture flyingTexture;
@@ -49,7 +52,7 @@ private:
     bool rotateDown = false;
     bool ProjectileDir;
     
-    float xPos = 1000;
+    float xPos = 1300;
     float yPos = 700;
     float fireball_xPos = xPos;
     float fireball_yPos = yPos;
@@ -104,6 +107,7 @@ public:
     void move(float x, float y);
     void moveFireball(float x, float y);
     void rotate_projectile();
+    void respawn(Player player);
 
 };
 

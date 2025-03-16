@@ -224,7 +224,24 @@
         {
             CurrentFrame++;
 
-            if (isFlying)
+            if (isDead)
+            {
+                sprite.setTexture(deathTexture);
+                sprite.setTextureRect(deathFrames[CurrentFrame]);
+                /*if (CurrentFrame == 6)
+                {
+                    sprite.setPosition({xPos=100,yPos}); // add random values
+                    hitbox.setPosition({xPos=100,yPos});
+                    setHp(10);
+                    isDead = false;
+
+                    set_fireball_xPos( get_xPos() );
+                    set_fireball_yPos( get_yPos() );
+                    get_FireballSprite().setPosition({get_xPos(), get_yPos()});
+                    get_fireballHitbox().setPosition({get_xPos(), get_yPos()});
+                }*/
+            }
+            else if (isFlying)
             {
                 if (CurrentFrame >= 4)
                     CurrentFrame = 0;
@@ -244,21 +261,6 @@
                     CurrentFrame = 0;
                 sprite.setTexture(hurtTexture);
                 sprite.setTextureRect(hurtFrames[CurrentFrame]);
-            }
-            else if (isDead)
-            {
-                sprite.setTexture(deathTexture);
-                sprite.setTextureRect(deathFrames[CurrentFrame]);
-                if (CurrentFrame == 6)
-                {
-                    //move(1000,700);                   gresit
-                    //sprite.setPosition({100,700});    gresit
-                    //hitbox.setPosition({100,700});    gresit
-                    sprite.setPosition({xPos=100,yPos=700}); // add random values
-                    hitbox.setPosition({xPos=100,yPos=700});
-                    setHp(10);
-                    isDead = false;
-                }
             }
             else
             {
@@ -304,9 +306,9 @@
 
     void FlyingDemon::ifAttack()
     {
-        int r = rand()%3 + 1;
+        int r = rand()%2 + 1;
 
-        if ( r == 2)
+        if ( r == 2 && !isAttacking && !ProjectileLaunched)
         {
             isAttacking = true;
             isFlying = false;
@@ -355,4 +357,27 @@
                 rotateDown = true;
             }
         }
+    }
+
+    void FlyingDemon::respawn(Player player)
+    {
+
+        if (player.get_xPos() + 500 < 1400)
+            xPos = player.get_xPos() + 500;
+        else if (player.get_xPos() - 500 > 40)
+            xPos = player.get_xPos() - 500 ;
+
+        yPos = 0;
+
+        sprite.setPosition({xPos,yPos});
+        hitbox.setPosition({xPos,yPos});
+
+        setHp(10);
+        isDead = false;
+        comedown = true;
+
+        set_fireball_xPos( get_xPos() );
+        set_fireball_yPos( get_yPos() );
+        get_FireballSprite().setPosition({get_xPos(), get_yPos()});
+        get_fireballHitbox().setPosition({get_xPos(), get_yPos()});
     }

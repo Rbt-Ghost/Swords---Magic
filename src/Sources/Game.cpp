@@ -67,45 +67,39 @@
         window->draw(background);
 
         window->draw(FlyDemon->get_Sprite());
-        //window->draw(FlyDemon->get_hitbox());
+        window->draw(FlyDemon->get_hitbox());
         if (FlyDemon->get_Projectile())
         {
             window->draw(FlyDemon->get_FireballSprite());
-            //window->draw(FlyDemon->get_fireballHitbox());
+            window->draw(FlyDemon->get_fireballHitbox());
             FlyDemon->rotate_projectile();
         }
 
         window->draw(player->get_Sprite());
-        //window->draw(player->get_Hitbox());
+        window->draw(player->get_Hitbox());
         
         window->display();
     }
 
 
-    void Game::playerTakeDmg() //   !!!!
+    void Game::playerTakeDmg()
     {
         if (player->get_isHurt() && player->get_currentFrame() >=3)
                 player->set_isHurt(false);
                 
         if (checkFireballCollision())
         {
-            if (!player->get_isDefending() && !player->get_isHurt() && FlyDemon->get_Projectile())
+            if (!player->get_isHurt() && FlyDemon->get_Projectile())
             {
-                FlyDemon->set_Projectile(false);
-                FlyDemon->set_fireball_xPos( FlyDemon->get_xPos() );
-                FlyDemon->set_fireball_yPos( FlyDemon->get_yPos() );
-                FlyDemon->get_FireballSprite().setPosition({FlyDemon->get_xPos(), FlyDemon->get_yPos()});
-                FlyDemon->get_fireballHitbox().setPosition({FlyDemon->get_xPos(), FlyDemon->get_yPos()});
-
                 player->set_isHurt(true);
                 player->set_currentFrame(0);
                 *player-=FlyDemon->getAtk();
                 player->checkHp();
 
                 if (playerLeft())
-                    player->move(-60,-20);
+                    player->move(-50,-10);
                 if (playerRight())
-                    player->move(60,-20);
+                    player->move(50,-10);
             }
         }
     }
@@ -118,9 +112,9 @@
             window->close();
         }
 
-        if (!player->get_isHurt())
+        if (!player->get_isHurt() && !player->get_isDead())
         {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::J)) // daca vrei un lucru bun faacut fa-l cu mana ta
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::J))
             {
                 if (!player->get_isAttacking2() && !player->get_isAttacking3())
                 {
@@ -155,7 +149,7 @@
        
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::K))
             {
-                if (!player->get_isDefending() && DefendClock.getElapsedTime().asSeconds() > 1.f)
+                if (!player->get_isDefending() && !player->get_isHurt() && DefendClock.getElapsedTime().asSeconds() > 2.0f)
                 {
                     player->set_currentFrame(0);
                     player->set_isDefending(true);
@@ -263,166 +257,175 @@
 
     void Game::FlyingDemonLogic()
     {
-        if (playerLeft())
-        {
-            FlyDemon->get_Sprite().setScale(sf::Vector2f(1.8f,1.8f));
-        }
-        else if (playerRight())
-        {
-            FlyDemon->get_Sprite().setScale(sf::Vector2f(-1.8f,1.8f));
-        }
-
-
-        if (checkCollisions())
-        {
-            if (FlyDemon->getHp() > 0 && player->get_isAttacking1())
-            {
-                FlyDemon->set_isHurt(true);
-
-                if (player->get_currentFrame() == 4 && clock.getElapsedTime().asSeconds() > 0.4f)
-                {    
-                    FlyDemon->set_CurrentFrame(0);
-
-                    *FlyDemon-=player->getAtk();
-                    FlyDemon->checkHp();
-
-                    if (!FlyDemon->get_isDead())
-                        FlyDemon->escape();
-
-                    clock.restart();
-                }
-            }
-            
-            if (FlyDemon->getHp() > 0 && player->get_isAttacking2())
-            {
-                FlyDemon->set_isHurt(true);
-
-                if (player->get_currentFrame() == 1 && clock.getElapsedTime().asSeconds() > 0.1f)
-                {    
-                    FlyDemon->set_CurrentFrame(0);
-
-                    *FlyDemon-=player->getAtk();
-                    FlyDemon->checkHp();
-
-                    if (!FlyDemon->get_isDead())
-                        FlyDemon->escape();
-                    
-                    clock.restart();
-                }
-            }
-
-            if (FlyDemon->getHp() > 0 && player->get_isAttacking3())
-            {
-                FlyDemon->set_isHurt(true);
-
-                if (player->get_currentFrame() == 3 && clock.getElapsedTime().asSeconds() > 0.3f)
-                {
-                    FlyDemon->set_CurrentFrame(0);
-
-                    *FlyDemon-=player->getAtk();
-
-                    if (FlyDemon->getHp() != 0)
-                    {
-                        if (playerLeft())
-                        {
-                            FlyDemon->move( 60.f, 0.f);
-                        }
-                        if (playerRight())
-                        {
-                            FlyDemon->move( -60.f, 0.f);
-                        }
-                    }
-
-                    FlyDemon->checkHp();
-
-                    clock.restart();
-                }
-            }
-        }
-        else if (FlyDemon->get_isHurt() && FlyDemon->get_CurrentFrame() > 3)
-            FlyDemon->set_isHurt(false);
-
-
-        if ( FlyDemon->get_isFlying() && distance() < 400 )
-        {   
             if (playerLeft())
             {
-                FlyDemon->move(FlyDemon->getSpeed(),-FlyDemon->getSpeed());
-            }
-            if (playerRight())
-            {
-                FlyDemon->move(-FlyDemon->getSpeed(),-FlyDemon->getSpeed());
-            }
-        }
-        else
-        {
-            FlyDemon->set_isFlying(false);
-        }
-
-        if (FlyDemon->get_yPos() < groundLevel && clock.getElapsedTime().asSeconds() > 3.0f)
-        {
-            FlyDemon->comeDown();
-            clock.restart();
-        }
-        if ( !FlyDemon->get_isFlying() && FlyDemon->get_comeDown() && FlyDemon->get_yPos() < groundLevel)
-        {
-            FlyDemon->move(0, 2*FlyDemon->getSpeed());
-        }
-        else
-        {
-            FlyDemon->set_comeDown(false);
-        }
-
-
-        if ((FlyDemon->get_isFlying() || FlyDemon->get_isIdle()) && clock.getElapsedTime().asSeconds() > 2.0f && !FlyDemon->get_isHurt() && abs(player->get_yPos() - FlyDemon->get_yPos()) <100 ) 
-        {
-            FlyDemon->ifAttack();
-            FlyDemon->set_CurrentFrame(0);
-            clock.restart();
-        }
-        if (FlyDemon->get_isAttacking() && FlyDemon->get_CurrentFrame() == 3)
-        {
-            FlyDemon->set_Projectile(true);
-            if (playerLeft())
-            {
-                FlyDemon->set_ProjectileDir(true);
-                FlyDemon->get_FireballSprite().setPosition({FlyDemon->get_xPos() - 55, FlyDemon->get_yPos() + 10});
-                FlyDemon->get_fireballHitbox().setPosition({FlyDemon->get_xPos() - 70, FlyDemon->get_yPos() + 10});
+                FlyDemon->get_Sprite().setScale(sf::Vector2f(1.8f,1.8f));
             }
             else if (playerRight())
             {
-                FlyDemon->set_ProjectileDir(false);
-                FlyDemon->get_FireballSprite().setPosition({FlyDemon->get_xPos() + 55, FlyDemon->get_yPos() + 10});
-                FlyDemon->get_fireballHitbox().setPosition({FlyDemon->get_xPos() + 70, FlyDemon->get_yPos() + 10});
+                FlyDemon->get_Sprite().setScale(sf::Vector2f(-1.8f,1.8f));
             }
-        }
-        if ((FlyDemon->get_isAttacking() && FlyDemon->get_CurrentFrame() >= 7 ) || FlyDemon->get_isHurt() || FlyDemon->get_isDead())
-        {
-            FlyDemon->set_isAttacking(false);
-        }
 
 
-        if (FlyDemon->get_Projectile())
-        {
-            if (FlyDemon->get_ProjectileDir())
+            if (checkCollisions())
             {
-                FlyDemon->get_FireballSprite().setScale(sf::Vector2f(2.f,2.f));
-                FlyDemon->moveFireball(- FlyDemon->get_ProjectileSpeed(), 0);
-            }
-            else if (!FlyDemon->get_ProjectileDir())
-            {
-                FlyDemon->get_FireballSprite().setScale(sf::Vector2f(-2.f,2.f));
-                FlyDemon->moveFireball( FlyDemon->get_ProjectileSpeed(), 0);
-            }
-        }
+                if (FlyDemon->getHp() > 0 && player->get_isAttacking1())
+                {
+                    FlyDemon->set_isHurt(true);
 
-        if (-100 > FlyDemon->get_fireball_xPos() || FlyDemon->get_fireball_xPos() > width + 100 || FlyDemon->get_isDead() || (checkFireballCollision() && player->get_isDefending()))
+                    if (player->get_currentFrame() == 4 && clock.getElapsedTime().asSeconds() > 0.4f)
+                    {    
+                        FlyDemon->set_CurrentFrame(0);
+
+                        *FlyDemon-=player->getAtk();
+                        FlyDemon->checkHp();
+
+                        if (!FlyDemon->get_isDead())
+                            FlyDemon->escape();
+
+                        clock.restart();
+                    }
+                }
+                
+                if (FlyDemon->getHp() > 0 && player->get_isAttacking2())
+                {
+                    FlyDemon->set_isHurt(true);
+
+                    if (player->get_currentFrame() == 1 && clock.getElapsedTime().asSeconds() > 0.1f)
+                    {    
+                        FlyDemon->set_CurrentFrame(0);
+
+                        *FlyDemon-=player->getAtk();
+                        FlyDemon->checkHp();
+
+                        if (!FlyDemon->get_isDead())
+                            FlyDemon->escape();
+                        
+                        clock.restart();
+                    }
+                }
+
+                if (FlyDemon->getHp() > 0 && player->get_isAttacking3())
+                {
+                    FlyDemon->set_isHurt(true);
+
+                    if (player->get_currentFrame() == 3 && clock.getElapsedTime().asSeconds() > 0.3f)
+                    {
+                        FlyDemon->set_CurrentFrame(0);
+
+                        *FlyDemon-=player->getAtk();
+
+                        if (FlyDemon->getHp() != 0)
+                        {
+                            if (playerLeft())
+                            {
+                                FlyDemon->move( 60.f, 0.f);
+                            }
+                            if (playerRight())
+                            {
+                                FlyDemon->move( -60.f, 0.f);
+                            }
+                        }
+
+                        FlyDemon->checkHp();
+
+                        clock.restart();
+                    }
+                }
+            }
+            else if (FlyDemon->get_isHurt() && FlyDemon->get_CurrentFrame() > 3)
+                FlyDemon->set_isHurt(false);
+
+
+            if ( FlyDemon->get_isFlying() && distance() < 400 )
+            {   
+                if (playerLeft())
+                {
+                    FlyDemon->move(FlyDemon->getSpeed(),-FlyDemon->getSpeed());
+                }
+                if (playerRight())
+                {
+                    FlyDemon->move(-FlyDemon->getSpeed(),-FlyDemon->getSpeed());
+                }
+            }
+            else
+            {
+                FlyDemon->set_isFlying(false);
+            }
+
+            if (FlyDemon->get_yPos() < groundLevel && clock.getElapsedTime().asSeconds() > 3.0f)
+            {
+                FlyDemon->comeDown();
+                clock.restart();
+            }
+            if ( !FlyDemon->get_isFlying() && FlyDemon->get_comeDown() && FlyDemon->get_yPos() < groundLevel)
+            {
+                FlyDemon->move(0, 2*FlyDemon->getSpeed());
+            }
+            else
+            {
+                FlyDemon->set_comeDown(false);
+            }
+
+
+            if ((FlyDemon->get_isFlying() || FlyDemon->get_isIdle()) && clock.getElapsedTime().asSeconds() > 2.0f && !FlyDemon->get_isHurt() && abs(player->get_yPos() - FlyDemon->get_yPos()) <100 ) 
+            {
+                FlyDemon->ifAttack();
+                FlyDemon->set_CurrentFrame(0);
+                clock.restart();
+            }
+            if (FlyDemon->get_isAttacking() && FlyDemon->get_CurrentFrame() == 3)
+            {
+                FlyDemon->set_Projectile(true);
+
+                if (playerLeft())
+                {
+                    FlyDemon->set_ProjectileDir(true);
+                    FlyDemon->get_FireballSprite().setPosition({FlyDemon->get_xPos() - 55, FlyDemon->get_yPos() + 10});
+                    FlyDemon->get_fireballHitbox().setPosition({FlyDemon->get_xPos() - 70, FlyDemon->get_yPos() + 10});
+                }
+                else if (playerRight())
+                {
+                    FlyDemon->set_ProjectileDir(false);
+                    FlyDemon->get_FireballSprite().setPosition({FlyDemon->get_xPos() + 55, FlyDemon->get_yPos() + 10});
+                    FlyDemon->get_fireballHitbox().setPosition({FlyDemon->get_xPos() + 70, FlyDemon->get_yPos() + 10});
+                }
+            }
+            if ((FlyDemon->get_isAttacking() && FlyDemon->get_CurrentFrame() >= 7 ) || FlyDemon->get_isHurt() || FlyDemon->get_isDead())
+            {
+                FlyDemon->set_isAttacking(false);
+            }
+
+
+            if (FlyDemon->get_Projectile())
+            {
+                if (FlyDemon->get_ProjectileDir())
+                {
+                    FlyDemon->get_FireballSprite().setScale(sf::Vector2f(2.f,2.f));
+                    FlyDemon->moveFireball(- FlyDemon->get_ProjectileSpeed(), 0);
+                }
+                else if (!FlyDemon->get_ProjectileDir())
+                {
+                    FlyDemon->get_FireballSprite().setScale(sf::Vector2f(-2.f,2.f));
+                    FlyDemon->moveFireball( FlyDemon->get_ProjectileSpeed(), 0);
+                }
+            }
+
+            if (-100 > FlyDemon->get_fireball_xPos() || FlyDemon->get_fireball_xPos() > width + 100 || FlyDemon->get_isDead() || 
+                player->get_isHurt() ||(checkFireballCollision() && player->get_isDefending() && 
+                ( (player->get_Sprite().getScale().x > 0 && FlyDemon->get_FireballSprite().getScale().x > 0) || 
+                (player->get_Sprite().getScale().x < 0 && FlyDemon->get_FireballSprite().getScale().x < 0))))
+            {
+                FlyDemon->set_Projectile(false);
+                FlyDemon->set_fireball_xPos( FlyDemon->get_xPos() );
+                FlyDemon->set_fireball_yPos( FlyDemon->get_yPos() );
+                FlyDemon->get_FireballSprite().setPosition({FlyDemon->get_xPos(), FlyDemon->get_yPos()});
+                FlyDemon->get_fireballHitbox().setPosition({FlyDemon->get_xPos(), FlyDemon->get_yPos()});
+            }
+
+        if (FlyDemon->get_isDead() && FlyDemon->get_CurrentFrame() == 6)
         {
-            FlyDemon->set_Projectile(false);
-            FlyDemon->set_fireball_xPos( FlyDemon->get_xPos() );
-            FlyDemon->set_fireball_yPos( FlyDemon->get_yPos() );
-            FlyDemon->get_FireballSprite().setPosition({FlyDemon->get_xPos(), FlyDemon->get_yPos()});
-            FlyDemon->get_fireballHitbox().setPosition({FlyDemon->get_xPos(), FlyDemon->get_yPos()});
+            FlyDemon->respawn(*player);
         }
     }
 

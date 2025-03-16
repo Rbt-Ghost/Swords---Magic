@@ -233,7 +233,14 @@ void Player::updateAnimation()
     {
         currentFrame++;
 
-        if (isJumping)
+        if (isHurt)
+        {
+            if (currentFrame >= 4)
+                currentFrame = 0;
+            sprite.setTexture(hurtTexture);
+            sprite.setTextureRect(hurtFrames[currentFrame]);
+        }
+        else if (isJumping)
         {
             if (currentFrame >= 5)
                 currentFrame = 0;
@@ -279,13 +286,6 @@ void Player::updateAnimation()
                 currentFrame = 0;
             sprite.setTexture(defendTexture);
             sprite.setTextureRect(defendFrames[currentFrame]);
-        }
-        else if (isHurt)
-        {
-            if (currentFrame >= 4)
-                currentFrame = 0;
-            sprite.setTexture(hurtTexture);
-            sprite.setTextureRect(hurtFrames[currentFrame]);
         }
         else if (isMovingR)
         {
