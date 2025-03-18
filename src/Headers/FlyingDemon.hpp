@@ -56,11 +56,11 @@ private:
     bool recalculateFdir = true;
     float Fball_angle;
     
-    float xPos = 1300;
-    float yPos = 700;
+    float xPos;
+    float yPos;
     unsigned int groundLevel = 700;
-    float fireball_xPos = xPos;
-    float fireball_yPos = yPos;
+    float fireball_xPos;
+    float fireball_yPos;
     int FireballSpeed = 13;
     sf::Vector2f playerPosition;
     sf::Vector2f demonPosition;

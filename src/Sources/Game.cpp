@@ -17,7 +17,7 @@ texture(new sf::Texture(sf::Texture()))
 
     for (int i = 0; i < 4; i ++)
     {
-        FlyDemon[i] = new FlyingDemon("Flying Demon", 10, 2, 1.85f);
+        FlyDemon[i] = new FlyingDemon("Flying Demon", 7, 2, 1.85f);
         FlyDemon[i]->spawn(*player);
     }
 }
@@ -82,7 +82,7 @@ void Game::render()
     for (int i = 0; i < 4; i ++)
     {
         window->draw(FlyDemon[i]->get_Sprite());
-        window->draw(FlyDemon[i]->get_hitbox());
+        //window->draw(FlyDemon[i]->get_hitbox());
     }
     
     for (int i = 0; i < 4; i ++)
@@ -90,12 +90,12 @@ void Game::render()
         if (FlyDemon[i]->get_Fireball())
         {
             window->draw(FlyDemon[i]->get_FireballSprite());
-            window->draw(FlyDemon[i]->get_fireballHitbox());
+            //window->draw(FlyDemon[i]->get_fireballHitbox());
         }
     }
 
     window->draw(player->get_Sprite());
-    window->draw(player->get_Hitbox());
+    //window->draw(player->get_Hitbox());
 
     window->display();
 }

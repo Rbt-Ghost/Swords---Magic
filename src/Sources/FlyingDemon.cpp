@@ -378,7 +378,7 @@
                 set_CurrentFrame(0);
                 AtkClock.restart();
             }
-            if (get_isAttacking() && !get_Fireball() && get_CurrentFrame() == 3)
+            if (get_isAttacking() && get_CurrentFrame() == 3)
             {
                 set_Fireball(true);
                 recalculateFdir = true;
@@ -438,9 +438,7 @@
             }
 
 
-            if (-100 > get_fireball_xPos() || get_fireball_xPos() > 1440 + 100 
-                -100 > get_fireball_yPos() || get_fireball_yPos() > 800 + 100  || 
-                (checkFireballCollision(player) && (get_isDead() || player.get_isHurt() )) ||
+            if ((checkFireballCollision(player) && (get_isDead() || player.get_isHurt() )) ||
                 (checkFireballCollision(player) && player.get_isDefending() && 
                     ( (player.get_Sprite().getScale().x > 0 && get_FireballSprite().getScale().x > 0) ||
                     (player.get_Sprite().getScale().x < 0 && get_FireballSprite().getScale().x < 0) ) ) )
@@ -451,6 +449,11 @@
                 get_FireballSprite().setPosition({get_xPos(), get_yPos()});
                 get_fireballHitbox().setPosition({get_xPos(), get_yPos()});
             }
+
+        if (player.get_isDead())
+        {
+            set_isHurt(false);
+        }
 
         if (get_isDead() && get_CurrentFrame() == 6)
         {
@@ -502,11 +505,11 @@
     {
         random_device rd;
         mt19937 gen(rd());
-        uniform_int_distribution<int> dist(1, 3);
+        uniform_int_distribution<int> dist(1, 4);
 
         int r = dist(gen);
 
-        if ( r == 2 && !isAttacking && !FireballLaunched)
+        if ( r == 2 && !isAttacking)
         {
             isAttacking = true;
             isFlying = false;
@@ -569,23 +572,14 @@
 
     void FlyingDemon::playerTakeDmg(Player &player)
     {
-        if (checkFireballCollision(player))
+        if (checkFireballCollision(player) && get_Fireball() )
         {
-            if (!player.get_isHurt() && get_Fireball())
+            if (!player.get_isHurt())
             {
                 player.set_isHurt(true);
                 player.set_currentFrame(0);
                 player -= getAtk();
-                cout <<endl<< "Hp: "<<player.getHp();
                 player.checkHp();
-
-                if (!player.get_isDead())
-                {
-                    if (playerLeft(player))
-                        player.move(-50, -10);
-                    if (playerRight(player))
-                        player.move(50, -10);
-                }
             }
         }
     }
