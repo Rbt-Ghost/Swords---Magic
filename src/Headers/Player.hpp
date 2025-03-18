@@ -33,9 +33,9 @@ private:
     sf::IntRect deathFrames[12];  // Die animation frames
     int currentFrame = 0;       // Track current animation frame
 
-    sf::Clock animationClock;   // Control frame timing
-    sf::Clock jumpClock;        // Control jump timing
-    const float jumpCooldown = 0.9f;  // Define jump cooldown duration
+    sf::Clock animationClock;  
+    sf::Clock jumpClock; 
+    const float jumpCooldown = 0.9f;  
     sf::Clock defendClock;
     const float defendCooldown = 2.f;
     

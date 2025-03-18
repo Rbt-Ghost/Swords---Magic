@@ -221,7 +221,6 @@ Player &Player::operator+=(int Heal)
 }
 Player &Player::operator-=(int Damage)
 {
-    Damage = max(0, Damage);
     Entity::operator-=(Damage);
     return *this;
 }
@@ -236,9 +235,24 @@ void Player::updateAnimation()
         if (isHurt)
         {
             if (currentFrame >= 4)
+            {
                 currentFrame = 0;
+                isHurt = false;
+            }
             sprite.setTexture(hurtTexture);
             sprite.setTextureRect(hurtFrames[currentFrame]);
+        }
+        else if (isDead)
+        {
+            if (currentFrame >= 12)
+                currentFrame = 0;
+            sprite.setTexture(deathTexture);
+            sprite.setTextureRect(deathFrames[currentFrame]);
+            if(currentFrame == 11)
+            {
+                sprite.setPosition({-1000,-1000});
+                hitbox.setPosition({-1000,-1000});
+            }
         }
         else if (isJumping)
         {
@@ -308,18 +322,6 @@ void Player::updateAnimation()
             sprite.setTexture(runningTexture);
             sprite.setTextureRect(runningFrames[currentFrame]);
         }
-        else if (isDead)
-        {
-            if (currentFrame >= 12)
-                currentFrame = 0;
-            sprite.setTexture(deathTexture);
-            sprite.setTextureRect(deathFrames[currentFrame]);
-            if(currentFrame == 11)
-            {
-                sprite.setPosition({-1000,-1000});
-                hitbox.setPosition({-1000,-1000});
-            }
-        }
         else
         {
             if (currentFrame >= 7)
@@ -350,7 +352,7 @@ void Player::jump()
     if (!isJumping && sprite.getPosition().y == groundLevel && jumpClock.getElapsedTime().asSeconds() > jumpCooldown)
     {   
         isJumping = true;
-        yVelocity = -12.f; // Moves player up
+        yVelocity = -12.f;
         jumpClock.restart();
     }
 }
@@ -360,7 +362,7 @@ void Player::updatePhysics()
 {
     if (isJumping || isFalling)
     {
-        yVelocity += 0.8f; // Apply gravity
+        yVelocity += 0.8f;
         move(0,yVelocity);
     }
 
@@ -383,7 +385,6 @@ void Player::checkHp()
 {
     if (getHp() == 0)
     {
-        isHurt = false;
         isDead = true;
         currentFrame = 0;
     }

@@ -16,11 +16,12 @@ private:
 
     sf::Clock clock;
     sf::Clock DefendClock;
+    sf::Clock spawnClock;
     sf::RenderWindow *window;
     sf::Texture *texture;
 
     Player *player;
-    FlyingDemon *FlyDemon;
+    FlyingDemon *FlyDemon[4];
 
     bool checkAtk1 = true;
 
@@ -30,7 +31,6 @@ private:
 
     void handlePlayerInput();
     
-    void playerTakeDmg();
     void playerAttack();
     void playerDefend();
     void playerMoveR();

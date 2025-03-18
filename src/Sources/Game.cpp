@@ -5,7 +5,6 @@ static sf::Clock atkClock;
 Game::Game(unsigned int width, unsigned int height) : 
 window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
 player(new Player("Hero", 25, 1, 1.5f)),
-FlyDemon(new FlyingDemon("Flying Demon", 10, 2, 1.85f)),
 texture(new sf::Texture(sf::Texture()))
 {
     setW(width);
@@ -15,15 +14,21 @@ texture(new sf::Texture(sf::Texture()))
     {
         cerr << "ERROR :: COULD NOT LOAD IDLE SPRITE " << endl;
     }
-    FlyDemon->spawn(*player);
+
+    for (int i = 0; i < 4; i ++)
+    {
+        FlyDemon[i] = new FlyingDemon("Flying Demon", 10, 2, 1.85f);
+        FlyDemon[i]->spawn(*player);
+    }
 }
 
 Game::~Game()
 {
     delete window;
-    delete player;
-    delete FlyDemon;
     delete texture;
+    delete player;
+    for (int i = 0; i < 4; ++i) 
+        delete FlyDemon[i];
 }
 
 void Game::run()
@@ -46,14 +51,22 @@ void Game::processEvents()
 
     handlePlayerInput();
 
-    FlyDemon->FlyingDemonLogic(*player);
+    for (int i = 0; i < 4; i ++)
+    {
+        FlyDemon[i]->FlyingDemonLogic(*player);
+    }
+    
 }
 
 void Game::update()
 {
     player->updatePhysics();
     player->updateAnimation();
-    FlyDemon->updateAnimation();
+
+    for (int i = 0; i < 4; i ++)
+    {
+        FlyDemon[i]->updateAnimation();
+    }
 }
 
 void Game::render()
@@ -66,17 +79,23 @@ void Game::render()
     window->clear();
     window->draw(background);
 
-    window->draw(FlyDemon->get_Sprite());
-    //window->draw(FlyDemon->get_hitbox());
-
-    if (FlyDemon->get_Fireball())
+    for (int i = 0; i < 4; i ++)
     {
-        window->draw(FlyDemon->get_FireballSprite());
-        //window->draw(FlyDemon->get_fireballHitbox());
+        window->draw(FlyDemon[i]->get_Sprite());
+        window->draw(FlyDemon[i]->get_hitbox());
+    }
+    
+    for (int i = 0; i < 4; i ++)
+    {
+        if (FlyDemon[i]->get_Fireball())
+        {
+            window->draw(FlyDemon[i]->get_FireballSprite());
+            window->draw(FlyDemon[i]->get_fireballHitbox());
+        }
     }
 
     window->draw(player->get_Sprite());
-    //window->draw(player->get_Hitbox());
+    window->draw(player->get_Hitbox());
 
     window->display();
 }
@@ -87,8 +106,6 @@ void Game::handlePlayerInput()
     {
         window->close();
     }
-
-    playerTakeDmg();
 
     if (!player->get_isHurt() && !player->get_isDead())
     {
@@ -154,8 +171,13 @@ void Game::playerAttack()
         player->set_isAttacking1(false);
         player->set_isAttacking2(false);
         player->set_isAttacking3(false);
-        FlyDemon->set_isHurt(false);
-    }
+
+        for (int i = 0; i < 4; i ++)
+        {
+            FlyDemon[i]->set_isHurt(false);
+        }
+            
+    }   
 }
 
 void Game::playerDefend()
@@ -230,34 +252,13 @@ void Game::playerMoveL()
 
 void Game::playerJump()
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Space))
     {
         if (!player->get_isJumping())
             player->jump();
     }
 }
 
-void Game::playerTakeDmg()
-{
-    if (player->get_isHurt() && player->get_currentFrame() >= 3)
-        player->set_isHurt(false);
-
-    if (FlyDemon->checkFireballCollision(*player))
-    {
-        if (!player->get_isHurt() && FlyDemon->get_Fireball())
-        {
-            player->set_isHurt(true);
-            player->set_currentFrame(0);
-            *player -= FlyDemon->getAtk();
-            player->checkHp();
-
-            if (FlyDemon->playerLeft(*player))
-                player->move(-50, -10);
-            if (FlyDemon->playerRight(*player))
-                player->move(50, -10);
-        }
-    }
-}
 
 void Game::setW(unsigned int width)
 {

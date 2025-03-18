@@ -16,7 +16,9 @@ void Entity::setName(string Name)
 }
 void Entity::setHp(int Hp)
 {
-    this->Hp=Hp;
+    if (Hp > 0) 
+        this->Hp=Hp;
+    else this->Hp = 0;
 }
 void Entity::setAtk(int Atk)
 {
@@ -46,12 +48,12 @@ float Entity::getSpeed()
 
 Entity &Entity::operator+=(int Heal)
 {
-    Hp+=Heal;
+    setHp(Hp+=Heal);
     return *this;
 }
 Entity &Entity::operator-=(int Damage)
 {
-    Hp-=Damage;
+    setHp(Hp-=Damage);
     return *this;
 }
 

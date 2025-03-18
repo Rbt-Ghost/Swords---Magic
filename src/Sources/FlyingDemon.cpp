@@ -74,9 +74,7 @@
         fireballHitbox.setFillColor(sf::Color::Transparent);
         fireballHitbox.setOutlineColor(sf::Color::Red);
         fireballHitbox.setOutlineThickness(1.f);
-        fireballHitbox.setOrigin(fireballHitbox.getGeometricCenter());
-
-        srand(time(NULL));
+        
     }
 
     FlyingDemon::~FlyingDemon()
@@ -210,7 +208,6 @@
     }
     FlyingDemon& FlyingDemon::operator-=(int Damage)
     {
-        Damage = max(0, Damage);
         Enemy::operator-=(Damage);
         return *this;
     }
@@ -262,6 +259,8 @@
 
     void FlyingDemon::FlyingDemonLogic(Player &player)
     {
+        playerTakeDmg(player);
+
         if (playerLeft(player))
             {
                 get_Sprite().setScale(sf::Vector2f(1.8f,1.8f));
@@ -278,7 +277,7 @@
                 {
                     set_isHurt(true);
 
-                    if (player.get_currentFrame() == 4 && clock.getElapsedTime().asSeconds() > 0.4f)
+                    if (player.get_currentFrame() == 4 && EscapeClock.getElapsedTime().asSeconds() > 0.4f)
                     {    
                         set_CurrentFrame(0);
 
@@ -288,7 +287,7 @@
                         if (!get_isDead())
                             escape();
 
-                        clock.restart();
+                        EscapeClock.restart();
                     }
                 }
                 
@@ -296,7 +295,7 @@
                 {
                     set_isHurt(true);
 
-                    if (player.get_currentFrame() == 1 && clock.getElapsedTime().asSeconds() > 0.1f)
+                    if (player.get_currentFrame() == 1 && EscapeClock.getElapsedTime().asSeconds() > 0.1f)
                     {    
                         set_CurrentFrame(0);
 
@@ -306,7 +305,7 @@
                         if (!get_isDead())
                             escape();
                         
-                        clock.restart();
+                        EscapeClock.restart();
                     }
                 }
 
@@ -314,7 +313,7 @@
                 {
                     set_isHurt(true);
 
-                    if (player.get_currentFrame() == 3 && clock.getElapsedTime().asSeconds() > 0.3f)
+                    if (player.get_currentFrame() == 3 && EscapeClock.getElapsedTime().asSeconds() > 0.3f)
                     {
                         set_CurrentFrame(0);
 
@@ -334,7 +333,7 @@
 
                         checkHp();
 
-                        clock.restart();
+                        EscapeClock.restart();
                     }
                 }
             }
@@ -358,10 +357,10 @@
                 set_isFlying(false);
             }
 
-            if (get_yPos() < groundLevel && clock.getElapsedTime().asSeconds() > 3.0f)
+            if (get_yPos() < groundLevel && comeDownClock.getElapsedTime().asSeconds() > 3.0f)
             {
                 comeDown();
-                clock.restart();
+                comeDownClock.restart();
             }
             if ( !get_isFlying() && get_comeDown() && get_yPos() < groundLevel)
             {
@@ -373,27 +372,32 @@
             }
 
 
-            if ((get_isFlying() || get_isIdle()) && clock.getElapsedTime().asSeconds() > 2.0f && !get_isHurt() && abs(player.get_yPos() - get_yPos()) <100 ) 
+            if ((get_isFlying() || get_isIdle()) && AtkClock.getElapsedTime().asSeconds() > 2.0f && !get_isHurt() && !player.get_isDead()) 
             {
                 ifAttack();
                 set_CurrentFrame(0);
-                clock.restart();
+                AtkClock.restart();
             }
-            if (get_isAttacking() && get_CurrentFrame() == 3)
+            if (get_isAttacking() && !get_Fireball() && get_CurrentFrame() == 3)
             {
                 set_Fireball(true);
+                recalculateFdir = true;
+                playerPosition = player.get_Hitbox().getPosition();
 
                 if (playerLeft(player))
                 {
                     set_FireballDir(true);
+                    
+                    fireballHitbox.setOrigin({fireballHitbox.getRadius() * 2.f, fireballHitbox.getRadius()});
                     get_FireballSprite().setPosition({get_xPos() - 55, get_yPos() + 10});
-                    get_fireballHitbox().setPosition({get_xPos() - 70, get_yPos() + 10});
+                    get_fireballHitbox().setPosition({get_xPos() - 50, get_yPos() + 10});
                 }
                 else if (playerRight(player))
                 {
                     set_FireballDir(false);
+                    fireballHitbox.setOrigin({0.f, fireballHitbox.getRadius()});
                     get_FireballSprite().setPosition({get_xPos() + 55, get_yPos() + 10});
-                    get_fireballHitbox().setPosition({get_xPos() + 70, get_yPos() + 10});
+                    get_fireballHitbox().setPosition({get_xPos() + 50, get_yPos() + 10});
                 }
             }
             if ((get_isAttacking() && get_CurrentFrame() >= 7 ) || get_isHurt() || get_isDead())
@@ -401,25 +405,45 @@
                 set_isAttacking(false);
             }
 
-
             if (get_Fireball())
             {
+                if (recalculateFdir)
+                {
+                    demonPosition = get_FireballSprite().getPosition();
+                    direction = playerPosition - demonPosition;
+                    Fball_angle = atan2(direction.y, direction.x)*180.f / 3.13159f;
+
+                    float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+                    if (length != 0) 
+                    {
+                        direction /= length;
+                    }
+                    recalculateFdir = false;
+                }
+
                 if (get_FireballDir())
                 {
                     get_FireballSprite().setScale(sf::Vector2f(2.f,2.f));
-                    moveFireball( -get_FireballSpeed(), 0);
+                    moveFireball(direction.x * get_FireballSpeed(), direction.y * get_FireballSpeed());
+                    get_FireballSprite().setRotation(sf::degrees(Fball_angle+180));
+                    get_fireballHitbox().setRotation(sf::degrees(Fball_angle+180));
                 }
                 else if (!get_FireballDir())
                 {
                     get_FireballSprite().setScale(sf::Vector2f(-2.f,2.f));
-                    moveFireball( get_FireballSpeed(), 0);
+                    moveFireball(direction.x * get_FireballSpeed(), direction.y * get_FireballSpeed());
+                    get_FireballSprite().setRotation(sf::degrees(Fball_angle));
+                    get_fireballHitbox().setRotation(sf::degrees(Fball_angle));
                 }
             }
 
-            if (-100 > get_fireball_xPos() || get_fireball_xPos() > 1440 + 100 || get_isDead() || 
-                player.get_isHurt() ||(checkFireballCollision(player) && player.get_isDefending() && 
-                ( (player.get_Sprite().getScale().x > 0 && get_FireballSprite().getScale().x > 0) || 
-                (player.get_Sprite().getScale().x < 0 && get_FireballSprite().getScale().x < 0))))
+
+            if (-100 > get_fireball_xPos() || get_fireball_xPos() > 1440 + 100 
+                -100 > get_fireball_yPos() || get_fireball_yPos() > 800 + 100  || 
+                (checkFireballCollision(player) && (get_isDead() || player.get_isHurt() )) ||
+                (checkFireballCollision(player) && player.get_isDefending() && 
+                    ( (player.get_Sprite().getScale().x > 0 && get_FireballSprite().getScale().x > 0) ||
+                    (player.get_Sprite().getScale().x < 0 && get_FireballSprite().getScale().x < 0) ) ) )
             {
                 set_Fireball(false);
                 set_fireball_xPos( get_xPos() );
@@ -447,7 +471,11 @@
 
     void FlyingDemon::escape()
     {
-        int r = rand()%6 + 1;
+        random_device rd;
+        mt19937 gen(rd());
+        uniform_int_distribution<int> dist(1, 6);
+
+        int r = dist(gen);
 
         if ( r == 3)
         {
@@ -458,7 +486,11 @@
 
     void FlyingDemon::comeDown()
     {
-        int r = rand()%2 + 1;
+        random_device rd;
+        mt19937 gen(rd());
+        uniform_int_distribution<int> dist(1, 3);
+
+        int r = dist(gen);
 
         if ( r == 2)
         {
@@ -468,7 +500,11 @@
 
     void FlyingDemon::ifAttack()
     {
-        int r = rand()%2 + 1;
+        random_device rd;
+        mt19937 gen(rd());
+        uniform_int_distribution<int> dist(1, 3);
+
+        int r = dist(gen);
 
         if ( r == 2 && !isAttacking && !FireballLaunched)
         {
@@ -479,7 +515,7 @@
 
     void FlyingDemon::move(float x, float y)
     {
-        if (0 <= xPos + x && xPos + x <= 1440 && 0 <= yPos && yPos <= 800)
+        if (0 <= xPos + x && xPos + x <= 1440 && yPos <= 800)
         {
             sprite.move({x,y});
             hitbox.move({x,y});
@@ -531,16 +567,47 @@
     }
 
 
+    void FlyingDemon::playerTakeDmg(Player &player)
+    {
+        if (checkFireballCollision(player))
+        {
+            if (!player.get_isHurt() && get_Fireball())
+            {
+                player.set_isHurt(true);
+                player.set_currentFrame(0);
+                player -= getAtk();
+                cout <<endl<< "Hp: "<<player.getHp();
+                player.checkHp();
+
+                if (!player.get_isDead())
+                {
+                    if (playerLeft(player))
+                        player.move(-50, -10);
+                    if (playerRight(player))
+                        player.move(50, -10);
+                }
+            }
+        }
+    }
+
+
     void FlyingDemon::spawn(Player &player)
     {
-        int r;
+        int x;
+        int y;
+        random_device rd;
+        mt19937 gen(rd());
+        uniform_int_distribution<int> dist1(100, 1360);
+        
         do
         {
-            r = rand()%1400 + 40;
-        }while( abs(r - player.get_xPos()) < 250 );    
-        xPos = r;
+            x = dist1(gen);
+        }while( abs(x - player.get_xPos()) < 250 );    
+        xPos = x;
 
-        yPos = 0;
+        uniform_int_distribution<int> dist2(-400, 0);
+        y = dist2(gen);
+        yPos = y;
 
         sprite.setPosition({xPos,yPos});
         hitbox.setPosition({xPos,yPos});

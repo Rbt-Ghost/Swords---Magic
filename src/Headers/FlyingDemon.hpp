@@ -6,9 +6,8 @@
 #include "Enemy.hpp"
 #include "Player.hpp"
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
 #include <math.h>
+#include <random>
 using namespace std;
 
 class FlyingDemon : public Enemy
@@ -19,7 +18,9 @@ private:
     int Atk;
     float Speed;
 
-    sf::Clock clock;
+    sf::Clock AtkClock;
+    sf::Clock EscapeClock;
+    sf::Clock comeDownClock;
 
     sf::Texture idleTexture;
     sf::Texture flyingTexture;
@@ -52,13 +53,18 @@ private:
     bool rotateUp = true;
     bool rotateDown = false;
     bool FireballDir;
+    bool recalculateFdir = true;
+    float Fball_angle;
     
     float xPos = 1300;
     float yPos = 700;
     unsigned int groundLevel = 700;
     float fireball_xPos = xPos;
     float fireball_yPos = yPos;
-    int FireballSpeed = 15;
+    int FireballSpeed = 13;
+    sf::Vector2f playerPosition;
+    sf::Vector2f demonPosition;
+    sf::Vector2f direction;
 
     sf::RectangleShape hitbox;
     sf::CircleShape fireballHitbox;
@@ -114,6 +120,7 @@ public:
     float distance(Player &player);
     bool playerLeft(Player &player);
     bool playerRight(Player &player);
+    void playerTakeDmg(Player &player);
     void spawn(Player &player);
 
 };
