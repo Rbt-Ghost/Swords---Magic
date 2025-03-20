@@ -4,4 +4,5 @@ g++ -o "bin/Swords & Magic.exe" main.cpp ^
     "src/Sources/Player.cpp" ^
     "src/Sources/Enemy.cpp" ^
     "src/Sources/FlyingDemon.cpp" ^
+    "src/Sources/GameRoom.cpp" ^
     resource.o -I"include" -L"lib" -lsfml-graphics -lsfml-window -lsfml-system

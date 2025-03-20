@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
 #include "FlyingDemon.hpp"
+#include "GameRoom.hpp"
 #include <math.h>
 
 class Game
@@ -22,6 +23,7 @@ private:
 
     Player *player;
     FlyingDemon *FlyDemon[4];
+    GameRoom *gameRoom;
 
     bool checkAtk1 = true;
 

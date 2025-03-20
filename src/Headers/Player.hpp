@@ -53,7 +53,7 @@ private:
     bool isDead = false;
 
     float yVelocity = 0;
-    float groundLevel = 700;
+    float groundLevel = 710;
     float xPos=1440/2;
     float yPos=groundLevel;
 

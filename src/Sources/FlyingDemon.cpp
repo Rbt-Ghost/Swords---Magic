@@ -572,7 +572,7 @@
 
     void FlyingDemon::playerTakeDmg(Player &player)
     {
-        if (checkFireballCollision(player) && get_Fireball() )
+        if (checkFireballCollision(player) && get_Fireball() && !player.get_isDead())
         {
             if (!player.get_isHurt())
             {

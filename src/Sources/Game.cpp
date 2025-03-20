@@ -5,6 +5,7 @@ static sf::Clock atkClock;
 Game::Game(unsigned int width, unsigned int height) : 
 window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
 player(new Player("Hero", 25, 1, 1.5f)),
+gameRoom(new GameRoom()),
 texture(new sf::Texture(sf::Texture()))
 {
     setW(width);
@@ -29,6 +30,7 @@ Game::~Game()
     delete player;
     for (int i = 0; i < 4; ++i) 
         delete FlyDemon[i];
+    delete gameRoom;
 }
 
 void Game::run()
@@ -77,7 +79,8 @@ void Game::render()
                          (float)window->getSize().y / (float)texture->getSize().y});
 
     window->clear();
-    window->draw(background);
+    //window->draw(background);
+    gameRoom->draw(*window);
 
     for (int i = 0; i < 4; i ++)
     {
