@@ -58,7 +58,7 @@
         sprite.setScale(sf::Vector2f(1.8f,1.8f));
         sprite.setOrigin({40.5,35.5});
 
-        hitbox.setSize({110.f,80.f});
+        hitbox.setSize({95.f,80.f});
         hitbox.setFillColor(sf::Color::Transparent);
         hitbox.setOutlineColor(sf::Color::Red);
         hitbox.setOutlineThickness(1.f);
@@ -124,6 +124,10 @@
     void FlyingDemon::set_comeDown(bool comedown)
     {
         this->comedown = comedown;
+    }
+    void FlyingDemon::set_GroundLevel(float groundLevel)
+    {
+        this->groundLevel = groundLevel;
     }
 
 
@@ -591,7 +595,7 @@
         int y;
         random_device rd;
         mt19937 gen(rd());
-        uniform_int_distribution<int> dist1(100, 1360);
+        uniform_int_distribution<int> dist1(150, 1310);
         
         do
         {

@@ -58,7 +58,7 @@ private:
     
     float xPos;
     float yPos;
-    unsigned int groundLevel = 700;
+    float groundLevel = 700;
     float fireball_xPos;
     float fireball_yPos;
     int FireballSpeed = 13;
@@ -84,6 +84,7 @@ public:
     void set_fireball_yPos(float fireball_yPos);
     void set_FireballDir(bool FireballDir);
     void set_comeDown(bool comedown);
+    void set_GroundLevel(float groundLevel);
 
     sf::Sprite& get_Sprite();
     sf::Sprite& get_FireballSprite();

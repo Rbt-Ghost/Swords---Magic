@@ -18,12 +18,12 @@ private:
     sf::Clock clock;
     sf::Clock DefendClock;
     sf::Clock spawnClock;
+    
     sf::RenderWindow *window;
     sf::Texture *texture;
-
+    GameRoom *gameRoom;
     Player *player;
     FlyingDemon *FlyDemon[4];
-    GameRoom *gameRoom;
 
     bool checkAtk1 = true;
 

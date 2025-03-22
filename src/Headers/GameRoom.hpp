@@ -4,7 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
-#include <optional>  // Required for std::optional
+#include <optional>
+#include "Player.hpp"
+#include "FlyingDemon.hpp"
 using namespace std;
 
 #define TILE_WIDTH 256
@@ -21,9 +23,11 @@ private:
     sf::Texture PriestStatueTexture;
     sf::Texture TorchTexture;
     sf::Texture FloorTexture;
+    sf::Texture TrapTexture;
+    sf::Texture PlatformTexture;
     sf::Texture* selectedTexture = nullptr;
     
-    std::vector<std::vector<std::optional<sf::Sprite>>> tiles; // Optional to avoid default constructor issue
+    std::vector<std::vector<std::optional<sf::Sprite>>> tiles;
     sf::Sprite TorchSprite1;
     sf::Sprite TorchSprite2;
     sf::Sprite TorchSprite3;
@@ -41,14 +45,20 @@ private:
     sf::Clock AnimationClock3;
     sf::Clock AnimationClock4;
     sf::Clock AnimationClock5;
+    sf::Clock clock1;
+    sf::Clock clock2;
+
 
     bool Statue1 = false;
     bool Statue2 = true;
 
+    bool checkCollision(sf::Sprite sprite ,Player &player);
+    bool checkCollision(sf::Sprite sprite ,FlyingDemon &FlyDemon);
+
 public:
     GameRoom();
     ~GameRoom();
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window, Player &player, FlyingDemon &FlyDemon);
 };
 
-#endif // GAMEROOM_HPP
+#endif

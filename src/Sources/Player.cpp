@@ -150,7 +150,18 @@ void Player::set_currentFrame(int currentFrame)
 {
     this->currentFrame = currentFrame;
 }
-
+void Player::set_GroundLevel(float groundLevel)
+{
+    this->groundLevel = groundLevel;
+}
+void Player::set_xPos(float xPos)
+{
+    this->xPos = xPos;
+}
+void Player::set_yPos(float yPos)
+{
+    this->yPos = yPos;
+}
 
 sf::Sprite& Player::get_Sprite()
 {
@@ -211,6 +222,14 @@ float Player::get_xPos()
 float Player::get_yPos()
 {
     return yPos;
+}
+bool Player::get_isFalling()
+{
+    return isFalling;
+}
+float Player::get_groundLevel()
+{
+    return groundLevel;
 }
 
 

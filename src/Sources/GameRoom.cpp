@@ -13,7 +13,9 @@ TorchSprite5(TorchTexture)
         !KnightStatueTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/KnightStatue.png") ||
         !PriestStatueTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/PriestStatue.png") ||
         !TorchTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Torch.png") ||
-        !FloorTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Floor.png"))
+        !FloorTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Floor.png") ||
+        !TrapTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Trap.png") ||
+        !PlatformTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Platform.png") )
     {
         std::cerr << "ROOM TEXTURES LOAD ERROR" << std::endl;
     }
@@ -80,7 +82,7 @@ GameRoom::~GameRoom()
     //delete selectedTexture;
 }
 
-void GameRoom::draw(sf::RenderWindow &window)
+void GameRoom::draw(sf::RenderWindow &window, Player &player, FlyingDemon &FlyDemon)
 {
     for (int row = 0; row < ROOM_HEIGHT; ++row)
     {
@@ -95,38 +97,75 @@ void GameRoom::draw(sf::RenderWindow &window)
     sf::Sprite sprite1(KnightStatueTexture);
     sprite1.setOrigin({26.f, 100.f});
     sprite1.setScale({3.5f, 3.5f});
-    sprite1.move({130, 745});
+    sprite1.move({100, 740});
     window.draw(sprite1);
 
     sf::Sprite sprite2(KnightStatueTexture);
     sprite2.setOrigin({26.f, 100.f});
     sprite2.setScale({3.5f, 3.5f});
-    sprite2.move({620, 745});
+    sprite2.move({610, 740});
     window.draw(sprite2);
 
     sf::Sprite sprite3(KnightStatueTexture);
     sprite3.setOrigin({26.f, 100.f});
     sprite3.setScale({3.5f, 3.5f});
-    sprite3.move({1134, 745});
+    sprite3.move({1124, 740});
     window.draw(sprite3);
 
     sf::Sprite sprite4(PriestStatueTexture);
     sprite4.setOrigin({26.f, 100.f});
     sprite4.setScale({3.5f, 3.5f});
-    sprite4.move({350, 745});
+    sprite4.move({357, 740});
     window.draw(sprite4);
 
     sf::Sprite sprite5(PriestStatueTexture);
     sprite5.setOrigin({26.f, 100.f});
     sprite5.setScale({3.5f, 3.5f});
-    sprite5.move({864, 745});
+    sprite5.move({871, 740});
     window.draw(sprite5);
 
     sf::Sprite sprite6(PriestStatueTexture);
     sprite6.setOrigin({26.f, 100.f});
     sprite6.setScale({3.5f, 3.5f});
-    sprite6.move({1375, 745});
+    sprite6.move({1382, 740});
     window.draw(sprite6);
+
+    sf::Sprite TrapSprite1(TrapTexture);
+    TrapSprite1.setOrigin({69, 10});
+    TrapSprite1.setScale({2.5f, 2.5f});
+    TrapSprite1.move({720, 735});
+    window.draw(TrapSprite1);
+    if ( checkCollision(TrapSprite1,player) )
+    {
+        if (clock1.getElapsedTime().asSeconds() > 1.5f)
+        {
+            if (!player.get_isDead())
+            {
+                player.set_isHurt(true);
+                player.set_currentFrame(0);
+            }
+            player-=1;
+            player.checkHp();
+            clock1.restart();
+        }
+    }
+    if ( checkCollision(TrapSprite1,FlyDemon) )
+    {
+        if (clock2.getElapsedTime().asSeconds() > 1.5f)
+        {
+            if (!FlyDemon.get_isDead())
+            {
+                FlyDemon.set_isHurt(true);
+                FlyDemon.set_CurrentFrame(0);
+            }
+            FlyDemon-=1;
+            FlyDemon.checkHp();
+
+            if (!FlyDemon.get_isDead())
+                FlyDemon.escape();
+            clock2.restart();
+        }
+    }
 
     sf::Sprite FloorSprite1(FloorTexture);
     FloorSprite1.setOrigin({63.5f, 8.f});
@@ -206,4 +245,77 @@ void GameRoom::draw(sf::RenderWindow &window)
         CurrentFrame5++;
         AnimationClock5.restart();
     }
+
+    sf::Sprite PlatformSprite1(PlatformTexture);
+    PlatformSprite1.setScale({2.5f, 2.5f});
+    PlatformSprite1.move({720, 570});
+    window.draw(PlatformSprite1);
+    if ( player.get_isFalling() && player.get_yPos()<=570 && checkCollision(PlatformSprite1,player) )
+    {
+        player.set_yPos(540);
+        player.set_GroundLevel(540);
+    }
+    else player.set_GroundLevel(710);
+    if (checkCollision(PlatformSprite1,FlyDemon) )
+    {
+        FlyDemon.set_GroundLevel(530);
+    }
+    else FlyDemon.set_GroundLevel(700);
+
+    sf::Sprite PlatformSprite2(PlatformTexture);
+    PlatformSprite2.setScale({2.5f, 2.5f});
+    PlatformSprite2.move({797.5, 650});
+    window.draw(PlatformSprite2);
+    if ( player.get_isFalling() && player.get_yPos()<=650 && checkCollision(PlatformSprite2,player) )
+    {
+        player.set_yPos(620);
+        player.set_GroundLevel(620);
+    }
+    if (checkCollision(PlatformSprite2,FlyDemon) )
+    {
+        FlyDemon.set_GroundLevel(610);
+    }
+
+    sf::Sprite PlatformSprite3(PlatformTexture);
+    PlatformSprite3.setScale({2.5f, 2.5f});
+    PlatformSprite3.move({642.5, 570});
+    window.draw(PlatformSprite3);
+    if ( player.get_isFalling() && player.get_yPos()<=570 && checkCollision(PlatformSprite3,player) )
+    {
+        player.set_yPos(540);
+        player.set_GroundLevel(540);
+    }
+    if (checkCollision(PlatformSprite3,FlyDemon) )
+    {
+        FlyDemon.set_GroundLevel(530);
+    }
+
+    sf::Sprite PlatformSprite4(PlatformTexture);
+    PlatformSprite4.setScale({2.5f, 2.5f});
+    PlatformSprite4.move({565, 650});
+    window.draw(PlatformSprite4);
+    if ( player.get_isFalling() && player.get_yPos()<=650 && checkCollision(PlatformSprite4,player) )
+    {
+        player.set_yPos(620);
+        player.set_GroundLevel(620);
+    }
+    if (checkCollision(PlatformSprite4,FlyDemon) )
+    {
+        FlyDemon.set_GroundLevel(610);
+    }
+}
+
+
+bool GameRoom::checkCollision(sf::Sprite sprite, Player &player)
+{
+    if (player.get_Hitbox().getGlobalBounds().findIntersection(sprite.getGlobalBounds()))
+        return true;
+    else return false;
+}
+
+bool GameRoom::checkCollision(sf::Sprite sprite ,FlyingDemon &FlyDemon)
+{
+    if (FlyDemon.get_hitbox().getGlobalBounds().findIntersection(sprite.getGlobalBounds()))
+        return true;
+    else return false;
 }

@@ -35,7 +35,7 @@ private:
 
     sf::Clock animationClock;  
     sf::Clock jumpClock; 
-    const float jumpCooldown = 0.9f;  
+    const float jumpCooldown = 0.715f;  
     sf::Clock defendClock;
     const float defendCooldown = 2.f;
     
@@ -55,12 +55,12 @@ private:
     float yVelocity = 0;
     float groundLevel = 710;
     float xPos=1440/2;
-    float yPos=groundLevel;
+    float yPos=500;
 
     sf::RectangleShape hitbox;
 
 public:
-    Player(string Name="Hero", int Hp=10, int Atk=3, float Speed=1);
+    Player(string Name="Hero", int Hp=10, int Atk=3, float Speed=1.5);
     virtual ~Player();
 
     void set_isMovingR(bool isMovingR);
@@ -74,6 +74,9 @@ public:
     void set_isHurt(bool isHurt);
     void set_isDead(bool isDead);
     void set_currentFrame(int currentFrame);
+    void set_GroundLevel(float groundLevel);
+    void set_xPos(float xPos);
+    void set_yPos(float yPos);
 
     sf::Sprite& get_Sprite();
     sf::RectangleShape& get_Hitbox();
@@ -90,6 +93,8 @@ public:
     bool get_isDead();
     float get_xPos();
     float get_yPos();
+    bool get_isFalling();
+    float get_groundLevel();
 
     Player &operator+=(int Heal);
     Player &operator-=(int Damage);

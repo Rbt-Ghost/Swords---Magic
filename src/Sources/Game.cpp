@@ -4,7 +4,7 @@ static sf::Clock atkClock;
 
 Game::Game(unsigned int width, unsigned int height) : 
 window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
-player(new Player("Hero", 25, 1, 1.5f)),
+player(new Player("Hero", 25, 1, 1.75f)),
 gameRoom(new GameRoom()),
 texture(new sf::Texture(sf::Texture()))
 {
@@ -80,12 +80,13 @@ void Game::render()
 
     window->clear();
     //window->draw(background);
-    gameRoom->draw(*window);
+    for (int i = 0; i < 4; i++)
+        gameRoom->draw(*window,*player,*FlyDemon[i]);
 
     for (int i = 0; i < 4; i ++)
     {
         window->draw(FlyDemon[i]->get_Sprite());
-        //window->draw(FlyDemon[i]->get_hitbox());
+        window->draw(FlyDemon[i]->get_hitbox());
     }
     
     for (int i = 0; i < 4; i ++)
@@ -93,12 +94,12 @@ void Game::render()
         if (FlyDemon[i]->get_Fireball())
         {
             window->draw(FlyDemon[i]->get_FireballSprite());
-            //window->draw(FlyDemon[i]->get_fireballHitbox());
+            window->draw(FlyDemon[i]->get_fireballHitbox());
         }
     }
 
     window->draw(player->get_Sprite());
-    //window->draw(player->get_Hitbox());
+    window->draw(player->get_Hitbox());
 
     window->display();
 }
@@ -187,7 +188,7 @@ void Game::playerDefend()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::K))
     {
-        if (!player->get_isDefending() && !player->get_isHurt() && DefendClock.getElapsedTime().asSeconds() > 2.0f)
+        if (!player->get_isDefending() && !player->get_isHurt() && DefendClock.getElapsedTime().asSeconds() > 1.2f)
         {
             player->set_currentFrame(0);
             player->set_isDefending(true);
