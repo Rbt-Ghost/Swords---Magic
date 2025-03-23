@@ -21,6 +21,8 @@ texture(new sf::Texture(sf::Texture()))
         FlyDemon[i] = new FlyingDemon("Flying Demon", 7, 2, 1.85f);
         FlyDemon[i]->spawn(*player);
     }
+
+    skeleton = new Skeleton("Skeleton Warrior", 10,1,2);
 }
 
 Game::~Game()
@@ -30,6 +32,7 @@ Game::~Game()
     delete player;
     for (int i = 0; i < 4; ++i) 
         delete FlyDemon[i];
+    delete skeleton;
     delete gameRoom;
 }
 
@@ -57,6 +60,8 @@ void Game::processEvents()
     {
         FlyDemon[i]->FlyingDemonLogic(*player);
     }
+
+    skeleton->SkeletonLogic(*player);
     
 }
 
@@ -69,6 +74,8 @@ void Game::update()
     {
         FlyDemon[i]->updateAnimation();
     }
+    
+    skeleton->updateAnimation();
 }
 
 void Game::render()
@@ -97,6 +104,9 @@ void Game::render()
             window->draw(FlyDemon[i]->get_fireballHitbox());
         }
     }
+    
+    window->draw(skeleton->get_Sprite());
+    window->draw(skeleton->get_hitbox());
 
     window->draw(player->get_Sprite());
     window->draw(player->get_Hitbox());
