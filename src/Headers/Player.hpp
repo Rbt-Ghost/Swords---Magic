@@ -43,16 +43,7 @@ private:
     sf::IntRect runningFrames[8];  // Running animation frames
     sf::IntRect hurtFrames[4];  // Hurt animation frames
     sf::IntRect deathFrames[12];  // Die animation frames
-    sf::IntRect Hp_Bar100;
-    sf::IntRect Hp_Bar90;
-    sf::IntRect Hp_Bar80;
-    sf::IntRect Hp_Bar70;
-    sf::IntRect Hp_Bar60;
-    sf::IntRect Hp_Bar50;
-    sf::IntRect Hp_Bar40;
-    sf::IntRect Hp_Bar30;
-    sf::IntRect Hp_Bar20;
-    sf::IntRect Hp_Bar10;
+    sf::IntRect Hp_Bar;
     int currentFrame = 0;       // Track current animation frame
 
     sf::Clock animationClock;  

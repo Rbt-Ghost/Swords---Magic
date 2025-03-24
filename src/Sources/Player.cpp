@@ -147,16 +147,7 @@ HpBar(HpBarTexture100)
     HpBar.setOrigin({0,0});
     HpBar.setPosition({-10,-10});
 
-    Hp_Bar100 = sf::IntRect({0,0},{3328,1300});
-    Hp_Bar90 = sf::IntRect({0,0},{3328,1300});
-    Hp_Bar80 = sf::IntRect({0,0},{3328,1300});
-    Hp_Bar70 = sf::IntRect({0,0},{3328,1300});
-    Hp_Bar60 = sf::IntRect({0,0},{3328,1300});
-    Hp_Bar50 = sf::IntRect({0,0},{3328,1300});
-    Hp_Bar40 = sf::IntRect({0,0},{3328,1300});
-    Hp_Bar30 = sf::IntRect({0,0},{3328,1300});
-    Hp_Bar20 = sf::IntRect({0,0},{3328,1300});
-    Hp_Bar10 = sf::IntRect({0,0},{3328,1300});
+    Hp_Bar = sf::IntRect({0,0},{3328,1300});
 }
 
 Player::~Player() 
@@ -229,52 +220,52 @@ sf::Sprite& Player::get_Hp_Bar()
         if (getHp() >= 91)
         {
             HpBar.setTexture(HpBarTexture100);
-            HpBar.setTextureRect(Hp_Bar100);
+            HpBar.setTextureRect(Hp_Bar);
         }
         else if (getHp() >= 81)
         {
             HpBar.setTexture(HpBarTexture90);
-            HpBar.setTextureRect(Hp_Bar90);
+            HpBar.setTextureRect(Hp_Bar);
         }
         else if (getHp() >= 71)
         {
             HpBar.setTexture(HpBarTexture80);
-            HpBar.setTextureRect(Hp_Bar80);
+            HpBar.setTextureRect(Hp_Bar);
         }
         else if (getHp() >= 61)
         {
             HpBar.setTexture(HpBarTexture70);
-            HpBar.setTextureRect(Hp_Bar70);
+            HpBar.setTextureRect(Hp_Bar);
         }
         else if (getHp() >= 51)
         {
             HpBar.setTexture(HpBarTexture60);
-            HpBar.setTextureRect(Hp_Bar60);
+            HpBar.setTextureRect(Hp_Bar);
         }
         else if (getHp() >= 41)
         {
             HpBar.setTexture(HpBarTexture50);
-            HpBar.setTextureRect(Hp_Bar50);
+            HpBar.setTextureRect(Hp_Bar);
         }
         else if (getHp() >= 31)
         {
             HpBar.setTexture(HpBarTexture40);
-            HpBar.setTextureRect(Hp_Bar40);
+            HpBar.setTextureRect(Hp_Bar);
         }
         else if (getHp() >= 21)
         {
             HpBar.setTexture(HpBarTexture30);
-            HpBar.setTextureRect(Hp_Bar30);
+            HpBar.setTextureRect(Hp_Bar);
         }
         else if (getHp() >= 11)
         {
             HpBar.setTexture(HpBarTexture20);
-            HpBar.setTextureRect(Hp_Bar20);
+            HpBar.setTextureRect(Hp_Bar);
         }
         else
         {
             HpBar.setTexture(HpBarTexture10);
-            HpBar.setTextureRect(Hp_Bar10);
+            HpBar.setTextureRect(Hp_Bar);
         }
 
     return HpBar;
