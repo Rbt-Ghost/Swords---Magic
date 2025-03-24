@@ -24,8 +24,8 @@ private:
     sf::Texture *texture;
     GameRoom *gameRoom;
     Player *player;
-    FlyingDemon *FlyDemon[4];
-    Skeleton *skeleton;
+    FlyingDemon *FlyDemon[2];
+    Skeleton *skeleton[3];
 
     bool checkAtk1 = true;
 

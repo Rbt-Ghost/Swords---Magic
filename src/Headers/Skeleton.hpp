@@ -7,20 +7,17 @@
 #include "Enemy.hpp"
 #include "Player.hpp"
 #include "iostream"
+#include <random>
 #include "math.h"
 using namespace std;
 
 class Skeleton : public Enemy
 {
-    private:
-    string Name;
-    int Hp;
-    int Atk;
-    float Speed;
+private:
 
     sf::Clock AtkClock;
     sf::Clock EscapeClock;
-    sf::Clock comeDownClock;
+    sf::Clock ReactClock;
 
     sf::Texture idleTexture;
     sf::Texture attackTexture;
@@ -38,21 +35,21 @@ class Skeleton : public Enemy
     sf::IntRect deathFrames[15];
     sf::IntRect walkFrames[13];
     sf::IntRect reactingFrames[4];
-    sf::IntRect Fireball;
     int CurrentFrame = 0;
 
     sf::Clock AnimationClock;
 
     bool isIdle = true;
-    bool isAttacking = true;
+    bool isAttacking = false;
     bool isHurt = false;
     bool isDead = false;
-    bool isWalfing = false;
-    bool isReacting = true;
+    bool isWalking = false;
+    bool isReacting = false;
 
     float groundLevel = 700;
     float xPos = 100;
     float yPos = groundLevel;
+    int k=0;
 
 public:
     Skeleton(string Name = "Skeleton Warrior", int Hp = 10, int Atk = 1, float Speed = 2);
@@ -70,8 +67,9 @@ public:
     float distance(Player &player);
     bool playerLeft(Player &player);
     bool playerRight(Player &player);
+    bool Reacting();
     void playerTakeDmg(Player &player);
-    void spawn(Player &player);
+    void spawn();
 };
 
 #endif

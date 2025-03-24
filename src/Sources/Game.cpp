@@ -16,13 +16,17 @@ texture(new sf::Texture(sf::Texture()))
         cerr << "ERROR :: COULD NOT LOAD IDLE SPRITE " << endl;
     }
 
-    for (int i = 0; i < 4; i ++)
+    for (int i = 0; i < 2; i ++)
     {
         FlyDemon[i] = new FlyingDemon("Flying Demon", 7, 2, 1.85f);
         FlyDemon[i]->spawn(*player);
     }
 
-    skeleton = new Skeleton("Skeleton Warrior", 10,1,2);
+    for (int i = 0; i < 3; i ++)
+    {
+        skeleton[i] = new Skeleton("Skeleton Warrior", 10,1,1.5);
+        skeleton[i]->spawn();
+    }
 }
 
 Game::~Game()
@@ -30,9 +34,10 @@ Game::~Game()
     delete window;
     delete texture;
     delete player;
-    for (int i = 0; i < 4; ++i) 
+    for (int i = 0; i < 2; ++i) 
         delete FlyDemon[i];
-    delete skeleton;
+        for (int i = 0; i < 3; ++i) 
+        delete skeleton[i];
     delete gameRoom;
 }
 
@@ -56,13 +61,15 @@ void Game::processEvents()
 
     handlePlayerInput();
 
-    for (int i = 0; i < 4; i ++)
+    for (int i = 0; i < 2; i ++)
     {
         FlyDemon[i]->FlyingDemonLogic(*player);
     }
 
-    skeleton->SkeletonLogic(*player);
-    
+    for (int i =0; i < 3; i++)
+    {
+        skeleton[i]->SkeletonLogic(*player);
+    }
 }
 
 void Game::update()
@@ -70,12 +77,15 @@ void Game::update()
     player->updatePhysics();
     player->updateAnimation();
 
-    for (int i = 0; i < 4; i ++)
+    for (int i = 0; i < 2; i ++)
     {
         FlyDemon[i]->updateAnimation();
     }
     
-    skeleton->updateAnimation();
+    for (int i =0; i < 3; i++)
+    {
+        skeleton[i]->updateAnimation();
+    }
 }
 
 void Game::render()
@@ -87,29 +97,32 @@ void Game::render()
 
     window->clear();
     //window->draw(background);
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 2; i++)
         gameRoom->draw(*window,*player,*FlyDemon[i]);
 
-    for (int i = 0; i < 4; i ++)
+    for (int i = 0; i < 2; i ++)
     {
         window->draw(FlyDemon[i]->get_Sprite());
-        window->draw(FlyDemon[i]->get_hitbox());
+        //window->draw(FlyDemon[i]->get_hitbox());
     }
     
-    for (int i = 0; i < 4; i ++)
+    for (int i = 0; i < 2; i ++)
     {
         if (FlyDemon[i]->get_Fireball())
         {
             window->draw(FlyDemon[i]->get_FireballSprite());
-            window->draw(FlyDemon[i]->get_fireballHitbox());
+            //window->draw(FlyDemon[i]->get_fireballHitbox());
         }
     }
     
-    window->draw(skeleton->get_Sprite());
-    window->draw(skeleton->get_hitbox());
+    for (int i =0; i < 3; i++)
+    {
+        window->draw(skeleton[i]->get_Sprite());
+        //window->draw(skeleton[i]->get_hitbox());
+    }
 
     window->draw(player->get_Sprite());
-    window->draw(player->get_Hitbox());
+    //window->draw(player->get_Hitbox());
 
     window->display();
 }

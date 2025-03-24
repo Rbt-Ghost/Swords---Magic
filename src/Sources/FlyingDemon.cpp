@@ -610,7 +610,7 @@
         sprite.setPosition({xPos,yPos});
         hitbox.setPosition({xPos,yPos});
 
-        setHp(10);
+        setHp(7);
         isDead = false;
         comedown = true;
 

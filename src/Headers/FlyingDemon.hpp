@@ -13,10 +13,6 @@ using namespace std;
 class FlyingDemon : public Enemy
 {
 private:
-    string Name;
-    int Hp;
-    int Atk;
-    float Speed;
 
     sf::Clock AtkClock;
     sf::Clock EscapeClock;
