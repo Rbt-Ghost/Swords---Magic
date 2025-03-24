@@ -78,6 +78,15 @@ sf::RectangleShape &Skeleton::get_hitbox()
     return hitbox;
 }
 
+bool Skeleton::get_isDead()
+{
+    return isDead;
+}
+int Skeleton::get_CurrentFrame()
+{
+    return CurrentFrame;
+}
+
 void Skeleton::updateAnimation()
 {
     if (AnimationClock.getElapsedTime().asSeconds() > 0.1f)
@@ -242,7 +251,7 @@ void Skeleton::SkeletonLogic(Player &player)
         int x;
         random_device rd;
         mt19937 gen(rd());
-        uniform_int_distribution<int> dist1(3, 7);
+        uniform_int_distribution<int> dist1(3, 10);
         x = dist1(gen);
 
         if (Reacting() && !isReacting && !isAttacking && ReactClock.getElapsedTime().asSeconds() > x)
@@ -258,7 +267,7 @@ void Skeleton::SkeletonLogic(Player &player)
         {
             k++;
             CurrentFrame = 0;
-            if (k == 3)
+            if (k == 4)
             {
                 isReacting = false;
                 k = 0;
@@ -266,7 +275,7 @@ void Skeleton::SkeletonLogic(Player &player)
         }
     }
 
-    if (abs(xPos - player.get_xPos()) > 50 && !isAttacking && !isDead && !isReacting)
+    if (abs(xPos - player.get_xPos()) > 40 && !isAttacking && !isDead && !isReacting)
     {
         isWalking = true;
         if (playerLeft(player))

@@ -8,6 +8,7 @@
 #include "FlyingDemon.hpp"
 #include "Skeleton.hpp"
 #include "GameRoom.hpp"
+#include "Score.hpp"
 #include <math.h>
 
 class Game
@@ -26,6 +27,7 @@ private:
     Player *player;
     FlyingDemon *FlyDemon[2];
     Skeleton *skeleton[3];
+    Score *score;
 
     bool checkAtk1 = true;
 

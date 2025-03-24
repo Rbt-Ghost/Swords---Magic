@@ -58,6 +58,9 @@ public:
     sf::Sprite& get_Sprite();
     sf::RectangleShape& get_hitbox();
 
+    bool get_isDead();
+    int get_CurrentFrame();
+
     void updateAnimation();
     void SkeletonLogic(Player &layer);
     void checkHp();

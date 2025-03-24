@@ -6,6 +6,7 @@ Game::Game(unsigned int width, unsigned int height) :
 window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
 player(new Player("Hero", 100, 1, 1.75f)),
 gameRoom(new GameRoom()),
+score(new Score()),
 texture(new sf::Texture(sf::Texture()))
 {
     setW(width);
@@ -39,6 +40,7 @@ Game::~Game()
         for (int i = 0; i < 3; ++i) 
         delete skeleton[i];
     delete gameRoom;
+    delete score;
 }
 
 void Game::run()
@@ -80,12 +82,15 @@ void Game::update()
     for (int i = 0; i < 2; i ++)
     {
         FlyDemon[i]->updateAnimation();
+        score->updateFlyingDemon(*FlyDemon[i]);
     }
     
     for (int i =0; i < 3; i++)
     {
         skeleton[i]->updateAnimation();
+        score->updateSkeleton(*skeleton[i]);
     }
+    score->update(*player);
 }
 
 void Game::render()
@@ -124,6 +129,8 @@ void Game::render()
     window->draw(player->get_Sprite());
     window->draw(player->get_Hp_Bar());
     //window->draw(player->get_Hitbox());
+    
+    score->draw(*window);
 
     window->display();
 }
