@@ -21,6 +21,18 @@ private:
     sf::Texture deathTexture;
     sf::Sprite sprite;
 
+    sf::Texture HpBarTexture100;
+    sf::Texture HpBarTexture90;
+    sf::Texture HpBarTexture80;
+    sf::Texture HpBarTexture70;
+    sf::Texture HpBarTexture60;
+    sf::Texture HpBarTexture50;
+    sf::Texture HpBarTexture40;
+    sf::Texture HpBarTexture30;
+    sf::Texture HpBarTexture20;
+    sf::Texture HpBarTexture10;
+    sf::Sprite HpBar;
+
     sf::IntRect idleFrames[7];  // Idle animation frames
     sf::IntRect walkFrames[8];  // Walk animation frames
     sf::IntRect jumpFrames[5];  // Jump animation frames
@@ -31,6 +43,16 @@ private:
     sf::IntRect runningFrames[8];  // Running animation frames
     sf::IntRect hurtFrames[4];  // Hurt animation frames
     sf::IntRect deathFrames[12];  // Die animation frames
+    sf::IntRect Hp_Bar100;
+    sf::IntRect Hp_Bar90;
+    sf::IntRect Hp_Bar80;
+    sf::IntRect Hp_Bar70;
+    sf::IntRect Hp_Bar60;
+    sf::IntRect Hp_Bar50;
+    sf::IntRect Hp_Bar40;
+    sf::IntRect Hp_Bar30;
+    sf::IntRect Hp_Bar20;
+    sf::IntRect Hp_Bar10;
     int currentFrame = 0;       // Track current animation frame
 
     sf::Clock animationClock;  
@@ -79,6 +101,7 @@ public:
     void set_yPos(float yPos);
 
     sf::Sprite& get_Sprite();
+    sf::Sprite& get_Hp_Bar();
     sf::RectangleShape& get_Hitbox();
     int get_currentFrame();
     bool get_isMovingR();

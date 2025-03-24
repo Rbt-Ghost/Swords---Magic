@@ -4,7 +4,7 @@ static sf::Clock atkClock;
 
 Game::Game(unsigned int width, unsigned int height) : 
 window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
-player(new Player("Hero", 25, 1, 1.75f)),
+player(new Player("Hero", 100, 1, 1.75f)),
 gameRoom(new GameRoom()),
 texture(new sf::Texture(sf::Texture()))
 {
@@ -122,6 +122,7 @@ void Game::render()
     }
 
     window->draw(player->get_Sprite());
+    window->draw(player->get_Hp_Bar());
     //window->draw(player->get_Hitbox());
 
     window->display();

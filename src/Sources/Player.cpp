@@ -2,7 +2,8 @@
 
 Player::Player(string Name, int Hp, int Atk, float Speed): 
 Entity(Name,Hp,Atk,Speed),
-sprite(idleTexture)
+sprite(idleTexture),
+HpBar(HpBarTexture100)
 {
 
     if (!idleTexture.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/IDLE.png"))
@@ -44,6 +45,46 @@ sprite(idleTexture)
     if (!hurtTexture.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/HURT.png"))
     {
         cerr << "ERROR :: COULD NOT LOAD IDLE SPRITE" << endl;
+    }
+    if (!HpBarTexture100.loadFromFile("../assets/Hp_Bar/hp100.png"))
+    {
+        cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
+    }
+    if (!HpBarTexture90.loadFromFile("../assets/Hp_Bar/hp90.png"))
+    {
+        cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
+    }
+    if (!HpBarTexture80.loadFromFile("../assets/Hp_Bar/hp80.png"))
+    {
+        cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
+    }
+    if (!HpBarTexture70.loadFromFile("../assets/Hp_Bar/hp70.png"))
+    {
+        cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
+    }
+    if (!HpBarTexture60.loadFromFile("../assets/Hp_Bar/hp60.png"))
+    {
+        cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
+    }
+    if (!HpBarTexture50.loadFromFile("../assets/Hp_Bar/hp50.png"))
+    {
+        cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
+    }
+    if (!HpBarTexture40.loadFromFile("../assets/Hp_Bar/hp40.png"))
+    {
+        cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
+    }
+    if (!HpBarTexture30.loadFromFile("../assets/Hp_Bar/hp30.png"))
+    {
+        cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;;
+    }
+    if (!HpBarTexture20.loadFromFile("../assets/Hp_Bar/hp20.png"))
+    {
+        cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
+    }
+    if (!HpBarTexture10.loadFromFile("../assets/Hp_Bar/hp10.png"))
+    {
+        cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
     }
 
 
@@ -101,6 +142,21 @@ sprite(idleTexture)
     hitbox.setOutlineThickness(1.f);
     hitbox.setOrigin({hitbox.getSize().x/2, hitbox.getSize().y/2});
     hitbox.setPosition({xPos,yPos});
+
+    HpBar.setScale({0.08,0.08});
+    HpBar.setOrigin({0,0});
+    HpBar.setPosition({-10,-10});
+
+    Hp_Bar100 = sf::IntRect({0,0},{3328,1300});
+    Hp_Bar90 = sf::IntRect({0,0},{3328,1300});
+    Hp_Bar80 = sf::IntRect({0,0},{3328,1300});
+    Hp_Bar70 = sf::IntRect({0,0},{3328,1300});
+    Hp_Bar60 = sf::IntRect({0,0},{3328,1300});
+    Hp_Bar50 = sf::IntRect({0,0},{3328,1300});
+    Hp_Bar40 = sf::IntRect({0,0},{3328,1300});
+    Hp_Bar30 = sf::IntRect({0,0},{3328,1300});
+    Hp_Bar20 = sf::IntRect({0,0},{3328,1300});
+    Hp_Bar10 = sf::IntRect({0,0},{3328,1300});
 }
 
 Player::~Player() 
@@ -166,6 +222,62 @@ void Player::set_yPos(float yPos)
 sf::Sprite& Player::get_Sprite()
 {
     return sprite;
+}
+sf::Sprite& Player::get_Hp_Bar()
+{
+
+        if (getHp() >= 91)
+        {
+            HpBar.setTexture(HpBarTexture100);
+            HpBar.setTextureRect(Hp_Bar100);
+        }
+        else if (getHp() >= 81)
+        {
+            HpBar.setTexture(HpBarTexture90);
+            HpBar.setTextureRect(Hp_Bar90);
+        }
+        else if (getHp() >= 71)
+        {
+            HpBar.setTexture(HpBarTexture80);
+            HpBar.setTextureRect(Hp_Bar80);
+        }
+        else if (getHp() >= 61)
+        {
+            HpBar.setTexture(HpBarTexture70);
+            HpBar.setTextureRect(Hp_Bar70);
+        }
+        else if (getHp() >= 51)
+        {
+            HpBar.setTexture(HpBarTexture60);
+            HpBar.setTextureRect(Hp_Bar60);
+        }
+        else if (getHp() >= 41)
+        {
+            HpBar.setTexture(HpBarTexture50);
+            HpBar.setTextureRect(Hp_Bar50);
+        }
+        else if (getHp() >= 31)
+        {
+            HpBar.setTexture(HpBarTexture40);
+            HpBar.setTextureRect(Hp_Bar40);
+        }
+        else if (getHp() >= 21)
+        {
+            HpBar.setTexture(HpBarTexture30);
+            HpBar.setTextureRect(Hp_Bar30);
+        }
+        else if (getHp() >= 11)
+        {
+            HpBar.setTexture(HpBarTexture20);
+            HpBar.setTextureRect(Hp_Bar20);
+        }
+        else
+        {
+            HpBar.setTexture(HpBarTexture10);
+            HpBar.setTextureRect(Hp_Bar10);
+        }
+
+    return HpBar;
 }
 sf::RectangleShape& Player::get_Hitbox()
 {
