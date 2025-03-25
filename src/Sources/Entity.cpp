@@ -57,6 +57,21 @@ Entity &Entity::operator-=(int Damage)
     return *this;
 }
 
+Entity &Entity::operator*=(int Heal)
+{
+    setHp(Hp*=Heal);
+    return *this;
+}
+Entity &Entity::operator/=(int Damage)
+{
+    setHp(Hp/=Damage);
+    return *this;
+}
+bool operator==(const Entity a, const Entity b)
+{
+    return (a.Name == b.Name);
+}
+
 void Entity::updateAnimation() {}
 
 void Entity::move(float x, float y) {}

@@ -33,6 +33,8 @@ private:
     void saveBestScore();
 
 public:
+    static int globalBestScore;
+
     Score();
     ~Score();
 
@@ -43,6 +45,8 @@ public:
     void reset();
     void draw(sf::RenderWindow& window);
     void LoadFont(sf::Font &font, string std);
+
+    static int getGlobalBestScore();
 };
 
 #endif

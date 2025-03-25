@@ -22,7 +22,6 @@ private:
     sf::Clock spawnClock;
     
     sf::RenderWindow *window;
-    sf::Texture *texture;
     GameRoom *gameRoom;
     Player *player;
     FlyingDemon *FlyDemon[2];

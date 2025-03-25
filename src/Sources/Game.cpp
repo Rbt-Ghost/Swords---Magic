@@ -6,26 +6,20 @@ Game::Game(unsigned int width, unsigned int height) :
 window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
 player(new Player("Hero", 100, 1, 1.75f)),
 gameRoom(new GameRoom()),
-score(new Score()),
-texture(new sf::Texture(sf::Texture()))
+score(new Score())
 {
     setW(width);
     setH(height);
 
-    if (!texture->loadFromFile("../assets/Mokazar - Medieval Castle Background.jpg"))
-    {
-        cerr << "ERROR :: COULD NOT LOAD IDLE SPRITE " << endl;
-    }
-
     for (int i = 0; i < 2; i ++)
     {
-        FlyDemon[i] = new FlyingDemon("Flying Demon", 7, 2, 1.85f);
+        FlyDemon[i] = new FlyingDemon("Flying Demon", 7, 3, 1.85f);
         FlyDemon[i]->spawn(*player);
     }
 
     for (int i = 0; i < 3; i ++)
     {
-        skeleton[i] = new Skeleton("Skeleton Warrior", 10,1,1.5);
+        skeleton[i] = new Skeleton("Skeleton Warrior", 10, 2, 1.5);
         skeleton[i]->spawn();
     }
 }
@@ -33,7 +27,6 @@ texture(new sf::Texture(sf::Texture()))
 Game::~Game()
 {
     delete window;
-    delete texture;
     delete player;
     for (int i = 0; i < 2; ++i) 
         delete FlyDemon[i];
@@ -96,9 +89,6 @@ void Game::update()
 void Game::render()
 {
     window->setFramerateLimit(60);
-    sf::Sprite background(*texture);
-    background.setScale({(float)window->getSize().x / (float)texture->getSize().x,
-                         (float)window->getSize().y / (float)texture->getSize().y});
 
     window->clear();
     //window->draw(background);
@@ -127,7 +117,10 @@ void Game::render()
     }
 
     window->draw(player->get_Sprite());
-    window->draw(player->get_Hp_Bar());
+    if (player->getHp() != 0)
+    {
+        window->draw(player->get_Hp_Bar());
+    }
     //window->draw(player->get_Hitbox());
     
     score->draw(*window);

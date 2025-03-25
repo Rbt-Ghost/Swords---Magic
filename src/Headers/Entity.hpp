@@ -31,6 +31,9 @@ public:
 
     Entity &operator+=(int Heal);
     Entity &operator-=(int Damage);
+    Entity &operator*=(int Heal);
+    Entity &operator/=(int Damage);
+    friend bool operator==(const Entity a, const Entity b);
 
     virtual void updateAnimation();
     virtual void move(float x, float y);
