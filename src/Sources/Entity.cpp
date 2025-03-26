@@ -74,16 +74,10 @@ bool operator==(const Entity a, const Entity b)
 
 void Entity::updateAnimation() {}
 
+void Entity::updateLogic() {}
+
 void Entity::move(float x, float y) {}
 
 void Entity::jump() {}
 
 void Entity::updatePhysics() {}
-
-void Entity::attack() {}
-
-void Entity::defend() {}
-
-void Entity::hurt() {}
-
-void Entity::die() {}

@@ -58,12 +58,12 @@ void Game::processEvents()
 
     for (int i = 0; i < 2; i ++)
     {
-        FlyDemon[i]->FlyingDemonLogic(*player);
+        FlyDemon[i]->updateLogic(*player);
     }
 
     for (int i =0; i < 3; i++)
     {
-        skeleton[i]->SkeletonLogic(*player);
+        skeleton[i]->updateLogic(*player);
     }
 }
 

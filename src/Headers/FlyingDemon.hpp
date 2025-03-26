@@ -105,7 +105,7 @@ public:
     FlyingDemon& operator-=(int Damage);
 
     void updateAnimation();
-    void FlyingDemonLogic(Player &player);
+    void updateLogic(Player &player);
     void checkHp();
     void escape();
     void comeDown();

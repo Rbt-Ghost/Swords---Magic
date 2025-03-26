@@ -62,7 +62,7 @@ public:
     int get_CurrentFrame();
 
     void updateAnimation();
-    void SkeletonLogic(Player &layer);
+    void updateLogic(Player &layer);
     void checkHp();
     void ifAttack();
     void move(float x, float y);

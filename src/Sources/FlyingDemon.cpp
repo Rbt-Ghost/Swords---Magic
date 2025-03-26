@@ -261,7 +261,7 @@
     }
 
 
-    void FlyingDemon::FlyingDemonLogic(Player &player)
+    void FlyingDemon::updateLogic(Player &player)
     {
         playerTakeDmg(player);
 

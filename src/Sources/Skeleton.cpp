@@ -157,7 +157,7 @@ void Skeleton::updateAnimation()
     }
 }
 
-void Skeleton::SkeletonLogic(Player &player)
+void Skeleton::updateLogic(Player &player)
 {
 
     if (!isDead && checkCollisions(player))

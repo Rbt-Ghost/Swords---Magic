@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Entity.hpp"
+#include "Player.hpp"
 
 class Enemy : public Entity
 {
@@ -19,6 +20,9 @@ public:
 
     Enemy& operator+=(int Heal);
     Enemy& operator-=(int Damage);
+
+    virtual void updateAnimation();
+    virtual void updateLogic(Player &player);
 };
 
 #endif

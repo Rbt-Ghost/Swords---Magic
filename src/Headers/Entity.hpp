@@ -36,13 +36,10 @@ public:
     friend bool operator==(const Entity a, const Entity b);
 
     virtual void updateAnimation();
+    virtual void updateLogic();
     virtual void move(float x, float y);
     virtual void jump();
     virtual void updatePhysics();
-    virtual void attack();
-    virtual void defend();
-    virtual void hurt();
-    virtual void die();
 };
 
 #endif

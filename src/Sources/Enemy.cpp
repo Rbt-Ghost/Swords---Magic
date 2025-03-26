@@ -17,3 +17,7 @@
         Entity::operator-=(Damage);
         return *this;
     }
+
+    void Enemy::updateAnimation() {}
+
+    void Enemy::updateLogic(Player &player) {}
