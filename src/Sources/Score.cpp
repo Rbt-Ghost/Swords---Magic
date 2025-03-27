@@ -33,7 +33,7 @@ Score::~Score()
 
 void Score::loadBestScore()
 {
-    std::ifstream file("Score.txt");
+    std::ifstream file("../Score.txt");
     if (file.is_open()) {
         file >> globalBestScore;  // Use the static member to load best score
         file.close();
@@ -46,7 +46,7 @@ void Score::saveBestScore()
 {
     if (currentScore > globalBestScore) {
         globalBestScore = currentScore;  // Update the static best score
-        std::ofstream file("Score.txt");
+        std::ofstream file("../Score.txt");
         if (file.is_open()) {
             file << globalBestScore;  // Save the global best score
             file.close();
