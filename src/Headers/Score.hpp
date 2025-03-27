@@ -29,14 +29,14 @@ private:
     bool checkE1 = false;
     bool checkE2 = false;
 
-    void loadBestScore();
-    void saveBestScore();
-
 public:
     static int globalBestScore;
 
     Score();
     ~Score();
+
+    void loadBestScore();
+    void saveBestScore();
 
     void update(Player &player);
     void updateFlyingDemon(FlyingDemon &FlyDemon);

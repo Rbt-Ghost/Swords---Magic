@@ -511,3 +511,15 @@ void Player::checkHp()
         currentFrame = 0;
     }
 }
+
+
+void Player::respawn()
+{   
+    isDead = false;
+    setHp(100);
+    groundLevel = 710;
+    xPos=1440/2;
+    yPos=500;
+    sprite.setPosition({xPos, yPos});
+    hitbox.setPosition({xPos,yPos});
+}

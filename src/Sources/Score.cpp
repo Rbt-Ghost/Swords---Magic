@@ -11,14 +11,12 @@ bestScoreText(font)
     currentScore = 0;
     loadBestScore();
 
-    // Set up current score display
     currentScoreText.setFont(font);
     currentScoreText.setCharacterSize(30);
     currentScoreText.setFillColor(sf::Color::Yellow);
     currentScoreText.setPosition({580, 20});
     currentScoreText.setString("Score: 0");
 
-    // Set up best score display
     bestScoreText.setFont(font);
     bestScoreText.setCharacterSize(30);
     bestScoreText.setFillColor(sf::Color::Yellow);
@@ -35,7 +33,7 @@ void Score::loadBestScore()
 {
     std::ifstream file("../Score.txt");
     if (file.is_open()) {
-        file >> globalBestScore;  // Use the static member to load best score
+        file >> globalBestScore; 
         file.close();
     } else {
         globalBestScore = 0;
@@ -45,13 +43,15 @@ void Score::loadBestScore()
 void Score::saveBestScore()
 {
     if (currentScore > globalBestScore) {
-        globalBestScore = currentScore;  // Update the static best score
+        globalBestScore = currentScore;
         std::ofstream file("../Score.txt");
         if (file.is_open()) {
-            file << globalBestScore;  // Save the global best score
+            file << globalBestScore; 
             file.close();
         }
     }
+    bestScoreText.setString("Best: " + std::to_string(globalBestScore));
+    currentScore = 0;
 }
 
 void Score::update(Player &player)
@@ -106,7 +106,7 @@ void Score::draw(sf::RenderWindow& window)
 void Score::reset()
 {
     if (currentScore > globalBestScore) {
-        globalBestScore = currentScore;  // Update global best score
+        globalBestScore = currentScore;
         saveBestScore();
     }
     currentScore = 0;
@@ -121,7 +121,6 @@ void Score::LoadFont(sf::Font &font, string str)
     }
 }
 
-// Static function to get the global best score
 int Score::getGlobalBestScore()
 {
     return globalBestScore;

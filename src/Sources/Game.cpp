@@ -126,6 +126,7 @@ void Game::render()
     score->draw(*window);
 
     window->display();
+
 }
 
 void Game::handlePlayerInput()
@@ -165,6 +166,13 @@ void Game::handlePlayerInput()
             player->set_isMovingL(false);
             player->set_isRunning(false);
         }
+    }
+
+    if(player->get_isDead() && player->get_Sprite().getPosition().x == -1000 && player->get_Sprite().getPosition().y == -1000 && sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::R))
+    {
+        player->respawn();
+        score->saveBestScore();
+        score->loadBestScore();
     }
 }
 

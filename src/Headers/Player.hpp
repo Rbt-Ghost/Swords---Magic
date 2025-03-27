@@ -118,6 +118,7 @@ public:
     void jump();
     void updatePhysics();
     void checkHp();
+    void respawn();
 };
 
 #endif
