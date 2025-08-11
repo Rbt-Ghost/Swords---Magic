@@ -1,0 +1,43 @@
+# Build output
+/bin/
+/build/
+/*.exe
+*.o
+*.obj
+*.dll
+*.lib
+*.pdb
+
+# SFML library files
+lib/
+*.so
+*.dylib
+
+# IDE files
+.vscode/
+*.sln
+*.vcxproj*
+*.user
+*.opensdf
+*.sdf
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Other
+*.log
+
+# Assets (keep, but ignore temp files)
+assets/*.tmp
+
+# Ignore score and other generated files
+Score.txt
+
+# Resource compiler output
+*.res
+*.rc
+
+# Ignore backup files
+*~
+*.bak
