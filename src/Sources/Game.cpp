@@ -4,7 +4,7 @@ static sf::Clock atkClock;
 
 Game::Game(unsigned int width, unsigned int height) : 
 window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
-player(new Player("Hero", 100, 1, 1.75f)),
+player(new Player("Hero", 100, 1, 2.25f)),
 gameRoom(new GameRoom()),
 score(new Score())
 {

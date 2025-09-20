@@ -474,7 +474,7 @@ void Player::jump()
     if (!isJumping && sprite.getPosition().y == groundLevel && jumpClock.getElapsedTime().asSeconds() > jumpCooldown)
     {   
         isJumping = true;
-        yVelocity = -12.f;
+        yVelocity = -14.f;
         jumpClock.restart();
     }
 }
