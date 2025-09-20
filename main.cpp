@@ -3,7 +3,6 @@
 
 int main()
 {
-   std::cout << "Current Working Directory: " << std::filesystem::current_path() << std::endl;
    Game game;
 
    game.run();
