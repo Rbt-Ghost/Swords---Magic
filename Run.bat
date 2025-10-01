@@ -7,4 +7,4 @@ g++ -o "bin/Swords & Magic.exe" main.cpp ^
     "src/Sources/Skeleton.cpp" ^
     "src/Sources/GameRoom.cpp" ^
     "src/Sources/Score.cpp" ^
-    resource.o -I"include" -L"lib" -lsfml-graphics -lsfml-window -lsfml-system
+    resource.o -I"include" -L"lib" -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio

@@ -6,10 +6,19 @@ Game::Game(unsigned int width, unsigned int height) :
 window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
 player(new Player("Hero", 100, 1, 2.25f)),
 gameRoom(new GameRoom()),
-score(new Score())
+score(new Score()),
+Start(font)
 {
     setW(width);
     setH(height);
+
+    LoadFont(font, "../assets/Medieval-timeline-font/MedievalTimeline-DOPRE.ttf");
+
+    Start.setFont(font);
+    Start.setCharacterSize(50);
+    Start.setFillColor(sf::Color::Yellow);
+    Start.setPosition({1440/2-120, 300});
+    Start.setString("Start Game");
 
     for (int i = 0; i < 2; i ++)
     {
@@ -40,9 +49,19 @@ void Game::run()
 {
     while (window->isOpen())
     {
-        processEvents();
-        update();
-        render();
+        if (isHomescreenActive)
+        {
+            PlayMusic("..//assets//Sounds//medieval-ambient-236809.mp3");
+            Home_ProcessEvents();
+            Home_Render();
+        }
+        else
+        {
+            PlayMusic("..//assets//Sounds//khutulun-fantasy-amp-battle-background-music-115812.mp3");
+            processEvents();
+            update();
+            render();
+        }
     }
 }
 
@@ -129,6 +148,26 @@ void Game::render()
 
 }
 
+void Game::Home_ProcessEvents()
+{
+    while (const std::optional event = window->pollEvent())
+        {
+            if (event->is<sf::Event::Closed>())
+                window->close();
+        }
+
+    Home_handlePlayerInput();
+}
+
+void Game::Home_Render()
+{
+    window->setFramerateLimit(60);
+
+        window->clear();
+        window->draw(Start);
+        window->display();
+}
+
 void Game::handlePlayerInput()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
@@ -173,6 +212,22 @@ void Game::handlePlayerInput()
         player->respawn();
         score->saveBestScore();
         score->loadBestScore();
+    }
+}
+
+void Game::Home_handlePlayerInput()
+{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
+    {
+        window->close();
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Enter))
+    {
+        isHomescreenActive = false;
+        backgroundMusic.stop();
+        
+        sf::sleep(sf::milliseconds(100));
     }
 }
 
@@ -295,6 +350,28 @@ void Game::playerJump()
     }
 }
 
+void Game::LoadFont(sf::Font &font, string std)
+{
+    if (!font.openFromFile(std))
+    {
+        cerr << endl << "ERROR";
+    }
+}
+
+void Game::PlayMusic(const std::filesystem::path& filename)
+{
+    if (backgroundMusic.getStatus() != sf::Music::Status::Playing)
+    {
+        if (backgroundMusic.openFromFile(filename.string()))
+        {
+            backgroundMusic.play();
+        }
+        else
+        {
+            std::cerr << "Failed to load music: " << filename << std::endl;
+        }
+    }
+} 
 
 void Game::setW(unsigned int width)
 {
