@@ -16,6 +16,8 @@ private:
 
     bool isActive = true;
 
+    sf::Texture *backgroundTexture;
+
     sf::Font font;
     sf::Text Start;
 
