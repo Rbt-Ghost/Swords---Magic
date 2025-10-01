@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include "HomeScreen.hpp"
 #include "Player.hpp"
 #include "FlyingDemon.hpp"
 #include "Skeleton.hpp"
@@ -23,16 +24,13 @@ private:
     sf::Clock spawnClock;
     
     sf::RenderWindow *window;
+    HomeScreen *homeScreen;
     GameRoom *gameRoom;
     Player *player;
     FlyingDemon *FlyDemon[2];
     Skeleton *skeleton[3];
     Score *score;
 
-    sf::Font font;
-    sf::Text Start;
-
-    bool isHomescreenActive = true;
     bool checkAtk1 = true;
 
     sf::Music backgroundMusic;
@@ -41,19 +39,15 @@ private:
     void update();
     void render();
 
-    void Home_ProcessEvents();
-    void Home_Render();
-
     void handlePlayerInput();
+
     void Home_handlePlayerInput();
-    
+
     void playerAttack();
     void playerDefend();
     void playerMoveR();
     void playerMoveL();
     void playerJump();
-
-    void LoadFont(sf::Font &font, string std);
 
     void PlayMusic(const std::filesystem::path& filename);
 

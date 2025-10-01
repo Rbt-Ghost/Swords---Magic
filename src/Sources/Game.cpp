@@ -4,21 +4,13 @@ static sf::Clock atkClock;
 
 Game::Game(unsigned int width, unsigned int height) : 
 window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
+homeScreen(new HomeScreen(width, height)),
 player(new Player("Hero", 100, 1, 2.25f)),
 gameRoom(new GameRoom()),
-score(new Score()),
-Start(font)
+score(new Score())
 {
     setW(width);
     setH(height);
-
-    LoadFont(font, "../assets/Medieval-timeline-font/MedievalTimeline-DOPRE.ttf");
-
-    Start.setFont(font);
-    Start.setCharacterSize(50);
-    Start.setFillColor(sf::Color::Yellow);
-    Start.setPosition({1440/2-120, 300});
-    Start.setString("Start Game");
 
     for (int i = 0; i < 2; i ++)
     {
@@ -36,6 +28,7 @@ Start(font)
 Game::~Game()
 {
     delete window;
+    delete homeScreen;
     delete player;
     for (int i = 0; i < 2; ++i) 
         delete FlyDemon[i];
@@ -49,11 +42,12 @@ void Game::run()
 {
     while (window->isOpen())
     {
-        if (isHomescreenActive)
+        if (homeScreen->getIsActive())
         {
             PlayMusic("..//assets//Sounds//medieval-ambient-236809.mp3");
-            Home_ProcessEvents();
-            Home_Render();
+            homeScreen->processEvents(*window);
+            homeScreen->render(*window);
+            Home_handlePlayerInput();
         }
         else
         {
@@ -110,7 +104,6 @@ void Game::render()
     window->setFramerateLimit(60);
 
     window->clear();
-    //window->draw(background);
     for (int i = 0; i < 2; i++)
         gameRoom->draw(*window,*player,*FlyDemon[i]);
 
@@ -146,26 +139,6 @@ void Game::render()
 
     window->display();
 
-}
-
-void Game::Home_ProcessEvents()
-{
-    while (const std::optional event = window->pollEvent())
-        {
-            if (event->is<sf::Event::Closed>())
-                window->close();
-        }
-
-    Home_handlePlayerInput();
-}
-
-void Game::Home_Render()
-{
-    window->setFramerateLimit(60);
-
-        window->clear();
-        window->draw(Start);
-        window->display();
 }
 
 void Game::handlePlayerInput()
@@ -224,7 +197,7 @@ void Game::Home_handlePlayerInput()
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Enter))
     {
-        isHomescreenActive = false;
+        homeScreen->setIsActive(false);
         backgroundMusic.stop();
         
         sf::sleep(sf::milliseconds(100));
@@ -347,14 +320,6 @@ void Game::playerJump()
     {
         if (!player->get_isJumping())
             player->jump();
-    }
-}
-
-void Game::LoadFont(sf::Font &font, string std)
-{
-    if (!font.openFromFile(std))
-    {
-        cerr << endl << "ERROR";
     }
 }
 

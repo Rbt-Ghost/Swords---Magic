@@ -1,5 +1,6 @@
 g++ -o "bin/Swords & Magic.exe" main.cpp ^
     "src/Sources/Game.cpp" ^
+    "src/Sources/HomeScreen.cpp" ^
     "src/Sources/Entity.cpp" ^
     "src/Sources/Player.cpp" ^
     "src/Sources/Enemy.cpp" ^
