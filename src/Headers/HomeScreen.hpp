@@ -18,8 +18,15 @@ private:
 
     sf::Texture *backgroundTexture;
 
+    sf::RectangleShape buttonsBox;
+
     sf::Font font;
+    
+    sf::Text GameTitle;
     sf::Text Start;
+    sf::Text HowToPlay;
+    sf::Text Credits;
+    sf::Text About;
 
     void LoadFont(sf::Font &font, string std);
 
