@@ -121,19 +121,19 @@ void HomeScreen::render(sf::RenderWindow &window)
     window.draw(GameTitle);
 
     window.draw(Start);
-    window.draw(StartButton);
+    //window.draw(StartButton);
 
     window.draw(HowToPlay);
-    window.draw(HowToPlayButton);
+    //window.draw(HowToPlayButton);
 
     window.draw(Credits);
-    window.draw(CreditsButton);
+    //window.draw(CreditsButton);
 
     window.draw(About);
-    window.draw(AboutButton);
+    //window.draw(AboutButton);
 
     window.draw(Quit);
-    window.draw(QuitButton);
+    //window.draw(QuitButton);
 
     window.display();
 }
