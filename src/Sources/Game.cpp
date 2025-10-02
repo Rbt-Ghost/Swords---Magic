@@ -192,11 +192,6 @@ void Game::Home_handlePlayerInput()
 {
     sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
-    {
-        window->close();
-    }
-    
     if ( homeScreen->getStartButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) )
     {
         homeScreen->HoverStart();
@@ -213,18 +208,46 @@ void Game::Home_handlePlayerInput()
         homeScreen->DefaultStart();
     }
 
-    /*if ( sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && 
-         //mousePos.x >= (homeScreen->getStartButton().getPosition().x - homeScreen->getStartButton().getSize().x / 2) && 
-         //mousePos.x <= (homeScreen->getStartButton().getPosition().x + homeScreen->getStartButton().getSize().x / 2) && 
-         //mousePos.y >= (homeScreen->getStartButton().getPosition().y - homeScreen->getStartButton().getSize().y / 2) && 
-         //mousePos.y <= (homeScreen->getStartButton().getPosition().y + homeScreen->getStartButton().getSize().y / 2) )
-         homeScreen->getStartButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) )
+    if ( homeScreen->getHowToPlayButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
     {
-        homeScreen->setIsActive(false);
-        backgroundMusic.stop();
-        
-        sf::sleep(sf::milliseconds(100));
-    }*/
+        homeScreen->HoverHowToPlay();
+    }
+    else
+    {
+        homeScreen->DefaultHowToPlay();
+    }
+
+    if ( homeScreen->getCreditsButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    {
+        homeScreen->HoverCredits();
+    }
+    else
+    {
+        homeScreen->DefaultCredits();
+    }
+
+    if ( homeScreen->getAboutButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    {
+        homeScreen->HoverAbout();
+    }
+    else
+    {
+        homeScreen->DefaultAbout();
+    }
+
+    if ( homeScreen->getQuitButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    {
+        homeScreen->HoverQuit();
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+        {
+            window->close();
+            sf::sleep(sf::milliseconds(100));
+        }
+    }
+    else
+    {
+        homeScreen->DefaultQuit();
+    }
 }
 
 void Game::playerAttack()

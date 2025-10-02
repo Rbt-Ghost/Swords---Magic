@@ -23,6 +23,7 @@ private:
     sf::RectangleShape HowToPlayButton;
     sf::RectangleShape CreditsButton;
     sf::RectangleShape AboutButton;
+    sf::RectangleShape QuitButton;
 
     sf::Font font;
     
@@ -31,6 +32,7 @@ private:
     sf::Text HowToPlay;
     sf::Text Credits;
     sf::Text About;
+    sf::Text Quit;
 
     void LoadFont(sf::Font &font, string std);
 
@@ -45,8 +47,21 @@ public:
     bool getIsActive();
 
     sf::RectangleShape getStartButton();
+    sf::RectangleShape getHowToPlayButton();
+    sf::RectangleShape getCreditsButton();
+    sf::RectangleShape getAboutButton();
+    sf::RectangleShape getQuitButton();
+    
     void DefaultStart();
     void HoverStart();
+    void DefaultHowToPlay();
+    void HoverHowToPlay();
+    void DefaultCredits();
+    void HoverCredits();
+    void DefaultAbout();
+    void HoverAbout();
+    void DefaultQuit();
+    void HoverQuit();
 };
 
 #endif
