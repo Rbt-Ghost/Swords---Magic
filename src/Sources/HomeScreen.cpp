@@ -24,12 +24,16 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     GameTitle.setOutlineColor(sf::Color::Black);
 
     Start.setFont(font);
-    Start.setCharacterSize(50);
-    Start.setFillColor(sf::Color::Yellow);
-    Start.setPosition({1440 / 2 - 132, 300});
     Start.setString("Start Game");
     Start.setOutlineThickness(5);
     Start.setOutlineColor(sf::Color::Black);
+    DefaultStart();
+    StartButton.setSize({275, 50});
+    StartButton.setOrigin(StartButton.getSize() / 2.f);
+    StartButton.setPosition({1440 / 2, 330});
+    StartButton.setFillColor(sf::Color::Transparent);
+    StartButton.setOutlineThickness(1);
+    StartButton.setOutlineColor(sf::Color::Red);
 
     HowToPlay.setFont(font);
     HowToPlay.setCharacterSize(50);
@@ -91,6 +95,7 @@ void HomeScreen::render(sf::RenderWindow &window)
     window.draw(buttonsBox);
     window.draw(GameTitle);
     window.draw(Start);
+    //window.draw(StartButton);
     window.draw(HowToPlay);
     window.draw(Credits);
     window.draw(About);
@@ -113,4 +118,23 @@ void HomeScreen::setIsActive(bool isActive)
 bool HomeScreen::getIsActive()
 {
     return isActive;
+}
+
+sf::RectangleShape HomeScreen::getStartButton()
+{
+    return StartButton;
+}
+
+void HomeScreen::DefaultStart()
+{
+    Start.setCharacterSize(50);
+    Start.setFillColor(sf::Color::Yellow);
+    Start.setPosition({1440 / 2 - 134, 300});
+}
+
+void HomeScreen::HoverStart()
+{
+    Start.setCharacterSize(55);
+    Start.setFillColor(sf::Color::Red);
+    Start.setPosition({1440 / 2 - 148, 295});
 }

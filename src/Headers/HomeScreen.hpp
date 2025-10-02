@@ -19,6 +19,10 @@ private:
     sf::Texture *backgroundTexture;
 
     sf::RectangleShape buttonsBox;
+    sf::RectangleShape StartButton;
+    sf::RectangleShape HowToPlayButton;
+    sf::RectangleShape CreditsButton;
+    sf::RectangleShape AboutButton;
 
     sf::Font font;
     
@@ -39,6 +43,10 @@ public:
 
     void setIsActive(bool isActive);
     bool getIsActive();
+
+    sf::RectangleShape getStartButton();
+    void DefaultStart();
+    void HoverStart();
 };
 
 #endif

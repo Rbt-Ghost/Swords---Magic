@@ -190,18 +190,41 @@ void Game::handlePlayerInput()
 
 void Game::Home_handlePlayerInput()
 {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
     {
         window->close();
     }
+    
+    if ( homeScreen->getStartButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) )
+    {
+        homeScreen->HoverStart();
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+        {
+            homeScreen->setIsActive(false);
+            backgroundMusic.stop();
+            
+            sf::sleep(sf::milliseconds(100));
+        }
+    }
+    else
+    {
+        homeScreen->DefaultStart();
+    }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Enter))
+    /*if ( sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && 
+         //mousePos.x >= (homeScreen->getStartButton().getPosition().x - homeScreen->getStartButton().getSize().x / 2) && 
+         //mousePos.x <= (homeScreen->getStartButton().getPosition().x + homeScreen->getStartButton().getSize().x / 2) && 
+         //mousePos.y >= (homeScreen->getStartButton().getPosition().y - homeScreen->getStartButton().getSize().y / 2) && 
+         //mousePos.y <= (homeScreen->getStartButton().getPosition().y + homeScreen->getStartButton().getSize().y / 2) )
+         homeScreen->getStartButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) )
     {
         homeScreen->setIsActive(false);
         backgroundMusic.stop();
         
         sf::sleep(sf::milliseconds(100));
-    }
+    }*/
 }
 
 void Game::playerAttack()
