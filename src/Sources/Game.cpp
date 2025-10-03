@@ -2,23 +2,22 @@
 
 static sf::Clock atkClock;
 
-Game::Game(unsigned int width, unsigned int height) : 
-window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
-homeScreen(new HomeScreen(width, height)),
-player(new Player("Hero", 100, 1, 2.25f)),
-gameRoom(new GameRoom()),
-score(new Score())
+Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
+                                                      homeScreen(new HomeScreen(width, height)),
+                                                      player(new Player("Hero", 100, 1, 2.25f)),
+                                                      gameRoom(new GameRoom()),
+                                                      score(new Score())
 {
     setW(width);
     setH(height);
 
-    for (int i = 0; i < 2; i ++)
+    for (int i = 0; i < 2; i++)
     {
         FlyDemon[i] = new FlyingDemon("Flying Demon", 7, 3, 1.85f);
         FlyDemon[i]->spawn(*player);
     }
 
-    for (int i = 0; i < 3; i ++)
+    for (int i = 0; i < 3; i++)
     {
         skeleton[i] = new Skeleton("Skeleton Warrior", 10, 2, 1.5);
         skeleton[i]->spawn();
@@ -30,9 +29,9 @@ Game::~Game()
     delete window;
     delete homeScreen;
     delete player;
-    for (int i = 0; i < 2; ++i) 
+    for (int i = 0; i < 2; ++i)
         delete FlyDemon[i];
-        for (int i = 0; i < 3; ++i) 
+    for (int i = 0; i < 3; ++i)
         delete skeleton[i];
     delete gameRoom;
     delete score;
@@ -69,12 +68,12 @@ void Game::processEvents()
 
     handlePlayerInput();
 
-    for (int i = 0; i < 2; i ++)
+    for (int i = 0; i < 2; i++)
     {
         FlyDemon[i]->updateLogic(*player);
     }
 
-    for (int i =0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
     {
         skeleton[i]->updateLogic(*player);
     }
@@ -85,13 +84,13 @@ void Game::update()
     player->updatePhysics();
     player->updateAnimation();
 
-    for (int i = 0; i < 2; i ++)
+    for (int i = 0; i < 2; i++)
     {
         FlyDemon[i]->updateAnimation();
         score->updateFlyingDemon(*FlyDemon[i]);
     }
-    
-    for (int i =0; i < 3; i++)
+
+    for (int i = 0; i < 3; i++)
     {
         skeleton[i]->updateAnimation();
         score->updateSkeleton(*skeleton[i]);
@@ -105,27 +104,27 @@ void Game::render()
 
     window->clear();
     for (int i = 0; i < 2; i++)
-        gameRoom->draw(*window,*player,*FlyDemon[i]);
+        gameRoom->draw(*window, *player, *FlyDemon[i]);
 
-    for (int i = 0; i < 2; i ++)
+    for (int i = 0; i < 2; i++)
     {
         window->draw(FlyDemon[i]->get_Sprite());
-        //window->draw(FlyDemon[i]->get_hitbox());
+        // window->draw(FlyDemon[i]->get_hitbox());
     }
-    
-    for (int i = 0; i < 2; i ++)
+
+    for (int i = 0; i < 2; i++)
     {
         if (FlyDemon[i]->get_Fireball())
         {
             window->draw(FlyDemon[i]->get_FireballSprite());
-            //window->draw(FlyDemon[i]->get_fireballHitbox());
+            // window->draw(FlyDemon[i]->get_fireballHitbox());
         }
     }
-    
-    for (int i =0; i < 3; i++)
+
+    for (int i = 0; i < 3; i++)
     {
         window->draw(skeleton[i]->get_Sprite());
-        //window->draw(skeleton[i]->get_hitbox());
+        // window->draw(skeleton[i]->get_hitbox());
     }
 
     window->draw(player->get_Sprite());
@@ -133,12 +132,11 @@ void Game::render()
     {
         window->draw(player->get_Hp_Bar());
     }
-    //window->draw(player->get_Hitbox());
-    
+    // window->draw(player->get_Hitbox());
+
     score->draw(*window);
 
     window->display();
-
 }
 
 void Game::handlePlayerInput()
@@ -180,7 +178,7 @@ void Game::handlePlayerInput()
         }
     }
 
-    if(player->get_isDead() && player->get_Sprite().getPosition().x == -1000 && player->get_Sprite().getPosition().y == -1000 && sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::R))
+    if (player->get_isDead() && player->get_Sprite().getPosition().x == -1000 && player->get_Sprite().getPosition().y == -1000 && sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::R))
     {
         player->respawn();
         score->saveBestScore();
@@ -191,15 +189,23 @@ void Game::handlePlayerInput()
 void Game::Home_handlePlayerInput()
 {
     sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+    cout<<window->getSize().x<<" "<<window->getSize().y<<endl;
 
-    if ( homeScreen->getStartButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) )
+    if ( window->getSize().x > 1440 || window->getSize().y > 800 )
+    {
+        mousePos.x = mousePos.x / float(window->getSize().x) * 1440.f;
+        mousePos.y = mousePos.y / float(window->getSize().y) * 800.f;
+        cout<<"     "<<mousePos.x<<" "<<mousePos.y<<endl;
+    }
+
+    if (homeScreen->getStartButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
     {
         homeScreen->HoverStart();
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
         {
             homeScreen->setIsActive(false);
             backgroundMusic.stop();
-            
+
             sf::sleep(sf::milliseconds(100));
         }
     }
@@ -208,7 +214,7 @@ void Game::Home_handlePlayerInput()
         homeScreen->DefaultStart();
     }
 
-    if ( homeScreen->getHowToPlayButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    if (homeScreen->getHowToPlayButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
     {
         homeScreen->HoverHowToPlay();
     }
@@ -217,7 +223,7 @@ void Game::Home_handlePlayerInput()
         homeScreen->DefaultHowToPlay();
     }
 
-    if ( homeScreen->getCreditsButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    if (homeScreen->getCreditsButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
     {
         homeScreen->HoverCredits();
     }
@@ -226,7 +232,7 @@ void Game::Home_handlePlayerInput()
         homeScreen->DefaultCredits();
     }
 
-    if ( homeScreen->getAboutButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    if (homeScreen->getAboutButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
     {
         homeScreen->HoverAbout();
     }
@@ -235,11 +241,12 @@ void Game::Home_handlePlayerInput()
         homeScreen->DefaultAbout();
     }
 
-    if ( homeScreen->getQuitButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    if (homeScreen->getQuitButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
     {
         homeScreen->HoverQuit();
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
         {
+            backgroundMusic.stop();
             window->close();
             sf::sleep(sf::milliseconds(100));
         }
@@ -282,12 +289,11 @@ void Game::playerAttack()
         player->set_isAttacking2(false);
         player->set_isAttacking3(false);
 
-        for (int i = 0; i < 4; i ++)
+        for (int i = 0; i < 4; i++)
         {
             FlyDemon[i]->set_isHurt(false);
         }
-            
-    }   
+    }
 }
 
 void Game::playerDefend()
@@ -369,7 +375,7 @@ void Game::playerJump()
     }
 }
 
-void Game::PlayMusic(const std::filesystem::path& filename)
+void Game::PlayMusic(const std::filesystem::path &filename)
 {
     if (backgroundMusic.getStatus() != sf::Music::Status::Playing)
     {
@@ -382,7 +388,7 @@ void Game::PlayMusic(const std::filesystem::path& filename)
             std::cerr << "Failed to load music: " << filename << std::endl;
         }
     }
-} 
+}
 
 void Game::setW(unsigned int width)
 {
