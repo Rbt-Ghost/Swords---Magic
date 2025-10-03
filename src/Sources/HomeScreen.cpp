@@ -29,7 +29,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     Start.setOutlineThickness(5);
     Start.setOutlineColor(sf::Color::Black);
     DefaultStart();
-    StartButton.setSize({275, 50});
+    StartButton.setSize({275, 45});
     StartButton.setOrigin(StartButton.getSize() / 2.f);
     StartButton.setPosition({1440 / 2, 330});
     StartButton.setFillColor(sf::Color::Transparent);
@@ -41,7 +41,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     HowToPlay.setOutlineThickness(5);
     HowToPlay.setOutlineColor(sf::Color::Black);
     DefaultHowToPlay();
-    HowToPlayButton.setSize({275, 50});
+    HowToPlayButton.setSize({275, 45});
     HowToPlayButton.setOrigin(HowToPlayButton.getSize() / 2.f);
     HowToPlayButton.setPosition({1440 / 2, 405});
     HowToPlayButton.setFillColor(sf::Color::Transparent);
@@ -53,7 +53,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     Credits.setOutlineThickness(5);
     Credits.setOutlineColor(sf::Color::Black);
     DefaultCredits();
-    CreditsButton.setSize({165, 50});
+    CreditsButton.setSize({165, 45});
     CreditsButton.setOrigin(CreditsButton.getSize() / 2.f);
     CreditsButton.setPosition({1440 / 2, 480});
     CreditsButton.setFillColor(sf::Color::Transparent);
@@ -65,7 +65,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     About.setOutlineThickness(5);
     About.setOutlineColor(sf::Color::Black);
     DefaultAbout();
-    AboutButton.setSize({150, 50});
+    AboutButton.setSize({150, 45});
     AboutButton.setOrigin(AboutButton.getSize() / 2.f);
     AboutButton.setPosition({1440 / 2, 555});
     AboutButton.setFillColor(sf::Color::Transparent);
@@ -77,7 +77,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     Quit.setOutlineThickness(5);
     Quit.setOutlineColor(sf::Color::Black);
     DefaultQuit();
-    QuitButton.setSize({110, 50});
+    QuitButton.setSize({110, 45});
     QuitButton.setOrigin(QuitButton.getSize() / 2.f);
     QuitButton.setPosition({1440 / 2, 630});
     QuitButton.setFillColor(sf::Color::Transparent);
@@ -114,19 +114,19 @@ void HomeScreen::render(sf::RenderWindow &window)
     window.draw(GameTitle);
 
     window.draw(Start);
-    window.draw(StartButton);
+    //window.draw(StartButton);
 
     window.draw(HowToPlay);
-    window.draw(HowToPlayButton);
+    //window.draw(HowToPlayButton);
 
     window.draw(Credits);
-    window.draw(CreditsButton);
+    //window.draw(CreditsButton);
 
     window.draw(About);
-    window.draw(AboutButton);
+    //window.draw(AboutButton);
 
     window.draw(Quit);
-    window.draw(QuitButton);
+    //window.draw(QuitButton);
 
     window.display();
 }
