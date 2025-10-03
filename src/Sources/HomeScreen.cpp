@@ -16,6 +16,9 @@ backgroundTexture(new sf::Texture(sf::Texture()))
         cerr << "ERROR :: COULD NOT LOAD BACKGROUND TEXTURE" << std::endl;
     }
 
+    this->width = width;
+    this->height = height;
+
     GameTitle.setFont(font);
     GameTitle.setCharacterSize(100);
     GameTitle.setFillColor(sf::Color::Yellow);

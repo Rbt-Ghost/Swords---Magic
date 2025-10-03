@@ -11,8 +11,8 @@ using namespace std;
 class HomeScreen
 {
 private:
-    unsigned int width = 1440;
-    unsigned int height = 800;
+    unsigned int width;
+    unsigned int height;
 
     bool isActive = true;
 
@@ -36,7 +36,7 @@ private:
     void LoadFont(sf::Font &font, string std);
 
 public:
-    HomeScreen(unsigned int width = 1440, unsigned int height = 800);
+    HomeScreen(unsigned int width, unsigned int height);
     ~HomeScreen();
 
     void processEvents( sf::RenderWindow& window );
