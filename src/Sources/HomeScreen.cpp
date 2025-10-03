@@ -83,11 +83,6 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     QuitButton.setFillColor(sf::Color::Transparent);
     QuitButton.setOutlineThickness(1);
     QuitButton.setOutlineColor(sf::Color::Red);
-
-    buttonsBox.setSize({300, 385});
-    buttonsBox.setOrigin(buttonsBox.getSize() / 2.f);
-    buttonsBox.setPosition({1440 / 2, 480});
-    buttonsBox.setFillColor(sf::Color(0, 0, 0, 100));
 }
 
 HomeScreen::~HomeScreen()
@@ -117,7 +112,6 @@ void HomeScreen::render(sf::RenderWindow &window)
 
     window.clear();
     window.draw(backgroundSprite);
-    window.draw(buttonsBox);
     window.draw(GameTitle);
 
     window.draw(Start);

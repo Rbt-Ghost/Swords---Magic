@@ -18,7 +18,6 @@ private:
 
     sf::Texture *backgroundTexture;
 
-    sf::RectangleShape buttonsBox;
     sf::RectangleShape StartButton;
     sf::RectangleShape HowToPlayButton;
     sf::RectangleShape CreditsButton;
