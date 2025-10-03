@@ -50,7 +50,7 @@ void Game::run()
         }
         else
         {
-            PlayMusic("..//assets//Sounds//khutulun-fantasy-amp-battle-background-music-115812.mp3");
+            PlayMusic("..//assets//Sounds//Swords&MagicSoundTrack.mp3");
             processEvents();
             update();
             render();

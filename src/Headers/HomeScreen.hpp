@@ -61,6 +61,9 @@ public:
     void HoverAbout();
     void DefaultQuit();
     void HoverQuit();
+
+    float getWidth();
+    float getHeight();
 };
 
 #endif

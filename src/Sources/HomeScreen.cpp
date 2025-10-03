@@ -19,7 +19,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     GameTitle.setFont(font);
     GameTitle.setCharacterSize(100);
     GameTitle.setFillColor(sf::Color::Yellow);
-    GameTitle.setPosition({1440 / 2 - 390, 100});
+    GameTitle.setPosition({getWidth() /2 - 390, 100});
     GameTitle.setString("Swords & Magic");
     GameTitle.setOutlineThickness(5);
     GameTitle.setOutlineColor(sf::Color::Black);
@@ -31,7 +31,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     DefaultStart();
     StartButton.setSize({275, 45});
     StartButton.setOrigin(StartButton.getSize() / 2.f);
-    StartButton.setPosition({1440 / 2, 330});
+    StartButton.setPosition({getWidth() / 2, 330});
     StartButton.setFillColor(sf::Color::Transparent);
     StartButton.setOutlineThickness(1);
     StartButton.setOutlineColor(sf::Color::Red);
@@ -43,7 +43,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     DefaultHowToPlay();
     HowToPlayButton.setSize({275, 45});
     HowToPlayButton.setOrigin(HowToPlayButton.getSize() / 2.f);
-    HowToPlayButton.setPosition({1440 / 2, 405});
+    HowToPlayButton.setPosition({getWidth() / 2, 405});
     HowToPlayButton.setFillColor(sf::Color::Transparent);
     HowToPlayButton.setOutlineThickness(1);
     HowToPlayButton.setOutlineColor(sf::Color::Red);
@@ -55,7 +55,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     DefaultCredits();
     CreditsButton.setSize({165, 45});
     CreditsButton.setOrigin(CreditsButton.getSize() / 2.f);
-    CreditsButton.setPosition({1440 / 2, 480});
+    CreditsButton.setPosition({getWidth() / 2, 480});
     CreditsButton.setFillColor(sf::Color::Transparent);
     CreditsButton.setOutlineThickness(1);
     CreditsButton.setOutlineColor(sf::Color::Red);
@@ -67,7 +67,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     DefaultAbout();
     AboutButton.setSize({150, 45});
     AboutButton.setOrigin(AboutButton.getSize() / 2.f);
-    AboutButton.setPosition({1440 / 2, 555});
+    AboutButton.setPosition({getWidth() / 2, 555});
     AboutButton.setFillColor(sf::Color::Transparent);
     AboutButton.setOutlineThickness(1);
     AboutButton.setOutlineColor(sf::Color::Red);
@@ -79,7 +79,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     DefaultQuit();
     QuitButton.setSize({110, 45});
     QuitButton.setOrigin(QuitButton.getSize() / 2.f);
-    QuitButton.setPosition({1440 / 2, 630});
+    QuitButton.setPosition({getWidth() / 2, 630});
     QuitButton.setFillColor(sf::Color::Transparent);
     QuitButton.setOutlineThickness(1);
     QuitButton.setOutlineColor(sf::Color::Red);
@@ -174,63 +174,72 @@ void HomeScreen::DefaultStart()
 {
     Start.setCharacterSize(50);
     Start.setFillColor(sf::Color::Yellow);
-    Start.setPosition({1440 / 2 - 134, 300});
+    Start.setPosition({getWidth() / 2 - 134, 300});
 }
 void HomeScreen::HoverStart()
 {
     Start.setCharacterSize(55);
     Start.setFillColor(sf::Color::Red);
-    Start.setPosition({1440 / 2 - 148, 295});
+    Start.setPosition({getWidth() / 2 - 148, 295});
 }
 
 void HomeScreen::DefaultHowToPlay()
 {
     HowToPlay.setCharacterSize(50);
     HowToPlay.setFillColor(sf::Color::Yellow);
-    HowToPlay.setPosition({1440 / 2 - 144, 375});
+    HowToPlay.setPosition({getWidth() / 2 - 144, 375});
 }
 void HomeScreen::HoverHowToPlay()
 {
     HowToPlay.setCharacterSize(55);
     HowToPlay.setFillColor(sf::Color::Red);
-    HowToPlay.setPosition({1440 / 2 - 159, 370});
+    HowToPlay.setPosition({getWidth() / 2 - 159, 370});
 }
 
 void HomeScreen::DefaultCredits()
 {
     Credits.setCharacterSize(50);
     Credits.setFillColor(sf::Color::Yellow);
-    Credits.setPosition({1440 / 2 - 86, 450});
+    Credits.setPosition({getWidth() / 2 - 86, 450});
 }
 void HomeScreen::HoverCredits()
 {
     Credits.setCharacterSize(55);
     Credits.setFillColor(sf::Color::Red);
-    Credits.setPosition({1440 / 2 - 92, 445});
+    Credits.setPosition({getWidth() / 2 - 92, 445});
 }
 
 void HomeScreen::DefaultAbout()
 {
     About.setCharacterSize(50);
     About.setFillColor(sf::Color::Yellow);
-    About.setPosition({1440 / 2 - 72, 525});
+    About.setPosition({getWidth() / 2 - 72, 525});
 }
 void HomeScreen::HoverAbout()
 {
     About.setCharacterSize(55);
     About.setFillColor(sf::Color::Red);
-    About.setPosition({1440 / 2 - 78, 520});
+    About.setPosition({getWidth() / 2 - 78, 520});
 }
 
 void HomeScreen::DefaultQuit()
 {
     Quit.setCharacterSize(50);
     Quit.setFillColor(sf::Color::Yellow);
-    Quit.setPosition({1440 / 2 - 50, 600});
+    Quit.setPosition({getWidth() / 2 - 50, 600});
 }
 void HomeScreen::HoverQuit()
 {
     Quit.setCharacterSize(55);
     Quit.setFillColor(sf::Color::Red);
-    Quit.setPosition({1440 / 2 - 54, 595});
+    Quit.setPosition({getWidth() / 2 - 54, 595});
+}
+
+float HomeScreen::getWidth()
+{
+    return width;
+}
+float HomeScreen::getHeight()
+{
+    return height;
 }
