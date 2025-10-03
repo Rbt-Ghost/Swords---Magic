@@ -104,7 +104,6 @@ void HomeScreen::render(sf::RenderWindow &window)
 
     sf::Sprite backgroundSprite(*backgroundTexture);
 
-    //backgroundSprite.setColor(sf::Color(255, 255, 255, 200)); // Set opacity to 200 out of 255
     backgroundSprite.setScale(
         {float(width) / backgroundTexture->getSize().x,
          float(height) / backgroundTexture->getSize().y}
@@ -115,19 +114,19 @@ void HomeScreen::render(sf::RenderWindow &window)
     window.draw(GameTitle);
 
     window.draw(Start);
-    //window.draw(StartButton);
+    window.draw(StartButton);
 
     window.draw(HowToPlay);
-    //window.draw(HowToPlayButton);
+    window.draw(HowToPlayButton);
 
     window.draw(Credits);
-    //window.draw(CreditsButton);
+    window.draw(CreditsButton);
 
     window.draw(About);
-    //window.draw(AboutButton);
+    window.draw(AboutButton);
 
     window.draw(Quit);
-    //window.draw(QuitButton);
+    window.draw(QuitButton);
 
     window.display();
 }
