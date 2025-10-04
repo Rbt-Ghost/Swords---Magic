@@ -189,13 +189,11 @@ void Game::handlePlayerInput()
 void Game::Home_handlePlayerInput()
 {
     sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-    cout<<window->getSize().x<<" "<<window->getSize().y<<endl;
 
     if ( window->getSize().x > 1440 || window->getSize().y > 800 )
     {
         mousePos.x = mousePos.x / float(window->getSize().x) * 1440.f;
         mousePos.y = mousePos.y / float(window->getSize().y) * 800.f;
-        cout<<"     "<<mousePos.x<<" "<<mousePos.y<<endl;
     }
 
     if (homeScreen->getStartButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))

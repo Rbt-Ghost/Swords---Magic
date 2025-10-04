@@ -19,7 +19,6 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     setWidth(width);
     setHeight(height);
 
-    GameTitle.setFont(font);
     GameTitle.setCharacterSize(100);
     GameTitle.setFillColor(sf::Color::Yellow);
     GameTitle.setPosition({getWidth() /2 - 390, 100});
@@ -27,7 +26,6 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     GameTitle.setOutlineThickness(5);
     GameTitle.setOutlineColor(sf::Color::Black);
 
-    Start.setFont(font);
     Start.setString("Start Game");
     Start.setOutlineThickness(5);
     Start.setOutlineColor(sf::Color::Black);
@@ -39,7 +37,6 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     StartButton.setOutlineThickness(1);
     StartButton.setOutlineColor(sf::Color::Red);
 
-    HowToPlay.setFont(font);
     HowToPlay.setString("How To Play");
     HowToPlay.setOutlineThickness(5);
     HowToPlay.setOutlineColor(sf::Color::Black);
@@ -51,7 +48,6 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     HowToPlayButton.setOutlineThickness(1);
     HowToPlayButton.setOutlineColor(sf::Color::Red);
 
-    Credits.setFont(font);
     Credits.setString("Credits");
     Credits.setOutlineThickness(5);
     Credits.setOutlineColor(sf::Color::Black);
@@ -63,7 +59,6 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     CreditsButton.setOutlineThickness(1);
     CreditsButton.setOutlineColor(sf::Color::Red);
 
-    About.setFont(font);
     About.setString("About");
     About.setOutlineThickness(5);
     About.setOutlineColor(sf::Color::Black);
@@ -75,7 +70,6 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     AboutButton.setOutlineThickness(1);
     AboutButton.setOutlineColor(sf::Color::Red);
 
-    Quit.setFont(font);
     Quit.setString("Quit");
     Quit.setOutlineThickness(5);
     Quit.setOutlineColor(sf::Color::Black);
