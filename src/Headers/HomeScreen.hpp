@@ -33,6 +33,8 @@ private:
     sf::Text About;
     sf::Text Quit;
 
+protected:
+
     void LoadFont(sf::Font &font, string std);
 
 public:
@@ -61,6 +63,9 @@ public:
     void HoverAbout();
     void DefaultQuit();
     void HoverQuit();
+
+    void setWidth(unsigned int width);
+    void setHeight(unsigned int height);
 
     float getWidth();
     float getHeight();

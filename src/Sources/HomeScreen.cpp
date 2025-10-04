@@ -16,8 +16,8 @@ backgroundTexture(new sf::Texture(sf::Texture()))
         cerr << "ERROR :: COULD NOT LOAD BACKGROUND TEXTURE" << std::endl;
     }
 
-    this->width = width;
-    this->height = height;
+    setWidth(width);
+    setHeight(height);
 
     GameTitle.setFont(font);
     GameTitle.setCharacterSize(100);
@@ -236,6 +236,15 @@ void HomeScreen::HoverQuit()
     Quit.setCharacterSize(55);
     Quit.setFillColor(sf::Color::Red);
     Quit.setPosition({getWidth() / 2 - 54, 595});
+}
+
+void HomeScreen::setWidth(unsigned int width)
+{
+    this->width = width;
+}
+void HomeScreen::setHeight(unsigned int height)
+{
+    this->height = height;
 }
 
 float HomeScreen::getWidth()
