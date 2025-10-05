@@ -6,6 +6,7 @@ Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindo
                                                       homeScreen(new HomeScreen(width, height)),
                                                       howToPlayScreen(new HowToPlayScreen(width, height)),
                                                       creditsScreen(new CreditsScreen(width, height)),
+                                                      aboutScreen(new AboutScreen(width, height)),
                                                       player(new Player("Hero", 100, 1, 2.25f)),
                                                       gameRoom(new GameRoom()),
                                                       score(new Score())
@@ -32,6 +33,7 @@ Game::~Game()
     delete homeScreen;
     delete howToPlayScreen;
     delete creditsScreen;
+    delete aboutScreen;
     delete player;
     for (int i = 0; i < 2; ++i)
         delete FlyDemon[i];
@@ -64,6 +66,13 @@ void Game::run()
             PlayMusic("..//assets//Sounds//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             creditsScreen->render(*window);
+            Home_handlePlayerInput();
+        }
+        else if (aboutScreen->getIsActive())
+        {
+            PlayMusic("..//assets//Sounds//medieval-ambient-236809.mp3");
+            homeScreen->processEvents(*window);
+            aboutScreen->render(*window);
             Home_handlePlayerInput();
         }
         else
@@ -267,6 +276,13 @@ void Game::Home_handlePlayerInput()
         if (homeScreen->getAboutButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
             homeScreen->HoverAbout();
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
+                aboutScreen->setIsActive(true);
+                homeScreen->setIsActive(false);
+
+                sf::sleep(sf::milliseconds(100));
+            }
         }
         else
         {
@@ -319,23 +335,27 @@ void Game::Home_handlePlayerInput()
                 sf::sleep(sf::milliseconds(100));
             }
         }
+        else
+        {
+            creditsScreen->DefaultBack();
+        }
     }
 
-    if (creditsScreen->getIsActive())
+    if (aboutScreen->getIsActive())
     {
-        if (creditsScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+        if (aboutScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
-            creditsScreen->HoverBack();
+            aboutScreen->HoverBack();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
-                creditsScreen->setIsActive(false);
+                aboutScreen->setIsActive(false);
                 homeScreen->setIsActive(true);
                 sf::sleep(sf::milliseconds(100));
             }
         }
         else
         {
-            creditsScreen->DefaultBack();
+            aboutScreen->DefaultBack();
         }
     }
 }

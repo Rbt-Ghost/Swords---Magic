@@ -3,6 +3,7 @@ g++ -o "bin/Swords & Magic.exe" main.cpp ^
     "src/Sources/HomeScreen.cpp" ^
     "src/Sources/HowToPlayScreen.cpp" ^
     "src/Sources/CreditsScreen.cpp" ^
+    "src/Sources/AboutScreen.cpp" ^
     "src/Sources/Entity.cpp" ^
     "src/Sources/Player.cpp" ^
     "src/Sources/Enemy.cpp" ^

@@ -35,7 +35,7 @@ CreditsScreen::CreditsScreen(unsigned int width, unsigned int height) : HomeScre
     Back.setOutlineColor(sf::Color::Black);
     BackButton.setSize({120, 50});
     BackButton.setOrigin(BackButton.getSize() / 2.f);
-    BackButton.setPosition({getWidth() / 2, 750});
+    BackButton.setPosition({getWidth() / 2, 680});
     BackButton.setFillColor(sf::Color::Transparent);
     BackButton.setOutlineThickness(1);
     BackButton.setOutlineColor(sf::Color::Red);
@@ -63,14 +63,14 @@ void CreditsScreen::DefaultBack()
 {
     Back.setCharacterSize(50);
     Back.setFillColor(sf::Color::Yellow);
-    Back.setPosition({getWidth() / 2 - 60, 720});
+    Back.setPosition({getWidth() / 2 - 60, 650});
 }
 
 void CreditsScreen::HoverBack()
 {
     Back.setCharacterSize(55);
     Back.setFillColor(sf::Color::Red);
-    Back.setPosition({getWidth() / 2 - 64, 716});
+    Back.setPosition({getWidth() / 2 - 64, 646});
 }
 
 RectangleShape CreditsScreen::getBackButton()

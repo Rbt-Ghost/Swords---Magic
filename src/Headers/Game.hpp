@@ -8,6 +8,7 @@
 #include "HomeScreen.hpp"
 #include "HowToPlayScreen.hpp"
 #include "CreditsScreen.hpp"
+#include "AboutScreen.hpp"
 #include "Player.hpp"
 #include "FlyingDemon.hpp"
 #include "Skeleton.hpp"
@@ -29,6 +30,7 @@ private:
     HomeScreen *homeScreen;
     HowToPlayScreen *howToPlayScreen;
     CreditsScreen *creditsScreen;
+    AboutScreen *aboutScreen;
     GameRoom *gameRoom;
     Player *player;
     FlyingDemon *FlyDemon[2];
