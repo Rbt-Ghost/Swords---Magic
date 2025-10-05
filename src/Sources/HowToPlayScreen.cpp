@@ -24,7 +24,6 @@ Back(font)
                            "Avoid enemy attacks to stay alive.\n"
                            "Reach the highest score possible!");
     Instructions.setLineSpacing(1.2f);
-    //Instructions.setOrigin(Instructions.getLocalBounds().getCenter() / 2.f);
     Instructions.setFillColor(sf::Color::Yellow);
     Instructions.setCharacterSize(35);
     Instructions.setOutlineThickness(5);

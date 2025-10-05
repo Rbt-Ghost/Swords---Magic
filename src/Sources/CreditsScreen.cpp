@@ -13,21 +13,29 @@ CreditsScreen::CreditsScreen(unsigned int width, unsigned int height) : HomeScre
     Background.setSize({float(width), float(height)});
     Background.setFillColor(Color(10, 10, 10, 200));
 
-    Credits.setString("Ana are mere");
+    Credits.setString("Knight 2D Pixel Art by Mattz Art on itch.io\n"
+                      "Flying Demon 2D Pixel Art by Mattz Art on itch.io\n"
+                      "Skeleton Warrior 2D Pixel Art by Mattz Art on itch.io\n"
+                      "Skeleton Sprite Pack by Jesse Munguia on itch.io\n"
+                      "2d-Medieval-Castle-Dungeon-Tileset by TPC on itch.io\n"
+                      "HP-Bar by m1ilaan on itch.io\n"
+                      "Medieval Timeline Font by Little Red Studio on itch.io\n"
+                      "Mokazar - Medieval Castle Background by Arludus on itch.io\n"
+                      "Medieval Ambient Music by DeusLower on pixabay.com\n"
+                      "Sword-3 and Sword-5 Music by its_tigri on pixabay.com\n");
     Credits.setLineSpacing(1.2f);
-    Credits.setCharacterSize(35);
+    Credits.setCharacterSize(30);
     Credits.setFillColor(Color::Yellow);
     Credits.setOutlineThickness(5);
     Credits.setOutlineColor(Color::Black);
-    Credits.setOrigin(Credits.getLocalBounds().getCenter() / 2.f);
-    Credits.setPosition({float(width) / 2, float(height) / 2});
+    Credits.setPosition({float(width) / 2 - 600, 50});
 
     Back.setString("Back");
     Back.setOutlineThickness(5);
     Back.setOutlineColor(sf::Color::Black);
     BackButton.setSize({120, 50});
     BackButton.setOrigin(BackButton.getSize() / 2.f);
-    BackButton.setPosition({getWidth() / 2, 650});
+    BackButton.setPosition({getWidth() / 2, 750});
     BackButton.setFillColor(sf::Color::Transparent);
     BackButton.setOutlineThickness(1);
     BackButton.setOutlineColor(sf::Color::Red);
@@ -46,7 +54,7 @@ void CreditsScreen::render(sf::RenderWindow &window)
     window.draw(Credits);
 
     window.draw(Back);
-    //window.draw(BackButton);
+    window.draw(BackButton);
 
     window.display();
 }
@@ -55,14 +63,14 @@ void CreditsScreen::DefaultBack()
 {
     Back.setCharacterSize(50);
     Back.setFillColor(sf::Color::Yellow);
-    Back.setPosition({getWidth() / 2 - 60, 620});
+    Back.setPosition({getWidth() / 2 - 60, 720});
 }
 
 void CreditsScreen::HoverBack()
 {
     Back.setCharacterSize(55);
     Back.setFillColor(sf::Color::Red);
-    Back.setPosition({getWidth() / 2 - 64, 616});
+    Back.setPosition({getWidth() / 2 - 64, 716});
 }
 
 RectangleShape CreditsScreen::getBackButton()
