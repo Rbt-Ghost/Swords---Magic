@@ -54,7 +54,7 @@ void CreditsScreen::render(sf::RenderWindow &window)
     window.draw(Credits);
 
     window.draw(Back);
-    window.draw(BackButton);
+    //window.draw(BackButton);
 
     window.display();
 }
