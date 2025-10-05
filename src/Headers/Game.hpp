@@ -7,6 +7,7 @@
 #include <SFML/Audio.hpp>
 #include "HomeScreen.hpp"
 #include "HowToPlayScreen.hpp"
+#include "CreditsScreen.hpp"
 #include "Player.hpp"
 #include "FlyingDemon.hpp"
 #include "Skeleton.hpp"
@@ -27,6 +28,7 @@ private:
     sf::RenderWindow *window;
     HomeScreen *homeScreen;
     HowToPlayScreen *howToPlayScreen;
+    CreditsScreen *creditsScreen;
     GameRoom *gameRoom;
     Player *player;
     FlyingDemon *FlyDemon[2];
