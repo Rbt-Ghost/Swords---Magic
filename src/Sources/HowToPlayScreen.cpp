@@ -47,14 +47,6 @@ HowToPlayScreen::~HowToPlayScreen()
 {
 }
 
-void HowToPlayScreen::processEvents(sf::RenderWindow& window)
-{
-    while (const std::optional event = window.pollEvent())
-    {
-        if (event->is<sf::Event::Closed>())
-            window.close();
-    }
-}
 void HowToPlayScreen::render(sf::RenderWindow& window)
 {
 
@@ -90,9 +82,9 @@ sf::RectangleShape HowToPlayScreen::getBackButton()
 
 bool HowToPlayScreen::getIsActive()
 {
-    return HomeScreen::getIsActive();
+    return isActive;
 }
 void HowToPlayScreen::setIsActive(bool isActive)
 {
-    HomeScreen::setIsActive(isActive);
+    this->isActive = isActive;
 }

@@ -26,7 +26,6 @@ public:
     HowToPlayScreen(unsigned int width, unsigned int height);
     ~HowToPlayScreen();
 
-    void processEvents(sf::RenderWindow& window);
     void render(sf::RenderWindow& window);
 
     void DefaultBack();
