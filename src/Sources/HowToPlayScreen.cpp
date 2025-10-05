@@ -57,8 +57,6 @@ void HowToPlayScreen::processEvents(sf::RenderWindow& window)
 }
 void HowToPlayScreen::render(sf::RenderWindow& window)
 {
-    //window.setFramerateLimit(60);
-    //window.clear();
 
     drawBackground(window);
     window.draw(Background);
