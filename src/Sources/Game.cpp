@@ -4,6 +4,7 @@ static sf::Clock atkClock;
 
 Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
                                                       homeScreen(new HomeScreen(width, height)),
+                                                      howToPlayScreen(new HowToPlayScreen(width, height)),
                                                       player(new Player("Hero", 100, 1, 2.25f)),
                                                       gameRoom(new GameRoom()),
                                                       score(new Score())
@@ -28,6 +29,7 @@ Game::~Game()
 {
     delete window;
     delete homeScreen;
+    delete howToPlayScreen;
     delete player;
     for (int i = 0; i < 2; ++i)
         delete FlyDemon[i];
@@ -46,6 +48,14 @@ void Game::run()
             PlayMusic("..//assets//Sounds//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             homeScreen->render(*window);
+            Home_handlePlayerInput();
+        }
+        else if (howToPlayScreen->getIsActive())
+        {
+            PlayMusic("..//assets//Sounds//medieval-ambient-236809.mp3");
+            homeScreen->processEvents(*window);
+            //homeScreen->render(*window);
+            howToPlayScreen->render(*window);
             Home_handlePlayerInput();
         }
         else
@@ -190,68 +200,94 @@ void Game::Home_handlePlayerInput()
 {
     sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
 
-    if ( window->getSize().x > 1440 || window->getSize().y > 800 )
+    if (window->getSize().x > 1440 || window->getSize().y > 800)
     {
         mousePos.x = mousePos.x / float(window->getSize().x) * 1440.f;
         mousePos.y = mousePos.y / float(window->getSize().y) * 800.f;
     }
 
-    if (homeScreen->getStartButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    if (homeScreen->getIsActive())
     {
-        homeScreen->HoverStart();
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+        if (homeScreen->getStartButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
-            homeScreen->setIsActive(false);
-            backgroundMusic.stop();
+            homeScreen->HoverStart();
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
+                homeScreen->setIsActive(false);
+                backgroundMusic.stop();
 
-            sf::sleep(sf::milliseconds(100));
+                sf::sleep(sf::milliseconds(100));
+            }
+        }
+        else
+        {
+            homeScreen->DefaultStart();
+        }
+
+        if (homeScreen->getHowToPlayButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+        {
+            homeScreen->HoverHowToPlay();
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
+                howToPlayScreen->setIsActive(true);
+                homeScreen->setIsActive(false);
+            }
+        }
+        else
+        {
+            homeScreen->DefaultHowToPlay();
+        }
+
+        if (homeScreen->getCreditsButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+        {
+            homeScreen->HoverCredits();
+        }
+        else
+        {
+            homeScreen->DefaultCredits();
+        }
+
+        if (homeScreen->getAboutButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+        {
+            homeScreen->HoverAbout();
+        }
+        else
+        {
+            homeScreen->DefaultAbout();
+        }
+
+        if (homeScreen->getQuitButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+        {
+            homeScreen->HoverQuit();
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
+                backgroundMusic.stop();
+                window->close();
+                sf::sleep(sf::milliseconds(100));
+            }
+        }
+        else
+        {
+            homeScreen->DefaultQuit();
         }
     }
-    else
-    {
-        homeScreen->DefaultStart();
-    }
 
-    if (homeScreen->getHowToPlayButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    if (howToPlayScreen->getIsActive())
     {
-        homeScreen->HoverHowToPlay();
-    }
-    else
-    {
-        homeScreen->DefaultHowToPlay();
-    }
-
-    if (homeScreen->getCreditsButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
-    {
-        homeScreen->HoverCredits();
-    }
-    else
-    {
-        homeScreen->DefaultCredits();
-    }
-
-    if (homeScreen->getAboutButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
-    {
-        homeScreen->HoverAbout();
-    }
-    else
-    {
-        homeScreen->DefaultAbout();
-    }
-
-    if (homeScreen->getQuitButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
-    {
-        homeScreen->HoverQuit();
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+        if (howToPlayScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
-            backgroundMusic.stop();
-            window->close();
-            sf::sleep(sf::milliseconds(100));
+            howToPlayScreen->HoverBack();
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
+                howToPlayScreen->setIsActive(false);
+                homeScreen->setIsActive(true);
+                sf::sleep(sf::milliseconds(100));
+            }
         }
-    }
-    else
-    {
-        homeScreen->DefaultQuit();
+        else
+        {
+            howToPlayScreen->DefaultBack();
+        }
     }
 }
 
