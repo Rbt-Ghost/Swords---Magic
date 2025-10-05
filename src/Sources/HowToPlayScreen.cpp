@@ -92,9 +92,9 @@ sf::RectangleShape HowToPlayScreen::getBackButton()
 
 bool HowToPlayScreen::getIsActive()
 {
-    return isActive;
+    return HomeScreen::getIsActive();
 }
 void HowToPlayScreen::setIsActive(bool isActive)
 {
-    this->isActive = isActive;
+    HomeScreen::setIsActive(isActive);
 }
