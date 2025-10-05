@@ -36,6 +36,8 @@ private:
 protected:
 
     void LoadFont(sf::Font &font, string std);
+    void LoadBackground();
+    void drawBackground(sf::RenderWindow& window);
 
 public:
     HomeScreen(unsigned int width, unsigned int height);

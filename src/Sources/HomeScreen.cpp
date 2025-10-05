@@ -11,10 +11,7 @@ backgroundTexture(new sf::Texture(sf::Texture()))
 {
     LoadFont(font, "../assets/Medieval-timeline-font/MedievalTimeline-DOPRE.ttf");
 
-    if (!backgroundTexture->loadFromFile("../assets/Mokazar - Medieval Castle Background.jpg"))
-    {
-        cerr << "ERROR :: COULD NOT LOAD BACKGROUND TEXTURE" << std::endl;
-    }
+    LoadBackground();
 
     setWidth(width);
     setHeight(height);
@@ -98,16 +95,9 @@ void HomeScreen::processEvents(sf::RenderWindow &window)
 void HomeScreen::render(sf::RenderWindow &window)
 {
     window.setFramerateLimit(60);
-
-    sf::Sprite backgroundSprite(*backgroundTexture);
-
-    backgroundSprite.setScale(
-        {float(width) / backgroundTexture->getSize().x,
-         float(height) / backgroundTexture->getSize().y}
-    );
-
     window.clear();
-    window.draw(backgroundSprite);
+
+    drawBackground(window);
     window.draw(GameTitle);
 
     window.draw(Start);
@@ -133,6 +123,24 @@ void HomeScreen::LoadFont(sf::Font &font, string std)
     if (!font.openFromFile(std))
     {
         cerr << endl << "ERROR";
+    }
+}
+
+void HomeScreen::drawBackground(sf::RenderWindow &window)
+{
+    sf::Sprite backgroundSprite(*backgroundTexture);
+    backgroundSprite.setScale(
+        {float(width) / backgroundTexture->getSize().x,
+         float(height) / backgroundTexture->getSize().y}
+    );
+    window.draw(backgroundSprite);
+}
+
+void HomeScreen::LoadBackground()
+{
+    if (!backgroundTexture->loadFromFile("../assets/Mokazar - Medieval Castle Background.jpg"))
+    {
+        cerr << "ERROR :: COULD NOT LOAD BACKGROUND TEXTURE" << std::endl;
     }
 }
 
