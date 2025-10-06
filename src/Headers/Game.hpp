@@ -39,7 +39,15 @@ private:
 
     bool checkAtk1 = true;
 
+    bool wasHoverStart = false;
+    bool wasHoverHowToPlay = false;
+    bool wasHoverCredits = false;
+    bool wasHoverAbout = false;
+    bool wasHoverQuit = false;
+
     sf::Music backgroundMusic;
+    sf::SoundBuffer buffer;
+    sf::Sound sound;
 
     void processEvents();
     void update();
@@ -56,6 +64,7 @@ private:
     void playerJump();
 
     void PlayMusic(const std::filesystem::path& filename);
+    void PlaySound(const std::filesystem::path& filename);
 
     void setW(unsigned int width);
     void setH(unsigned int height);

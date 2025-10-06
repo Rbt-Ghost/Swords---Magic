@@ -1,6 +1,7 @@
 #include "..\src\Headers\Game.hpp"
 
 static sf::Clock atkClock;
+static int k = 0;
 
 Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
                                                       homeScreen(new HomeScreen(width, height)),
@@ -9,7 +10,8 @@ Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindo
                                                       aboutScreen(new AboutScreen(width, height)),
                                                       player(new Player("Hero", 100, 1, 2.25f)),
                                                       gameRoom(new GameRoom()),
-                                                      score(new Score())
+                                                      score(new Score()),
+                                                      sound(buffer)
 {
     setW(width);
     setH(height);
@@ -225,14 +227,16 @@ void Game::Home_handlePlayerInput()
 
     if (homeScreen->getIsActive())
     {
-        if (homeScreen->getStartButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+        bool isHoverStart = homeScreen->getStartButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+        if (isHoverStart)
         {
+            if (!wasHoverStart)
+                PlaySound("..//assets//Sounds//minimalist-button-hover-sound-effect-399749.mp3");
             homeScreen->HoverStart();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
                 homeScreen->setIsActive(false);
                 backgroundMusic.stop();
-
                 sf::sleep(sf::milliseconds(100));
             }
         }
@@ -240,15 +244,18 @@ void Game::Home_handlePlayerInput()
         {
             homeScreen->DefaultStart();
         }
+        wasHoverStart = isHoverStart;
 
-        if (homeScreen->getHowToPlayButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+        bool isHoverHowToPlay = homeScreen->getHowToPlayButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+        if (isHoverHowToPlay)
         {
+            if (!wasHoverHowToPlay)
+                PlaySound("..//assets//Sounds//minimalist-button-hover-sound-effect-399749.mp3");
             homeScreen->HoverHowToPlay();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
                 howToPlayScreen->setIsActive(true);
                 homeScreen->setIsActive(false);
-
                 sf::sleep(sf::milliseconds(100));
             }
         }
@@ -256,15 +263,18 @@ void Game::Home_handlePlayerInput()
         {
             homeScreen->DefaultHowToPlay();
         }
+        wasHoverHowToPlay = isHoverHowToPlay;
 
-        if (homeScreen->getCreditsButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+        bool isHoverCredits = homeScreen->getCreditsButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+        if (isHoverCredits)
         {
+            if (!wasHoverCredits)
+                PlaySound("..//assets//Sounds//minimalist-button-hover-sound-effect-399749.mp3");
             homeScreen->HoverCredits();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
                 creditsScreen->setIsActive(true);
                 homeScreen->setIsActive(false);
-
                 sf::sleep(sf::milliseconds(100));
             }
         }
@@ -272,15 +282,18 @@ void Game::Home_handlePlayerInput()
         {
             homeScreen->DefaultCredits();
         }
+        wasHoverCredits = isHoverCredits;
 
-        if (homeScreen->getAboutButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+        bool isHoverAbout = homeScreen->getAboutButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+        if (isHoverAbout)
         {
+            if (!wasHoverAbout)
+                PlaySound("..//assets//Sounds//minimalist-button-hover-sound-effect-399749.mp3");
             homeScreen->HoverAbout();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
                 aboutScreen->setIsActive(true);
                 homeScreen->setIsActive(false);
-
                 sf::sleep(sf::milliseconds(100));
             }
         }
@@ -288,9 +301,13 @@ void Game::Home_handlePlayerInput()
         {
             homeScreen->DefaultAbout();
         }
+        wasHoverAbout = isHoverAbout;
 
-        if (homeScreen->getQuitButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+        bool isHoverQuit = homeScreen->getQuitButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+        if (isHoverQuit)
         {
+            if (!wasHoverQuit)
+                PlaySound("..//assets//Sounds//minimalist-button-hover-sound-effect-399749.mp3");
             homeScreen->HoverQuit();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
@@ -303,12 +320,16 @@ void Game::Home_handlePlayerInput()
         {
             homeScreen->DefaultQuit();
         }
+        wasHoverQuit = isHoverQuit;
     }
 
     if (howToPlayScreen->getIsActive())
     {
         if (howToPlayScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
+            if( k == 1)
+                PlaySound("..//assets//Sounds//minimalist-button-hover-sound-effect-399749.mp3");
+            k++;
             howToPlayScreen->HoverBack();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
@@ -320,6 +341,7 @@ void Game::Home_handlePlayerInput()
         else
         {
             howToPlayScreen->DefaultBack();
+            k = 0;
         }
     }
 
@@ -327,6 +349,9 @@ void Game::Home_handlePlayerInput()
     {
         if ( creditsScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
+            if (k == 1)
+                PlaySound("..//assets//Sounds//minimalist-button-hover-sound-effect-399749.mp3");
+            k++;            
             creditsScreen->HoverBack();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
@@ -338,6 +363,7 @@ void Game::Home_handlePlayerInput()
         else
         {
             creditsScreen->DefaultBack();
+            k = 0;
         }
     }
 
@@ -345,6 +371,9 @@ void Game::Home_handlePlayerInput()
     {
         if (aboutScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
+            if (k == 1)
+                PlaySound("..//assets//Sounds//minimalist-button-hover-sound-effect-399749.mp3");
+            k++;
             aboutScreen->HoverBack();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
@@ -356,6 +385,7 @@ void Game::Home_handlePlayerInput()
         else
         {
             aboutScreen->DefaultBack();
+            k = 0;
         }
     }
 }
@@ -491,6 +521,14 @@ void Game::PlayMusic(const std::filesystem::path &filename)
             std::cerr << "Failed to load music: " << filename << std::endl;
         }
     }
+}
+void Game::PlaySound(const std::filesystem::path &filename)
+{
+    if (!buffer.loadFromFile(filename.string()))
+        cerr<<endl<<"Error at loaading sound file!";
+    
+    sound.setBuffer(buffer);
+    sound.play();
 }
 
 void Game::setW(unsigned int width)
