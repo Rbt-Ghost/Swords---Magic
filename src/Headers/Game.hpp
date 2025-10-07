@@ -22,7 +22,6 @@ private:
     unsigned int width;
     unsigned int height;
 
-    sf::Clock clock;
     sf::Clock DefendClock;
     sf::Clock spawnClock;
     
