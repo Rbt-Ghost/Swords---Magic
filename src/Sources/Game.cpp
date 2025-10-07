@@ -96,7 +96,6 @@ void Game::processEvents()
     }
 
     handlePlayerInput();
-    player->KnightSounds();
 
     for (int i = 0; i < 2; i++)
     {
@@ -113,6 +112,7 @@ void Game::update()
 {
     player->updatePhysics();
     player->updateAnimation();
+    player->KnightSounds();
 
     for (int i = 0; i < 2; i++)
     {

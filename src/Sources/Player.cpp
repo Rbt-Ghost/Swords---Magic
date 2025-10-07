@@ -3,7 +3,8 @@
 Player::Player(string Name, int Hp, int Atk, float Speed): 
 Entity(Name,Hp,Atk,Speed),
 sprite(idleTexture),
-HpBar(HpBarTexture100)
+HpBar(HpBarTexture100),
+sound(buffer)
 {
 
     if (!idleTexture.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/IDLE.png"))
@@ -171,14 +172,20 @@ void Player::set_isDefending(bool isDefending)
 }
 void Player::set_isAttacking1(bool isAttacking1)
 {
+    if (isAttacking1 && !this->isAttacking1)
+        swordSoundPlayed = false;
     this->isAttacking1 = isAttacking1;
 }
 void Player::set_isAttacking2(bool isAttacking2)
 {
+    if (isAttacking2 && !this->isAttacking2)
+        swordSoundPlayed = false;
     this->isAttacking2 = isAttacking2;
 }
 void Player::set_isAttacking3(bool isAttacking3)
 {
+    if (isAttacking3 && !this->isAttacking3)
+        swordSoundPlayed = false;
     this->isAttacking3 = isAttacking3;
 }
 void Player::set_isRunning(bool isRunning)
@@ -358,6 +365,9 @@ void Player::updateAnimation()
         {
             if (currentFrame >= 4)
             {
+                isAttacking1 = false;
+                isAttacking2 = false;
+                isAttacking3 = false;
                 currentFrame = 0;
                 isHurt = false;
             }
@@ -388,8 +398,9 @@ void Player::updateAnimation()
             if (currentFrame >= 6)
             {
                 currentFrame = 0;
-                isAttacking1 = false;
-                isAttacking2 = true;
+                // use setters so swordSoundPlayed is reset when the next attack starts
+                set_isAttacking1(false);
+                set_isAttacking2(true);
             }
             sprite.setTexture(attackTexture1);
             sprite.setTextureRect(attackFrames1[currentFrame]);
@@ -399,8 +410,8 @@ void Player::updateAnimation()
             if (currentFrame >= 5)
             {
                 currentFrame = 0;
-                isAttacking2 = false;
-                isAttacking3 = true;
+                set_isAttacking2(false);
+                set_isAttacking3(true);
             }
             sprite.setTexture(attackTexture2);
             sprite.setTextureRect(attackFrames2[currentFrame]);
@@ -410,8 +421,8 @@ void Player::updateAnimation()
             if (currentFrame >= 6)
             {
                 currentFrame = 0;
-                isAttacking3 = false;
-                isAttacking1 = true;
+                set_isAttacking3(false);
+                set_isAttacking1(true);
             }
             sprite.setTexture(attackTexture3);
             sprite.setTextureRect(attackFrames3[currentFrame]);
@@ -522,4 +533,35 @@ void Player::respawn()
     yPos=500;
     sprite.setPosition({xPos, yPos});
     hitbox.setPosition({xPos,yPos});
+}
+
+void Player::KnightSounds()
+{
+    if (isHurt && !hurtSoundPlayed)
+    {
+        PlaySound("..//assets//Sounds//Knight//Hurt.mp3");
+        hurtSoundPlayed = true;
+    }
+    else if (!isHurt)
+    {
+        hurtSoundPlayed = false;
+    }
+    if ((isAttacking1 || isAttacking2 || isAttacking3) && !swordSoundPlayed)
+    {
+        PlaySound("..//assets//Sounds//Knight//Sword.mp3");
+        swordSoundPlayed = true;
+    }
+    else if (!isAttacking1 && !isAttacking2 && !isAttacking3)
+    {
+        swordSoundPlayed = false;
+    }
+}
+
+void Player::PlaySound(const std::filesystem::path& filename)
+{
+    if (!buffer.loadFromFile(filename.string()))
+        cerr<<endl<<"Error at loaading sound file!";
+    
+    sound.setBuffer(buffer);
+    sound.play();
 }

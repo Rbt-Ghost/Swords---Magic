@@ -3,6 +3,7 @@
 
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Entity.hpp"
 using namespace std;
 
@@ -46,6 +47,9 @@ private:
     sf::IntRect Hp_Bar;
     int currentFrame = 0;       // Track current animation frame
 
+    sf::SoundBuffer buffer;
+    sf::Sound sound;
+
     sf::Clock animationClock;  
     sf::Clock jumpClock; 
     const float jumpCooldown = 0.715f;  
@@ -64,6 +68,9 @@ private:
     bool isAttacking3 = false;
     bool isHurt = false;
     bool isDead = false;
+
+    bool hurtSoundPlayed = false;
+    bool swordSoundPlayed = false;
 
     float yVelocity = 0;
     float groundLevel = 710;
@@ -119,6 +126,9 @@ public:
     void updatePhysics();
     void checkHp();
     void respawn();
+    void KnightSounds();
+    void PlaySound(const std::filesystem::path& filename);
+
 };
 
 #endif
