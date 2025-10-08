@@ -50,6 +50,9 @@ private:
     sf::SoundBuffer buffer;
     sf::Sound sound;
 
+    enum class SoundType { None, Sword, Shield, Jump, Hurt, Death, Walk, Run };
+    SoundType currentSoundType = SoundType::None;
+
     sf::Clock animationClock;  
     sf::Clock jumpClock; 
     const float jumpCooldown = 0.715f;  
@@ -85,6 +88,8 @@ private:
     sf::RectangleShape hitbox;
 
     void PlaySound(const std::filesystem::path& filename);
+    void PlaySoundWithType(const std::filesystem::path& filename, SoundType type);
+    void stopCurrentSound();
 
 public:
     Player(string Name="Hero", int Hp=10, int Atk=3, float Speed=1.5);
@@ -133,6 +138,7 @@ public:
     void updatePhysics();
     void checkHp();
     void respawn();
+    void onShieldBlock();
     void KnightSounds();
 
 };

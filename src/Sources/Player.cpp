@@ -174,18 +174,36 @@ void Player::set_isAttacking1(bool isAttacking1)
 {
     if (isAttacking1 && !this->isAttacking1)
         swordSoundPlayed = false;
+    if (!isAttacking1 && this->isAttacking1)
+    {
+        if (currentSoundType == SoundType::Sword && sound.getStatus() == sf::Sound::Status::Playing)
+            stopCurrentSound();
+        swordSoundPlayed = false;
+    }
     this->isAttacking1 = isAttacking1;
 }
 void Player::set_isAttacking2(bool isAttacking2)
 {
     if (isAttacking2 && !this->isAttacking2)
         swordSoundPlayed = false;
+    if (!isAttacking2 && this->isAttacking2)
+    {
+        if (currentSoundType == SoundType::Sword && sound.getStatus() == sf::Sound::Status::Playing)
+            stopCurrentSound();
+        swordSoundPlayed = false;
+    }
     this->isAttacking2 = isAttacking2;
 }
 void Player::set_isAttacking3(bool isAttacking3)
 {
     if (isAttacking3 && !this->isAttacking3)
         swordSoundPlayed = false;
+    if (!isAttacking3 && this->isAttacking3)
+    {
+        if (currentSoundType == SoundType::Sword && sound.getStatus() == sf::Sound::Status::Playing)
+            stopCurrentSound();
+        swordSoundPlayed = false;
+    }
     this->isAttacking3 = isAttacking3;
 }
 void Player::set_isRunning(bool isRunning)
@@ -565,41 +583,60 @@ void Player::KnightSounds()
     {
         jumpSoundPlayed = false;
     }
-    if (isDefending && !defendSoundPlayed)
-    {
-        PlaySound("..//assets//Sounds//Knight//Shield.mp3");
-        defendSoundPlayed = true;
-    }
-    else if (!isDefending)
+    // do not play shield sound just for raising shield;
+    // reset defendSoundPlayed when not defending
+    if (!isDefending)
     {
         defendSoundPlayed = false;
     }
     if ((isAttacking1 || isAttacking2 || isAttacking3) && !swordSoundPlayed)
     {
-        PlaySound("..//assets//Sounds//Knight//Sword.mp3");
+        PlaySoundWithType("..//assets//Sounds//Knight//Sword.mp3", SoundType::Sword);
         swordSoundPlayed = true;
     }
     else if (!isAttacking1 && !isAttacking2 && !isAttacking3)
     {
         swordSoundPlayed = false;
+        if (currentSoundType == SoundType::Sword && sound.getStatus() == sf::Sound::Status::Playing)
+            stopCurrentSound();
     }
-    if (((isMovingR || isMovingL) && !moveSoundPlayed && !isRunning) || ((isMovingR || isMovingL) && !isRunning && sound.getStatus() != sf::Sound::Status::Playing))
+
+    if ((isMovingR || isMovingL) && !isRunning)
     {
-        PlaySound("..//assets//Sounds//Knight//Walking.mp3");
-        moveSoundPlayed = true;
+        if (!moveSoundPlayed || currentSoundType != SoundType::Walk || sound.getStatus() != sf::Sound::Status::Playing)
+        {
+            PlaySoundWithType("..//assets//Sounds//Knight//Walking.mp3", SoundType::Walk);
+            moveSoundPlayed = true;
+        }
     }
-    else if ((!isMovingR && !isMovingL) || isRunning)
+    else
     {
+        if (moveSoundPlayed && currentSoundType == SoundType::Walk && sound.getStatus() == sf::Sound::Status::Playing)
+            stopCurrentSound();
         moveSoundPlayed = false;
     }
-    if ((isRunning && !runSoundPlayed) || ( isRunning && sound.getStatus() != sf::Sound::Status::Playing))
+
+    if (isRunning)
     {
-        PlaySound("..//assets//Sounds//Knight//Running.mp3");
-        runSoundPlayed = true;
+        if (!runSoundPlayed || currentSoundType != SoundType::Run || sound.getStatus() != sf::Sound::Status::Playing)
+        {
+            PlaySoundWithType("..//assets//Sounds//Knight//Running.mp3", SoundType::Run);
+            runSoundPlayed = true;
+        }
     }
-    else if (!isRunning)
+    else
     {
+        if (runSoundPlayed && currentSoundType == SoundType::Run && sound.getStatus() == sf::Sound::Status::Playing)
+            stopCurrentSound();
         runSoundPlayed = false;
+    }
+}
+void Player::onShieldBlock()
+{
+    if (!defendSoundPlayed || currentSoundType != SoundType::Shield || sound.getStatus() != sf::Sound::Status::Playing)
+    {
+        PlaySoundWithType("..//assets//Sounds//Knight//Shield.mp3", SoundType::Shield);
+        defendSoundPlayed = true;
     }
 }
 
@@ -610,4 +647,23 @@ void Player::PlaySound(const std::filesystem::path& filename)
     
     sound.setBuffer(buffer);
     sound.play();    
+    currentSoundType = SoundType::None;
+}
+
+void Player::PlaySoundWithType(const std::filesystem::path& filename, SoundType type)
+{
+    if (!buffer.loadFromFile(filename.string()))
+        cerr<<endl<<"Error at loaading sound file!";
+    
+    sound.setBuffer(buffer);
+    sound.play();
+    currentSoundType = type;
+}
+
+void Player::stopCurrentSound()
+{
+    if (sound.getStatus() == sf::Sound::Status::Playing)
+        sound.stop();
+    currentSoundType = SoundType::None;
+    swordSoundPlayed = false;
 }
