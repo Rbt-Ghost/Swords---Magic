@@ -272,7 +272,7 @@ void FlyingDemon::updateLogic(Player &player)
     {
         if (checkCollisions(player))
         {
-            if (getHp() > 0 && player.get_isAttacking1())
+            if (getHp() > 0 && player.get_isAttacking1() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
             {
                 set_isHurt(true);
 
@@ -290,7 +290,7 @@ void FlyingDemon::updateLogic(Player &player)
                 }
             }
 
-            if (getHp() > 0 && player.get_isAttacking2())
+            if (getHp() > 0 && player.get_isAttacking2() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
             {
                 set_isHurt(true);
 
@@ -308,7 +308,7 @@ void FlyingDemon::updateLogic(Player &player)
                 }
             }
 
-            if (getHp() > 0 && player.get_isAttacking3())
+            if (getHp() > 0 && player.get_isAttacking3() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
             {
                 set_isHurt(true);
 

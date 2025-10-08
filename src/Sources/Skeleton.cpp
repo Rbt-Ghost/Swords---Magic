@@ -174,14 +174,25 @@ void Skeleton::updateLogic(Player &player)
 
         if (isAttacking)
         {
-            if (CurrentFrame == 7 && !player.get_isDefending())
+            if (CurrentFrame == 7)
             {
-                playerTakeDmg(player);
+                bool isBlock = player.get_isDefending() &&
+                               ((playerLeft(player) && player.get_Sprite().getScale().x > 0) ||
+                                (playerRight(player) && player.get_Sprite().getScale().x < 0));
+
+                if (isBlock)
+                {
+                    player.onShieldBlock();
+                }
+                else if (!player.get_isDefending())
+                {
+                    playerTakeDmg(player);
+                }
             }
         }
         else
         {
-            if (getHp() > 0 && player.get_isAttacking1())
+            if (getHp() > 0 && player.get_isAttacking1() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
             {
                 isHurt = true;
 
@@ -192,14 +203,11 @@ void Skeleton::updateLogic(Player &player)
                     *this -= player.getAtk();
                     checkHp();
 
-                    // if (!get_isDead())
-                    //   escape();
-
                     EscapeClock.restart();
                 }
             }
 
-            if (getHp() > 0 && player.get_isAttacking2())
+            if (getHp() > 0 && player.get_isAttacking2() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
             {
                 isHurt = true;
 
@@ -210,14 +218,11 @@ void Skeleton::updateLogic(Player &player)
                     *this -= player.getAtk();
                     checkHp();
 
-                    /// if (!get_isDead())
-                    // escape();
-
                     EscapeClock.restart();
                 }
             }
 
-            if (getHp() > 0 && player.get_isAttacking3())
+            if (getHp() > 0 && player.get_isAttacking3() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
             {
                 isHurt = true;
 
