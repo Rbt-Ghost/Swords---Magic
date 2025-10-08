@@ -38,6 +38,9 @@ private:
 
     sf::Clock AnimationClock;
 
+    sf::SoundBuffer buffer;
+    sf::Sound sound;
+
     bool isIdle = true;
     bool isFlying = false;
     bool isAttacking = false;
@@ -51,6 +54,11 @@ private:
     bool FireballDir;
     bool recalculateFdir = true;
     float Fball_angle;
+
+    bool hurtSoundPlayed = false;
+    bool deathSoundPlayed = false;
+    bool fireballSoundPlayed = false;
+    bool flyingSoundPlayed = false;
     
     float xPos;
     float yPos;
@@ -64,6 +72,8 @@ private:
 
     sf::RectangleShape hitbox;
     sf::CircleShape fireballHitbox;
+
+    void PlaySound(const std::filesystem::path& filename);
 
 public:
     FlyingDemon(string Name = "Flying Demon", int Hp = 5, int Atk = 1, float Speed = 2);
@@ -119,7 +129,7 @@ public:
     bool playerRight(Player &player);
     void playerTakeDmg(Player &player);
     void spawn(Player &player);
-
+    void FlyingDemonSounds();
 };
 
 #endif

@@ -1,9 +1,9 @@
 #include "..\src\Headers\FlyingDemon.hpp"
 
-FlyingDemon::FlyingDemon(string Name, int Hp, int Atk, float Speed) : 
-Enemy(Name, Hp, Atk, Speed),
-sprite(idleTexture),
-fireballSprite(fireballTexture)
+FlyingDemon::FlyingDemon(string Name, int Hp, int Atk, float Speed) : Enemy(Name, Hp, Atk, Speed),
+                                                                      sprite(idleTexture),
+                                                                      fireballSprite(fireballTexture),
+                                                                      sound(buffer)
 {
     if (!idleTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/with_outline/IDLE.png"))
     {
@@ -439,6 +439,15 @@ void FlyingDemon::updateLogic(Player &player)
              ((player.get_Sprite().getScale().x > 0 && get_FireballSprite().getScale().x > 0) ||
               (player.get_Sprite().getScale().x < 0 && get_FireballSprite().getScale().x < 0))))
         {
+            bool isBlock = player.get_isDefending() &&
+                           ((player.get_Sprite().getScale().x > 0 && get_FireballSprite().getScale().x > 0) ||
+                            (player.get_Sprite().getScale().x < 0 && get_FireballSprite().getScale().x < 0));
+
+            if (isBlock)
+            {
+                player.onShieldBlock();
+            }
+
             set_Fireball(false);
             set_fireball_xPos(get_xPos());
             set_fireball_yPos(get_yPos());
@@ -605,4 +614,62 @@ void FlyingDemon::spawn(Player &player)
     set_fireball_yPos(get_yPos());
     get_FireballSprite().setPosition({get_xPos(), get_yPos()});
     get_fireballHitbox().setPosition({get_xPos(), get_yPos()});
+}
+
+void FlyingDemon::FlyingDemonSounds()
+{
+    if (isHurt && !hurtSoundPlayed)
+    {
+        PlaySound("..//assets//Sounds//FlyingDemon//Hurt.mp3");
+        hurtSoundPlayed = true;
+    }
+    else if (!isHurt)
+    {
+        hurtSoundPlayed = false;
+    }
+
+    if (isDead && !deathSoundPlayed)
+    {
+        PlaySound("../assets//Sounds//FlyingDemon//Death.mp3");
+        deathSoundPlayed = true;
+    }
+    else if (!isDead)
+    {
+        deathSoundPlayed = false;
+    }
+
+    if (isAttacking && !fireballSoundPlayed)
+    {
+        PlaySound("../assets//Sounds//FlyingDemon//Fireball.mp3");
+        fireballSoundPlayed = true;
+    }
+    else if (!isAttacking)
+    {
+        fireballSoundPlayed = false;
+    }
+
+    if ((isFlying || isIdle))
+    {
+        if (!flyingSoundPlayed || sound.getStatus() != sf::Sound::Status::Playing)
+        {
+            PlaySound("../assets//Sounds//FlyingDemon//Flying.mp3");
+            flyingSoundPlayed = true;
+        }
+    }
+    else
+    {
+        if (flyingSoundPlayed && sound.getStatus() == sf::Sound::Status::Playing)
+            sound.stop();
+        flyingSoundPlayed = false;
+    }
+}
+
+void FlyingDemon::PlaySound(const std::filesystem::path &filename)
+{
+    if (!buffer.loadFromFile(filename.string()))
+        cerr << endl
+             << "Error at loaading sound file!";
+
+    sound.setBuffer(buffer);
+    sound.play();
 }
