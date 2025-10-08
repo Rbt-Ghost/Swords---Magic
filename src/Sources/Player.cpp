@@ -546,6 +546,34 @@ void Player::KnightSounds()
     {
         hurtSoundPlayed = false;
     }
+    if (isDead && !deathSoundPlayed)
+    {
+        PlaySound("..//assets//Sounds//Knight//Death.mp3");
+        deathSoundPlayed = true;
+    }
+    else if (!isDead)
+    {
+        deathSoundPlayed = false;
+    }
+    if (isJumping && !jumpSoundPlayed)
+    {
+        PlaySound("..//assets//Sounds//Knight//Jump.mp3");
+        sound.setPlayingOffset(sf::seconds(0.24f));
+        jumpSoundPlayed = true;
+    }
+    else if (!isJumping)
+    {
+        jumpSoundPlayed = false;
+    }
+    if (isDefending && !defendSoundPlayed)
+    {
+        PlaySound("..//assets//Sounds//Knight//Shield.mp3");
+        defendSoundPlayed = true;
+    }
+    else if (!isDefending)
+    {
+        defendSoundPlayed = false;
+    }
     if ((isAttacking1 || isAttacking2 || isAttacking3) && !swordSoundPlayed)
     {
         PlaySound("..//assets//Sounds//Knight//Sword.mp3");
@@ -555,6 +583,24 @@ void Player::KnightSounds()
     {
         swordSoundPlayed = false;
     }
+    if (((isMovingR || isMovingL) && !moveSoundPlayed && !isRunning) || ((isMovingR || isMovingL) && !isRunning && sound.getStatus() != sf::Sound::Status::Playing))
+    {
+        PlaySound("..//assets//Sounds//Knight//Walking.mp3");
+        moveSoundPlayed = true;
+    }
+    else if ((!isMovingR && !isMovingL) || isRunning)
+    {
+        moveSoundPlayed = false;
+    }
+    if ((isRunning && !runSoundPlayed) || ( isRunning && sound.getStatus() != sf::Sound::Status::Playing))
+    {
+        PlaySound("..//assets//Sounds//Knight//Running.mp3");
+        runSoundPlayed = true;
+    }
+    else if (!isRunning)
+    {
+        runSoundPlayed = false;
+    }
 }
 
 void Player::PlaySound(const std::filesystem::path& filename)
@@ -563,5 +609,5 @@ void Player::PlaySound(const std::filesystem::path& filename)
         cerr<<endl<<"Error at loaading sound file!";
     
     sound.setBuffer(buffer);
-    sound.play();
+    sound.play();    
 }

@@ -70,7 +70,12 @@ private:
     bool isDead = false;
 
     bool hurtSoundPlayed = false;
+    bool deathSoundPlayed = false;
+    bool jumpSoundPlayed = false;
+    bool defendSoundPlayed = false;
     bool swordSoundPlayed = false;
+    bool moveSoundPlayed = false;
+    bool runSoundPlayed = false;
 
     float yVelocity = 0;
     float groundLevel = 710;
@@ -78,6 +83,8 @@ private:
     float yPos=500;
 
     sf::RectangleShape hitbox;
+
+    void PlaySound(const std::filesystem::path& filename);
 
 public:
     Player(string Name="Hero", int Hp=10, int Atk=3, float Speed=1.5);
@@ -127,7 +134,6 @@ public:
     void checkHp();
     void respawn();
     void KnightSounds();
-    void PlaySound(const std::filesystem::path& filename);
 
 };
 
