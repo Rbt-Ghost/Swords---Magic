@@ -13,7 +13,8 @@ CreditsScreen::CreditsScreen(unsigned int width, unsigned int height) : HomeScre
     Background.setSize({float(width), float(height)});
     Background.setFillColor(Color(10, 10, 10, 200));
 
-    Credits.setString("Knight 2D Pixel Art by Mattz Art on itch.io\n"
+    Credits.setString("Game developed by Robert Nistor\n"
+                      "Knight 2D Pixel Art by Mattz Art on itch.io\n"
                       "Flying Demon 2D Pixel Art by Mattz Art on itch.io\n"
                       "Skeleton Warrior 2D Pixel Art by Mattz Art on itch.io\n"
                       "Skeleton Sprite Pack by Jesse Munguia on itch.io\n"
@@ -21,10 +22,9 @@ CreditsScreen::CreditsScreen(unsigned int width, unsigned int height) : HomeScre
                       "HP-Bar by m1ilaan on itch.io\n"
                       "Medieval Timeline Font by Little Red Studio on itch.io\n"
                       "Mokazar - Medieval Castle Background by Arludus on itch.io\n"
-                      "Medieval Ambient Music by DeusLower on pixabay.com\n"
-                      "Sword-3 and Sword-5 Music by its_tigri on pixabay.com\n");
+                      "All to background music and soundeffects are royalty-free from pixabay.com\n");
     Credits.setLineSpacing(1.2f);
-    Credits.setCharacterSize(30);
+    Credits.setCharacterSize(35);
     Credits.setFillColor(Color::Yellow);
     Credits.setOutlineThickness(5);
     Credits.setOutlineColor(Color::Black);

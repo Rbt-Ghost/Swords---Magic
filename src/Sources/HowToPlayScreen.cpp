@@ -18,7 +18,7 @@ Back(font)
                            "Use W or Space to jump.\n"
                            "Hold Left Shift to run.\n"
                            "Hold J to attack with your sword.\n"
-                           "Hold K to raise the shield.\n"
+                           "Press K to raise the shield.\n"
                            "Defeat enemies to earn points and increase your score!\n"
                            "1 point for every second you survive and 10 points for defeating an enemy.\n"
                            "Avoid enemy attacks to stay alive.\n"
