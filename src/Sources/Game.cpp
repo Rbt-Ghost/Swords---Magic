@@ -54,28 +54,32 @@ void Game::run()
             PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             homeScreen->render(*window);
-            Home_handlePlayerInput();
+            if( window->hasFocus() )
+                Home_handlePlayerInput();
         }
         else if (howToPlayScreen->getIsActive())
         {
             PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             howToPlayScreen->render(*window);
-            Home_handlePlayerInput();
+            if( window->hasFocus() )
+                Home_handlePlayerInput();
         }
         else if (creditsScreen->getIsActive())
         {
             PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             creditsScreen->render(*window);
-            Home_handlePlayerInput();
+            if( window->hasFocus())
+                Home_handlePlayerInput();
         }
         else if (aboutScreen->getIsActive())
         {
             PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             aboutScreen->render(*window);
-            Home_handlePlayerInput();
+            if( window->hasFocus())
+                Home_handlePlayerInput();
         }
         else
         {
@@ -95,7 +99,8 @@ void Game::processEvents()
             window->close();
     }
 
-    handlePlayerInput();
+    if ( window->hasFocus())
+        handlePlayerInput();
 
     for (int i = 0; i < 2; i++)
     {
