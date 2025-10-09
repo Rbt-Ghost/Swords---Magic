@@ -414,16 +414,6 @@ void Skeleton::spawn()
 
 void Skeleton::SkeletonSounds()
 {
-    if (isHurt && !hurtSoundPlayed)
-    {
-        PlaySound("..//assets/Sounds/Skeleton//Hurt.mp3");
-        hurtSoundPlayed = true;
-    }
-    else if (!isHurt)
-    {
-        hurtSoundPlayed = false;
-    }
-
     if (isDead && !deathSoundPlayed)
     {
         PlaySound("..//assets/Sounds/Skeleton//Death.mp3");
@@ -446,7 +436,7 @@ void Skeleton::SkeletonSounds()
 
     if (isWalking && !walkSoundPlayed)
     {
-        PlaySound("..//assets/Sounds/Skeleton//Walk.mp3");
+        PlaySound("..//assets/Sounds/Skeleton//Walking.mp3");
         walkSoundPlayed = true;
     }
     else if (!isWalking)
