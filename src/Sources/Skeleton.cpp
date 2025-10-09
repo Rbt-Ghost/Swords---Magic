@@ -2,7 +2,8 @@
 
 Skeleton::Skeleton(string Name, int Hp, int Atk, float Speed) : 
 Enemy(Name, Hp, Atk, Speed),
-sprite(idleTexture)
+sprite(idleTexture),
+sound(buffer)
 {
     if (!idleTexture.loadFromFile("../assets/Skeleton Sprite Pack/Skeleton/Sprite Sheets/Skeleton Idle.png"))
     {
@@ -409,4 +410,56 @@ void Skeleton::spawn()
 
     setHp(10);
     isDead = false;
+}
+
+void Skeleton::SkeletonSounds()
+{
+    if (isHurt && !hurtSoundPlayed)
+    {
+        PlaySound("..//assets/Sounds/Skeleton//Hurt.mp3");
+        hurtSoundPlayed = true;
+    }
+    else if (!isHurt)
+    {
+        hurtSoundPlayed = false;
+    }
+
+    if (isDead && !deathSoundPlayed)
+    {
+        PlaySound("..//assets/Sounds/Skeleton//Death.mp3");
+        deathSoundPlayed = true;
+    }
+    else if (!isDead)
+    {
+        deathSoundPlayed = false;
+    }
+
+    if (isAttacking && !attackSoundPlayed)
+    {
+        PlaySound("..//assets/Sounds/Skeleton//Axe hit stone.mp3");
+        attackSoundPlayed = true;
+    }
+    else if (!isAttacking)
+    {
+        attackSoundPlayed = false;
+    }
+
+    if (isWalking && !walkSoundPlayed)
+    {
+        PlaySound("..//assets/Sounds/Skeleton//Walk.mp3");
+        walkSoundPlayed = true;
+    }
+    else if (!isWalking)
+    {
+        walkSoundPlayed = false;
+    }
+}
+void Skeleton::PlaySound(const std::filesystem::path& filename)
+{
+    if (!buffer.loadFromFile(filename.string()))
+    {
+        std::cerr << "ERROR :: COULD NOT LOAD SOUND" << std::endl;
+    }
+    sound.setBuffer(buffer);
+    sound.play();
 }

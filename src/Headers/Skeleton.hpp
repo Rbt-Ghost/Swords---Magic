@@ -39,6 +39,9 @@ private:
 
     sf::Clock AnimationClock;
 
+    sf::SoundBuffer buffer;
+    sf::Sound sound;
+
     bool isIdle = true;
     bool isAttacking = false;
     bool isHurt = false;
@@ -50,6 +53,13 @@ private:
     float xPos = 100;
     float yPos = groundLevel;
     int k=0;
+
+    bool hurtSoundPlayed = false;
+    bool deathSoundPlayed = false;
+    bool attackSoundPlayed = false;
+    bool walkSoundPlayed = false;
+
+    void PlaySound(const std::filesystem::path& filename);
 
 public:
     Skeleton(string Name = "Skeleton Warrior", int Hp = 10, int Atk = 1, float Speed = 2);
@@ -73,6 +83,7 @@ public:
     bool Reacting();
     void playerTakeDmg(Player &player);
     void spawn();
+    void SkeletonSounds();
 };
 
 #endif

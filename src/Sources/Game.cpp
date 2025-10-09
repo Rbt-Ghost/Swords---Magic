@@ -129,6 +129,7 @@ void Game::update()
     for (int i = 0; i < 3; i++)
     {
         skeleton[i]->updateAnimation();
+        skeleton[i]->SkeletonSounds();
         score->updateSkeleton(*skeleton[i]);
     }
     score->update(*player);
