@@ -342,7 +342,7 @@ void Game::Home_handlePlayerInput()
             {
                 howToPlayScreen->setIsActive(false);
                 homeScreen->setIsActive(true);
-                sf::sleep(sf::milliseconds(200));
+                sf::sleep(sf::milliseconds(250));
             }
         }
         else
@@ -364,7 +364,7 @@ void Game::Home_handlePlayerInput()
             {
                 creditsScreen->setIsActive(false);
                 homeScreen->setIsActive(true);
-                sf::sleep(sf::milliseconds(200));
+                sf::sleep(sf::milliseconds(250));
             }
         }
         else
@@ -386,7 +386,7 @@ void Game::Home_handlePlayerInput()
             {
                 aboutScreen->setIsActive(false);
                 homeScreen->setIsActive(true);
-                sf::sleep(sf::milliseconds(200));
+                sf::sleep(sf::milliseconds(250));
             }
         }
         else
