@@ -180,7 +180,7 @@ void Game::handlePlayerInput()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
     {
-        window->close();
+        // pause the game and show pause menu
     }
 
     if (!player->get_isHurt() && !player->get_isDead())
@@ -333,6 +333,13 @@ void Game::Home_handlePlayerInput()
 
     if (howToPlayScreen->getIsActive())
     {
+        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape) )
+        {
+            howToPlayScreen->setIsActive(false);
+            homeScreen->setIsActive(true);
+            sf::sleep(sf::milliseconds(100));
+        }
+
         if (howToPlayScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
             if( k == 1)
@@ -355,6 +362,13 @@ void Game::Home_handlePlayerInput()
 
     if (creditsScreen->getIsActive())
     {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
+        {
+            howToPlayScreen->setIsActive(false);
+            homeScreen->setIsActive(true);
+            sf::sleep(sf::milliseconds(100));
+        }
+
         if ( creditsScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
             if (k == 1)
@@ -377,6 +391,13 @@ void Game::Home_handlePlayerInput()
 
     if (aboutScreen->getIsActive())
     {
+        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape) )
+        {
+            aboutScreen->setIsActive(false);
+            homeScreen->setIsActive(true);
+            sf::sleep(sf::milliseconds(100));
+        }
+
         if (aboutScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
             if (k == 1)
