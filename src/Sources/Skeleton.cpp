@@ -240,7 +240,7 @@ void Skeleton::updateLogic(Player &player)
             }
         }
     }
-    else if (isHurt && CurrentFrame >= 7)
+    if (isHurt && CurrentFrame >= 7)
     {
         isHurt = false;
     }
@@ -315,7 +315,7 @@ void Skeleton::checkHp()
         CurrentFrame = 0;
     }
 }
-// void Skeleton::ifAttack() {}
+
 
 void Skeleton::move(float x, float y)
 {
