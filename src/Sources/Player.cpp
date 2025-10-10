@@ -651,7 +651,6 @@ void Player::onShieldBlock()
         defendSoundPlayed = true;
     }
 }
-
 void Player::PlaySound(const std::filesystem::path& filename)
 {
     if (!buffer.loadFromFile(filename.string()))
@@ -661,7 +660,6 @@ void Player::PlaySound(const std::filesystem::path& filename)
     sound.play();    
     currentSoundType = SoundType::None;
 }
-
 void Player::PlaySoundWithType(const std::filesystem::path& filename, SoundType type)
 {
     if (!buffer.loadFromFile(filename.string()))
@@ -671,7 +669,6 @@ void Player::PlaySoundWithType(const std::filesystem::path& filename, SoundType 
     sound.play();
     currentSoundType = type;
 }
-
 void Player::stopCurrentSound()
 {
     if (sound.getStatus() == sf::Sound::Status::Playing)
