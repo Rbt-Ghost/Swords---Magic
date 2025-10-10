@@ -557,7 +557,15 @@ void Player::KnightSounds()
 {
     if (isHurt && !hurtSoundPlayed)
     {
-        PlaySound("..//assets//Sounds//Knight//Hurt.mp3");
+        // stop movement sounds so hurt sound is audible
+        if (moveSoundPlayed && currentSoundType == SoundType::Walk && sound.getStatus() == sf::Sound::Status::Playing)
+            stopCurrentSound();
+        moveSoundPlayed = false;
+        if (runSoundPlayed && currentSoundType == SoundType::Run && sound.getStatus() == sf::Sound::Status::Playing)
+            stopCurrentSound();
+        runSoundPlayed = false;
+
+        PlaySoundWithType("..//assets//Sounds//Knight//Hurt.mp3", SoundType::Hurt);
         hurtSoundPlayed = true;
     }
     else if (!isHurt)
@@ -601,7 +609,8 @@ void Player::KnightSounds()
             stopCurrentSound();
     }
 
-    if ((isMovingR || isMovingL) && !isRunning)
+    // walking sound (only when moving and not running and not hurt)
+    if ((isMovingR || isMovingL) && !isRunning && !isHurt)
     {
         if (!moveSoundPlayed || currentSoundType != SoundType::Walk || sound.getStatus() != sf::Sound::Status::Playing)
         {
@@ -611,12 +620,14 @@ void Player::KnightSounds()
     }
     else
     {
+        // stop walking sound when not walking or when hurt
         if (moveSoundPlayed && currentSoundType == SoundType::Walk && sound.getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         moveSoundPlayed = false;
     }
 
-    if (isRunning)
+    // running sound (only when running and not hurt)
+    if (isRunning && !isHurt)
     {
         if (!runSoundPlayed || currentSoundType != SoundType::Run || sound.getStatus() != sf::Sound::Status::Playing)
         {
@@ -626,6 +637,7 @@ void Player::KnightSounds()
     }
     else
     {
+        // stop running sound when not running or when hurt
         if (runSoundPlayed && currentSoundType == SoundType::Run && sound.getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         runSoundPlayed = false;
