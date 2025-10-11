@@ -2,6 +2,7 @@
 
 static sf::Clock atkClock;
 static int k = 0;
+static bool previousKeyState = false;
 
 Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
                                                       homeScreen(new HomeScreen(width, height)),
@@ -11,7 +12,8 @@ Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindo
                                                       player(new Player("Hero", 100, 1, 2.25f)),
                                                       gameRoom(new GameRoom()),
                                                       score(new Score()),
-                                                      sound(buffer)
+                                                      sound(buffer),
+                                                      pauseText(font)
 {
     setW(width);
     setH(height);
@@ -27,6 +29,20 @@ Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindo
         skeleton[i] = new Skeleton("Skeleton Warrior", 10, 2, 1.5);
         skeleton[i]->spawn();
     }
+
+    if (!font.openFromFile("../assets/Medieval-timeline-font/MedievalTimeline-DOPRE.ttf"))
+    {
+        std::cerr << "ERROR :: COULD NOT LOAD FONT" << std::endl;
+    }
+    pauseText.setString("Game Paused");
+    pauseText.setCharacterSize(100);
+    pauseText.setFillColor(sf::Color::Yellow);
+    pauseText.setPosition({(float)getW() / 2 - 300, (float)getH() / 2 - 50});
+    pauseText.setOutlineThickness(5);
+    pauseText.setOutlineColor(sf::Color::Black);
+
+    pauseBackground.setSize({(float)getW(), (float)getH()});
+    pauseBackground.setFillColor(sf::Color(10, 10, 10, 200));
 }
 
 Game::~Game()
@@ -54,7 +70,7 @@ void Game::run()
             PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             homeScreen->render(*window);
-            if( window->hasFocus() )
+            if (window->hasFocus())
                 Home_handlePlayerInput();
         }
         else if (howToPlayScreen->getIsActive())
@@ -62,7 +78,7 @@ void Game::run()
             PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             howToPlayScreen->render(*window);
-            if( window->hasFocus() )
+            if (window->hasFocus())
                 Home_handlePlayerInput();
         }
         else if (creditsScreen->getIsActive())
@@ -70,7 +86,7 @@ void Game::run()
             PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             creditsScreen->render(*window);
-            if( window->hasFocus())
+            if (window->hasFocus())
                 Home_handlePlayerInput();
         }
         else if (aboutScreen->getIsActive())
@@ -78,7 +94,7 @@ void Game::run()
             PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             aboutScreen->render(*window);
-            if( window->hasFocus())
+            if (window->hasFocus())
                 Home_handlePlayerInput();
         }
         else
@@ -99,22 +115,34 @@ void Game::processEvents()
             window->close();
     }
 
-    if ( window->hasFocus())
+    if (window->hasFocus())
         handlePlayerInput();
 
-    for (int i = 0; i < 2; i++)
+    if (!isGamePaused)
     {
-        FlyDemon[i]->updateLogic(*player);
-    }
+        for (int i = 0; i < 2; i++)
+        {
+            FlyDemon[i]->updateLogic(*player);
+        }
 
-    for (int i = 0; i < 3; i++)
-    {
-        skeleton[i]->updateLogic(*player);
+        for (int i = 0; i < 3; i++)
+        {
+            skeleton[i]->updateLogic(*player);
+        }
     }
 }
 
 void Game::update()
 {
+    if (isGamePaused)
+    {
+        player->get_Sound().pause();
+        for (int i = 0; i < 2; i++)
+            FlyDemon[i]->get_Sound().pause();
+        for (int i = 0; i < 3; i++)
+            skeleton[i]->get_Sound().pause();
+        return;
+    }
     player->updatePhysics();
     player->updateAnimation();
     player->KnightSounds();
@@ -171,6 +199,12 @@ void Game::render()
     }
     // window->draw(player->get_Hitbox());
 
+    if (isGamePaused)
+    {
+        window->draw(pauseBackground);
+        window->draw(pauseText);
+    }
+
     score->draw(*window);
 
     window->display();
@@ -178,40 +212,46 @@ void Game::render()
 
 void Game::handlePlayerInput()
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
+    currentPauseKeyState = sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::P);
+
+    if (currentPauseKeyState && !previousKeyState)
     {
-        // pause the game and show pause menu
+        isGamePaused = !isGamePaused;
     }
+    previousKeyState = currentPauseKeyState;
 
-    if (!player->get_isHurt() && !player->get_isDead())
+    if (!isGamePaused)
     {
-        playerAttack();
-
-        playerDefend();
-
-        if (player->get_isAttacking1() || player->get_isAttacking2() || player->get_isAttacking3() || player->get_isDefending())
+        if (!player->get_isHurt() && !player->get_isDead())
         {
-            player->set_isMovingL(false);
-            player->set_isMovingR(false);
-            player->set_isRunning(false);
-            return;
-        }
-        else
-        {
-            player->get_Hitbox().setSize({40.f, 70.f});
-            player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x / 2, player->get_Hitbox().getSize().y / 2});
-        }
+            playerAttack();
 
-        playerMoveR();
-        playerMoveL();
+            playerDefend();
 
-        playerJump();
+            if (player->get_isAttacking1() || player->get_isAttacking2() || player->get_isAttacking3() || player->get_isDefending())
+            {
+                player->set_isMovingL(false);
+                player->set_isMovingR(false);
+                player->set_isRunning(false);
+                return;
+            }
+            else
+            {
+                player->get_Hitbox().setSize({40.f, 70.f});
+                player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x / 2, player->get_Hitbox().getSize().y / 2});
+            }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A) && sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D))
-        {
-            player->set_isMovingR(false);
-            player->set_isMovingL(false);
-            player->set_isRunning(false);
+            playerMoveR();
+            playerMoveL();
+
+            playerJump();
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A) && sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D))
+            {
+                player->set_isMovingR(false);
+                player->set_isMovingL(false);
+                player->set_isRunning(false);
+            }
         }
     }
 
@@ -333,7 +373,7 @@ void Game::Home_handlePlayerInput()
 
     if (howToPlayScreen->getIsActive())
     {
-        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape) )
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
         {
             howToPlayScreen->setIsActive(false);
             homeScreen->setIsActive(true);
@@ -342,7 +382,7 @@ void Game::Home_handlePlayerInput()
 
         if (howToPlayScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
-            if( k == 1)
+            if (k == 1)
                 PlaySound("..//assets//Sounds//UI//minimalist-button-hover-sound-effect-399749.mp3");
             k++;
             howToPlayScreen->HoverBack();
@@ -362,18 +402,18 @@ void Game::Home_handlePlayerInput()
 
     if (creditsScreen->getIsActive())
     {
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
         {
             howToPlayScreen->setIsActive(false);
             homeScreen->setIsActive(true);
             sf::sleep(sf::milliseconds(100));
         }
 
-        if ( creditsScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+        if (creditsScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
             if (k == 1)
                 PlaySound("..//assets//Sounds//UI//minimalist-button-hover-sound-effect-399749.mp3");
-            k++;            
+            k++;
             creditsScreen->HoverBack();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
@@ -391,7 +431,7 @@ void Game::Home_handlePlayerInput()
 
     if (aboutScreen->getIsActive())
     {
-        if( sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape) )
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
         {
             aboutScreen->setIsActive(false);
             homeScreen->setIsActive(true);
@@ -554,8 +594,9 @@ void Game::PlayMusic(const std::filesystem::path &filename)
 void Game::PlaySound(const std::filesystem::path &filename)
 {
     if (!buffer.loadFromFile(filename.string()))
-        cerr<<endl<<"Error at loaading sound file!";
-    
+        cerr << endl
+             << "Error at loaading sound file!";
+
     sound.setBuffer(buffer);
     sound.play();
 }

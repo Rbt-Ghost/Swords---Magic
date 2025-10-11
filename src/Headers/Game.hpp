@@ -44,9 +44,16 @@ private:
     bool wasHoverAbout = false;
     bool wasHoverQuit = false;
 
+    bool isGamePaused = false;
+    bool currentPauseKeyState = false;
+
     sf::Music backgroundMusic;
     sf::SoundBuffer buffer;
     sf::Sound sound;
+
+    sf::RectangleShape pauseBackground;
+    sf::Font font;
+    sf::Text pauseText;
 
     void processEvents();
     void update();

@@ -91,7 +91,7 @@ private:
     void PlaySound(const std::filesystem::path& filename);
     void PlaySoundWithType(const std::filesystem::path& filename, SoundType type);
     void stopCurrentSound();
-    
+
 public:
     Player(string Name="Hero", int Hp=10, int Atk=3, float Speed=1.5);
     virtual ~Player();
@@ -114,6 +114,7 @@ public:
     sf::Sprite& get_Sprite();
     sf::Sprite& get_Hp_Bar();
     sf::RectangleShape& get_Hitbox();
+    sf::Sound& get_Sound();
     int get_currentFrame();
     bool get_isMovingR();
     bool get_isMovingL();

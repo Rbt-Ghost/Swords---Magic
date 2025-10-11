@@ -67,6 +67,7 @@ public:
 
     sf::Sprite& get_Sprite();
     sf::RectangleShape& get_hitbox();
+    sf::Sound& get_Sound();
 
     bool get_isDead();
     int get_CurrentFrame();

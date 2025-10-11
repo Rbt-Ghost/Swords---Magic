@@ -299,6 +299,10 @@ sf::RectangleShape& Player::get_Hitbox()
 {
     return hitbox;
 }
+sf::Sound& Player::get_Sound()
+{
+    return sound;
+}
 int Player::get_currentFrame()
 {
     return currentFrame;

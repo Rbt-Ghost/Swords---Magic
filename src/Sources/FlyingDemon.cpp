@@ -144,6 +144,10 @@ sf::CircleShape &FlyingDemon::get_fireballHitbox()
 {
     return fireballHitbox;
 }
+sf::Sound& FlyingDemon::get_Sound()
+{
+    return sound;
+}
 bool FlyingDemon::get_isIdle()
 {
     return isIdle;
@@ -663,7 +667,6 @@ void FlyingDemon::FlyingDemonSounds()
         flyingSoundPlayed = false;
     }
 }
-
 
 static std::mt19937& flying_demon_rng()
 {

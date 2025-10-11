@@ -96,6 +96,7 @@ public:
     sf::Sprite& get_FireballSprite();
     sf::RectangleShape& get_hitbox();
     sf::CircleShape& get_fireballHitbox();
+    sf::Sound& get_Sound();
     bool get_isIdle();
     bool get_isFlying();
     bool get_isAttacking();

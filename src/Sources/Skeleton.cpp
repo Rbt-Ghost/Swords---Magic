@@ -78,6 +78,10 @@ sf::RectangleShape &Skeleton::get_hitbox()
 {
     return hitbox;
 }
+sf::Sound& Skeleton::get_Sound()
+{
+    return sound;
+}
 
 bool Skeleton::get_isDead()
 {
@@ -460,7 +464,7 @@ void Skeleton::PlaySound(const std::filesystem::path& filename)
 
     std::uniform_real_distribution<float> dist(-0.10f, 0.10f);
     float pitchVariation = dist(skeleton_rng());
-    
+
     sound.setBuffer(buffer);
     sound.setPitch(1.0f + pitchVariation);
     sound.play();
