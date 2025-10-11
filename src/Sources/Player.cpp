@@ -557,7 +557,6 @@ void Player::KnightSounds()
 {
     if (isHurt && !hurtSoundPlayed)
     {
-        // stop movement sounds so hurt sound is audible
         if (moveSoundPlayed && currentSoundType == SoundType::Walk && sound.getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         moveSoundPlayed = false;
@@ -591,8 +590,7 @@ void Player::KnightSounds()
     {
         jumpSoundPlayed = false;
     }
-    // do not play shield sound just for raising shield;
-    // reset defendSoundPlayed when not defending
+
     if (!isDefending)
     {
         defendSoundPlayed = false;
@@ -609,7 +607,6 @@ void Player::KnightSounds()
             stopCurrentSound();
     }
 
-    // walking sound (only when moving and not running and not hurt)
     if ((isMovingR || isMovingL) && !isRunning && !isHurt)
     {
         if (!moveSoundPlayed || currentSoundType != SoundType::Walk || sound.getStatus() != sf::Sound::Status::Playing)
@@ -620,13 +617,11 @@ void Player::KnightSounds()
     }
     else
     {
-        // stop walking sound when not walking or when hurt
         if (moveSoundPlayed && currentSoundType == SoundType::Walk && sound.getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         moveSoundPlayed = false;
     }
 
-    // running sound (only when running and not hurt)
     if (isRunning && !isHurt)
     {
         if (!runSoundPlayed || currentSoundType != SoundType::Run || sound.getStatus() != sf::Sound::Status::Playing)
@@ -637,7 +632,6 @@ void Player::KnightSounds()
     }
     else
     {
-        // stop running sound when not running or when hurt
         if (runSoundPlayed && currentSoundType == SoundType::Run && sound.getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         runSoundPlayed = false;
@@ -651,33 +645,43 @@ void Player::onShieldBlock()
         defendSoundPlayed = true;
     }
 }
+
+static std::mt19937& player_rng()
+{
+    static std::mt19937 gen{std::random_device{}()};
+    return gen;
+}
+
 void Player::PlaySound(const std::filesystem::path& filename)
 {
     if (!buffer.loadFromFile(filename.string()))
-        std::cerr << "Error at loading sound file!";
+    {
+        std::cerr << "Error loading sound file: " << filename.string() << '\n';
+        return;
+    }
 
-    static std::mt19937 gen{std::random_device{}()};              // persistent RNG
-    std::uniform_real_distribution<float> dist(-0.10f, 0.10f);   // -10% .. +10%
-    float variation = dist(gen);                                 // generate once
+    std::uniform_real_distribution<float> dist(-0.10f, 0.10f);
+    float variation = dist(player_rng());
 
     sound.setBuffer(buffer);
     sound.setPitch(1.0f + variation);
-    cout << "Variation: " << variation << endl;
     sound.play();
     currentSoundType = SoundType::None;
 }
+
 void Player::PlaySoundWithType(const std::filesystem::path& filename, SoundType type)
 {
     if (!buffer.loadFromFile(filename.string()))
-        std::cerr << "Error at loading sound file!";
+    {
+        std::cerr << "Error loading sound file: " << filename.string() << '\n';
+        return;
+    }
 
-    static std::mt19937 gen{std::random_device{}()};
     std::uniform_real_distribution<float> dist(-0.10f, 0.10f);
-    float variation = dist(gen);
+    float variation = dist(player_rng());
 
     sound.setBuffer(buffer);
     sound.setPitch(1.0f + variation);
-    cout << "Variation: " << variation << endl;
     sound.play();
     currentSoundType = type;
 }

@@ -664,12 +664,25 @@ void FlyingDemon::FlyingDemonSounds()
     }
 }
 
+
+static std::mt19937& flying_demon_rng()
+{
+    static std::mt19937 gen{std::random_device{}()};
+    return gen;
+}
+
 void FlyingDemon::PlaySound(const std::filesystem::path &filename)
 {
     if (!buffer.loadFromFile(filename.string()))
-        cerr << endl
-             << "Error at loaading sound file!";
+    {
+        std::cerr << "Error loading sound file: " << filename.string() << '\n';
+        return;
+    }
+
+    std::uniform_real_distribution<float> dist(-0.10f, 0.10f);
+    float pitchVariation = dist(flying_demon_rng());
 
     sound.setBuffer(buffer);
+    sound.setPitch(1.0f + pitchVariation);
     sound.play();
 }
