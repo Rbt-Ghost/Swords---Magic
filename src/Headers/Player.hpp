@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Entity.hpp"
+#include <random>
 using namespace std;
 
 class Player : public Entity    
@@ -90,7 +91,7 @@ private:
     void PlaySound(const std::filesystem::path& filename);
     void PlaySoundWithType(const std::filesystem::path& filename, SoundType type);
     void stopCurrentSound();
-
+    
 public:
     Player(string Name="Hero", int Hp=10, int Atk=3, float Speed=1.5);
     virtual ~Player();

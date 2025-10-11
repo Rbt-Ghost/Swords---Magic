@@ -654,18 +654,30 @@ void Player::onShieldBlock()
 void Player::PlaySound(const std::filesystem::path& filename)
 {
     if (!buffer.loadFromFile(filename.string()))
-        cerr<<endl<<"Error at loaading sound file!";
-    
+        std::cerr << "Error at loading sound file!";
+
+    static std::mt19937 gen{std::random_device{}()};              // persistent RNG
+    std::uniform_real_distribution<float> dist(-0.10f, 0.10f);   // -10% .. +10%
+    float variation = dist(gen);                                 // generate once
+
     sound.setBuffer(buffer);
-    sound.play();    
+    sound.setPitch(1.0f + variation);
+    cout << "Variation: " << variation << endl;
+    sound.play();
     currentSoundType = SoundType::None;
 }
 void Player::PlaySoundWithType(const std::filesystem::path& filename, SoundType type)
 {
     if (!buffer.loadFromFile(filename.string()))
-        cerr<<endl<<"Error at loaading sound file!";
-    
+        std::cerr << "Error at loading sound file!";
+
+    static std::mt19937 gen{std::random_device{}()};
+    std::uniform_real_distribution<float> dist(-0.10f, 0.10f);
+    float variation = dist(gen);
+
     sound.setBuffer(buffer);
+    sound.setPitch(1.0f + variation);
+    cout << "Variation: " << variation << endl;
     sound.play();
     currentSoundType = type;
 }
