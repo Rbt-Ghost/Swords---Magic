@@ -661,10 +661,10 @@ void Player::PlaySound(const std::filesystem::path& filename)
     }
 
     std::uniform_real_distribution<float> dist(-0.10f, 0.10f);
-    float variation = dist(player_rng());
+    float pitchVariation = dist(player_rng());
 
     sound.setBuffer(buffer);
-    sound.setPitch(1.0f + variation);
+    sound.setPitch(1.0f + pitchVariation);
     sound.play();
     currentSoundType = SoundType::None;
 }
