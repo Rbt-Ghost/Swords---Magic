@@ -36,7 +36,7 @@ private:
 protected:
 
     void LoadFont(sf::Font &font, string std);
-    virtual void LoadBackground();
+    void LoadBackground();
     void drawBackground(sf::RenderWindow& window);
 
 public:
