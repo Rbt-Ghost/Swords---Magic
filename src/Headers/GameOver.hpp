@@ -7,14 +7,16 @@
 #include "HomeScreen.hpp"
 using namespace std;
 
-class GameOver : public HomeScreen
+class GameOver
 {
 private:
     bool isActive = false;
 
+    unsigned int width;
+    unsigned int height;
+
     sf::Texture *backgroundTexture;
 
-    sf::RectangleShape Background;
     sf::RectangleShape PlayAgainButton;
     sf::RectangleShape HomeButton;
 
@@ -31,9 +33,13 @@ public:
     GameOver(unsigned int width, unsigned int height);
     ~GameOver();
 
+    void processEvents(sf::RenderWindow& window);
+
     void render(sf::RenderWindow& window);
 
-    void LoadBackground() override; 
+    void LoadFont(sf::Font &font, string std);
+    void LoadBackground();
+    void drawBackground(sf::RenderWindow& window);
 
     void DefaultPlayAgain();
     void HoverPlayAgain();
@@ -43,8 +49,14 @@ public:
     sf::RectangleShape getPlayAgainButton();
     sf::RectangleShape getHomeButton();
 
-    //bool getIsActive();
-    //void setIsActive(bool isActive);
+    bool getIsActive();
+    void setIsActive(bool isActive);
+
+    void setWidth(unsigned int width);
+    void setHeight(unsigned int height);
+
+    float getWidth();
+    float getHeight();
 
 };
 

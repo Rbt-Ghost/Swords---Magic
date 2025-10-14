@@ -3,13 +3,15 @@
 static sf::Clock atkClock;
 static int k = 0;
 static bool previousKeyState = false;
+static bool gameOverMusicPlayed = false; // track if GameOver sound has been started
 
 Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindow(sf::VideoMode({width, height}), "Swords & Magic")),
                                                       homeScreen(new HomeScreen(width, height)),
                                                       howToPlayScreen(new HowToPlayScreen(width, height)),
                                                       creditsScreen(new CreditsScreen(width, height)),
                                                       aboutScreen(new AboutScreen(width, height)),
-                                                      player(new Player("Hero", 100, 1, 2.25f)),
+                                                      gameOverScreen(new GameOver(width, height)),
+                                                      player(new Player("Hero", 1, 1, 2.25f)),
                                                       gameRoom(new GameRoom()),
                                                       score(new Score()),
                                                       sound(buffer),
@@ -52,6 +54,7 @@ Game::~Game()
     delete howToPlayScreen;
     delete creditsScreen;
     delete aboutScreen;
+    delete gameOverScreen;
     delete player;
     for (int i = 0; i < 2; ++i)
         delete FlyDemon[i];
@@ -67,6 +70,7 @@ void Game::run()
     {
         if (homeScreen->getIsActive())
         {
+            gameOverMusicPlayed = false; // reset since we are no longer in GameOver
             PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             homeScreen->render(*window);
@@ -97,8 +101,23 @@ void Game::run()
             if (window->hasFocus())
                 Home_handlePlayerInput();
         }
+        else if (gameOverScreen->getIsActive())
+        {
+            // only start the GameOver sound once when entering the GameOver state
+            if (!gameOverMusicPlayed)
+            {
+                backgroundMusic.stop();
+                PlayMusic("..//assets//Sounds//UI//GameOver.mp3");
+                gameOverMusicPlayed = true;
+            }
+            gameOverScreen->processEvents(*window);
+            gameOverScreen->render(*window);
+            if (window->hasFocus())
+                GameOver_handlePlayerInput();
+        }
         else
         {
+            gameOverMusicPlayed = false;
             PlayMusic("..//assets//Sounds//BackgroundMusic//Swords&MagicSoundTrack.mp3");
             processEvents();
             update();
@@ -130,11 +149,16 @@ void Game::processEvents()
             skeleton[i]->updateLogic(*player);
         }
     }
+
+    if (player->get_isDead() && player->get_Sprite().getPosition().x == -1000 && player->get_Sprite().getPosition().y == -1000)
+    {
+        resetGame();
+    }
 }
 
 void Game::update()
 {
-    if (isGamePaused)
+    if (isGamePaused || gameOverScreen->getIsActive())
     {
         player->get_Sound().pause();
         for (int i = 0; i < 2; i++)
@@ -253,13 +277,6 @@ void Game::handlePlayerInput()
                 player->set_isRunning(false);
             }
         }
-    }
-
-    if (player->get_isDead() && player->get_Sprite().getPosition().x == -1000 && player->get_Sprite().getPosition().y == -1000 && sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::R))
-    {
-        player->respawn();
-        score->saveBestScore();
-        score->loadBestScore();
     }
 }
 
@@ -457,6 +474,77 @@ void Game::Home_handlePlayerInput()
             k = 0;
         }
     }
+}
+
+void Game::GameOver_handlePlayerInput()
+{
+    sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+
+    if (window->getSize().x > 1440 || window->getSize().y > 800)
+    {
+        mousePos.x = mousePos.x / float(window->getSize().x) * 1440.f;
+        mousePos.y = mousePos.y / float(window->getSize().y) * 800.f;
+    }
+
+    if (gameOverScreen->getIsActive())
+    {
+        bool isHoverPlayAgain = gameOverScreen->getPlayAgainButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+        if (isHoverPlayAgain)
+        {
+            if (!wasHoverPlayAgain)
+                PlaySound("..//assets//Sounds//UI//minimalist-button-hover-sound-effect-399749.mp3");
+            gameOverScreen->HoverPlayAgain();
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
+                gameOverScreen->setIsActive(false);
+                backgroundMusic.stop();
+                sf::sleep(sf::milliseconds(100));
+            }
+        }
+        else
+        {
+            gameOverScreen->DefaultPlayAgain();
+        }
+        wasHoverPlayAgain = isHoverPlayAgain;
+
+        bool isHoverHome = gameOverScreen->getHomeButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+        if (isHoverHome)
+        {
+            if (!wasHoverHome)
+                PlaySound("..//assets//Sounds//UI//minimalist-button-hover-sound-effect-399749.mp3");
+            gameOverScreen->HoverHome();
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
+                gameOverScreen->setIsActive(false);
+                homeScreen->setIsActive(true);
+                backgroundMusic.stop();
+                sf::sleep(sf::milliseconds(100));
+            }
+        }
+        else
+        {
+            gameOverScreen->DefaultHome();
+        }
+        wasHoverHome = isHoverHome;
+    }
+}
+
+void Game::resetGame()
+{
+    player->respawn();
+    for (int i = 0; i < 2; i++)
+    {
+        FlyDemon[i]->spawn(*player);
+    }
+
+    for (int i = 0; i < 3; i++)
+    {
+        skeleton[i]->spawn();
+    }
+    score->saveBestScore();
+    score->loadBestScore();
+    gameOverScreen->setIsActive(true);
+    backgroundMusic.stop();
 }
 
 void Game::playerAttack()

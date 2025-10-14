@@ -9,6 +9,7 @@
 #include "HowToPlayScreen.hpp"
 #include "CreditsScreen.hpp"
 #include "AboutScreen.hpp"
+#include "GameOver.hpp"
 #include "Player.hpp"
 #include "FlyingDemon.hpp"
 #include "Skeleton.hpp"
@@ -30,6 +31,7 @@ private:
     HowToPlayScreen *howToPlayScreen;
     CreditsScreen *creditsScreen;
     AboutScreen *aboutScreen;
+    GameOver *gameOverScreen;
     GameRoom *gameRoom;
     Player *player;
     FlyingDemon *FlyDemon[2];
@@ -43,6 +45,9 @@ private:
     bool wasHoverCredits = false;
     bool wasHoverAbout = false;
     bool wasHoverQuit = false;
+
+    bool wasHoverPlayAgain = false;
+    bool wasHoverHome = false;
 
     bool isGamePaused = false;
     bool currentPauseKeyState = false;
@@ -62,6 +67,10 @@ private:
     void handlePlayerInput();
 
     void Home_handlePlayerInput();
+
+    void GameOver_handlePlayerInput();
+
+    void resetGame();
 
     void playerAttack();
     void playerDefend();
