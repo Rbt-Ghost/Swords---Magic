@@ -11,7 +11,7 @@ Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindo
                                                       creditsScreen(new CreditsScreen(width, height)),
                                                       aboutScreen(new AboutScreen(width, height)),
                                                       gameOverScreen(new GameOver(width, height)),
-                                                      player(new Player("Hero", 1, 1, 2.25f)),
+                                                      player(new Player("Hero", 100, 1, 2.25f)),
                                                       gameRoom(new GameRoom()),
                                                       score(new Score()),
                                                       sound(buffer),
