@@ -11,7 +11,7 @@ Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindo
                                                       creditsScreen(new CreditsScreen(width, height)),
                                                       aboutScreen(new AboutScreen(width, height)),
                                                       gameOverScreen(new GameOver(width, height)),
-                                                      player(new Player("Hero", 1, 1, 2.25f)),
+                                                      player(new Player("Hero", 100, 1, 2.25f)),
                                                       gameRoom(new GameRoom()),
                                                       score(new Score()),
                                                       sound(buffer),
@@ -36,10 +36,10 @@ Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindo
     {
         std::cerr << "ERROR :: COULD NOT LOAD FONT" << std::endl;
     }
-    pauseText.setString("Game Paused");
-    pauseText.setCharacterSize(100);
+    pauseText.setString("Game is Paused");
+    pauseText.setCharacterSize(75);
     pauseText.setFillColor(sf::Color::Yellow);
-    pauseText.setPosition({(float)getW() / 2 - 300, (float)getH() / 2 - 50});
+    pauseText.setPosition({(float)getW() / 2 - 270, (float)getH() / 2 - 50});
     pauseText.setOutlineThickness(5);
     pauseText.setOutlineColor(sf::Color::Black);
 
@@ -390,12 +390,6 @@ void Game::Home_handlePlayerInput()
 
     if (howToPlayScreen->getIsActive())
     {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
-        {
-            howToPlayScreen->setIsActive(false);
-            homeScreen->setIsActive(true);
-            sf::sleep(sf::milliseconds(100));
-        }
 
         if (howToPlayScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
@@ -419,12 +413,6 @@ void Game::Home_handlePlayerInput()
 
     if (creditsScreen->getIsActive())
     {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
-        {
-            howToPlayScreen->setIsActive(false);
-            homeScreen->setIsActive(true);
-            sf::sleep(sf::milliseconds(100));
-        }
 
         if (creditsScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
@@ -448,12 +436,6 @@ void Game::Home_handlePlayerInput()
 
     if (aboutScreen->getIsActive())
     {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape))
-        {
-            aboutScreen->setIsActive(false);
-            homeScreen->setIsActive(true);
-            sf::sleep(sf::milliseconds(100));
-        }
 
         if (aboutScreen->getBackButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
         {
