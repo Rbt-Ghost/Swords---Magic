@@ -11,7 +11,7 @@ Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindo
                                                       creditsScreen(new CreditsScreen(width, height)),
                                                       aboutScreen(new AboutScreen(width, height)),
                                                       gameOverScreen(new GameOver(width, height)),
-                                                      player(new Player("Hero", 100, 1, 2.25f)),
+                                                      player(new Player("Hero", 1, 1, 2.25f)),
                                                       gameRoom(new GameRoom()),
                                                       score(new Score()),
                                                       sound(buffer),
@@ -70,7 +70,7 @@ void Game::run()
     {
         if (homeScreen->getIsActive())
         {
-            gameOverMusicPlayed = false; // reset since we are no longer in GameOver
+            gameOverMusicPlayed = false; 
             PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
             homeScreen->processEvents(*window);
             homeScreen->render(*window);
@@ -481,6 +481,8 @@ void Game::GameOver_handlePlayerInput()
                 gameOverScreen->setIsActive(false);
                 backgroundMusic.stop();
                 sf::sleep(sf::milliseconds(100));
+
+                restartFromGameOver();
             }
         }
         else
@@ -513,20 +515,27 @@ void Game::GameOver_handlePlayerInput()
 
 void Game::resetGame()
 {
-    player->respawn();
-    for (int i = 0; i < 2; i++)
-    {
-        FlyDemon[i]->spawn(*player);
-    }
-
-    for (int i = 0; i < 3; i++)
-    {
-        skeleton[i]->spawn();
-    }
     score->saveBestScore();
     score->loadBestScore();
     gameOverScreen->setIsActive(true);
     backgroundMusic.stop();
+}
+
+void Game::restartFromGameOver()
+{
+    player->respawn();
+
+    for (int i = 0; i < 2; i++)
+    {
+        FlyDemon[i]->spawn(*player);
+    }
+    for (int i = 0; i < 3; i++)
+    {
+        skeleton[i]->spawn();
+    }
+
+    gameOverScreen->setIsActive(false);
+    score->loadBestScore();
 }
 
 void Game::playerAttack()

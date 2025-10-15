@@ -86,6 +86,8 @@ private:
 
     unsigned int getW();
     unsigned int getH();
+    
+    void restartFromGameOver();
 
 public:
     Game(const unsigned int width = 1440, const unsigned int height = 800);
