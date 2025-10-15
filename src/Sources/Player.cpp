@@ -399,13 +399,13 @@ void Player::updateAnimation()
         else if (isDead)
         {
             if (currentFrame >= 12)
-                currentFrame = 0;
+                currentFrame = 11;
             sprite.setTexture(deathTexture);
             sprite.setTextureRect(deathFrames[currentFrame]);
-            if(currentFrame == 11)
+            if (currentFrame == 11)
             {
-                sprite.setPosition({-1000,-1000});
-                hitbox.setPosition({-1000,-1000});
+                sprite.setPosition({-1000.f, -1000.f});
+                hitbox.setPosition({-1000.f, -1000.f});
             }
         }
         else if (isJumping)
@@ -538,7 +538,8 @@ void Player::updatePhysics()
 
 void Player::checkHp()
 {
-    if (getHp() == 0)
+    // Only set death state and reset animation once when HP reaches zero.
+    if (getHp() == 0 && !isDead)
     {
         isDead = true;
         currentFrame = 0;
