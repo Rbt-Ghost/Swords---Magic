@@ -301,8 +301,21 @@ void Game::Home_handlePlayerInput()
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
                 homeScreen->setIsActive(false);
+
+                if (gameOverScreen->getIsActive())
+                    gameOverScreen->setIsActive(false);
                 backgroundMusic.stop();
+
                 sf::sleep(sf::milliseconds(100));
+
+                player->respawn();
+
+                for (int i = 0; i < 2; ++i)
+                    FlyDemon[i]->spawn(*player);
+                for (int i = 0; i < 3; ++i)
+                    skeleton[i]->spawn();
+
+                score->loadBestScore();
             }
         }
         else
