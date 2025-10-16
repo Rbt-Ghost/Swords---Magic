@@ -163,59 +163,19 @@ void GameRoom::draw(sf::RenderWindow &window, Player &player, FlyingDemon &FlyDe
     window.draw(FloorSprite4);
 
     window.draw(TorchSprite1);
-    if (AnimationClock1.getElapsedTime().asSeconds() > 0.15f)
-    {
-        if (CurrentFrame1 >= 4)
-            CurrentFrame1 = 0;
-        TorchSprite1.setTexture(TorchTexture);
-        TorchSprite1.setTextureRect(TorchFrames[CurrentFrame1]);
-        CurrentFrame1++;
-        AnimationClock1.restart();
-    }
+    torchAnimation(TorchSprite1, AnimationClock1, CurrentFrame1);
 
     window.draw(TorchSprite2);
-    if (AnimationClock2.getElapsedTime().asSeconds() > 0.15f)
-    {
-        if (CurrentFrame2 >= 4)
-            CurrentFrame2 = 0;
-        TorchSprite2.setTexture(TorchTexture);
-        TorchSprite2.setTextureRect(TorchFrames[CurrentFrame2]);
-        CurrentFrame2++;
-        AnimationClock2.restart();
-    }
+    torchAnimation(TorchSprite2, AnimationClock2, CurrentFrame2);
     
     window.draw(TorchSprite3);
-    if (AnimationClock3.getElapsedTime().asSeconds() > 0.15f)
-    {
-        if (CurrentFrame3 >= 4)
-            CurrentFrame3 = 0;
-        TorchSprite3.setTexture(TorchTexture);
-        TorchSprite3.setTextureRect(TorchFrames[CurrentFrame3]);
-        CurrentFrame3++;
-        AnimationClock3.restart();
-    }
+    torchAnimation(TorchSprite3, AnimationClock3, CurrentFrame3);
 
     window.draw(TorchSprite4);
-    if (AnimationClock4.getElapsedTime().asSeconds() > 0.15f)
-    {
-        if (CurrentFrame4 >= 4)
-            CurrentFrame4 = 0;
-        TorchSprite4.setTexture(TorchTexture);
-        TorchSprite4.setTextureRect(TorchFrames[CurrentFrame4]);
-        CurrentFrame4++;
-        AnimationClock4.restart();
-    }
+    torchAnimation(TorchSprite4, AnimationClock4, CurrentFrame4);
 
     window.draw(TorchSprite5);
-    if (AnimationClock5.getElapsedTime().asSeconds() > 0.15f)
-    {
-        if (CurrentFrame5 >= 4)
-            CurrentFrame5 = 0;
-        TorchSprite5.setTexture(TorchTexture);
-        TorchSprite5.setTextureRect(TorchFrames[CurrentFrame5]);
-        CurrentFrame5++;
-        AnimationClock5.restart();
-    }
+    torchAnimation(TorchSprite5, AnimationClock5, CurrentFrame5);
 
     sf::Sprite PlatformSprite1(PlatformTexture);
     PlatformSprite1.setScale({2.5f, 2.5f});
@@ -274,6 +234,20 @@ void GameRoom::draw(sf::RenderWindow &window, Player &player, FlyingDemon &FlyDe
     {
         FlyDemon.set_GroundLevel(610);
     }
+}
+
+void GameRoom::torchAnimation(sf::Sprite &TorchSprite, sf::Clock &AnimationClock, int &CurrentFrame)
+{
+    if (AnimationClock.getElapsedTime().asSeconds() > 0.15f)
+    {
+        if (CurrentFrame >= 4)
+            CurrentFrame = 0;
+        TorchSprite.setTexture(TorchTexture);
+        TorchSprite.setTextureRect(TorchFrames[CurrentFrame]);
+        CurrentFrame++;
+        AnimationClock.restart();
+    }
+
 }
 
 

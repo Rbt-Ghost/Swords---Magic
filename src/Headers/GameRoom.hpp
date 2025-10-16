@@ -52,6 +52,7 @@ private:
     bool Statue1 = false;
     bool Statue2 = true;
 
+    void torchAnimation(sf::Sprite &sprite, sf::Clock &AnimationClock, int &CurrentFrame);
     void trapDealDmg(sf::Sprite sprite, Player &player);
     void trapDealDmg(sf::Sprite sprite, FlyingDemon &FlyDemon);
     bool checkCollision(sf::Sprite sprite ,Player &player);
