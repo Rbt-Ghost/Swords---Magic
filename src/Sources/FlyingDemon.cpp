@@ -514,7 +514,7 @@ void FlyingDemon::ifAttack()
 {
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<int> dist(1, 4);
+    uniform_int_distribution<int> dist(1, 3);
 
     int r = dist(gen);
 
