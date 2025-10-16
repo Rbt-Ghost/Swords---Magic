@@ -52,6 +52,8 @@ private:
     bool Statue1 = false;
     bool Statue2 = true;
 
+    void trapDealDmg(sf::Sprite sprite, Player &player);
+    void trapDealDmg(sf::Sprite sprite, FlyingDemon &FlyDemon);
     bool checkCollision(sf::Sprite sprite ,Player &player);
     bool checkCollision(sf::Sprite sprite ,FlyingDemon &FlyDemon);
 

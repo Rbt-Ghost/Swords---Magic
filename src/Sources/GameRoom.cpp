@@ -135,37 +135,8 @@ void GameRoom::draw(sf::RenderWindow &window, Player &player, FlyingDemon &FlyDe
     TrapSprite1.setScale({2.5f, 2.5f});
     TrapSprite1.move({720, 735});
     window.draw(TrapSprite1);
-    if ( checkCollision(TrapSprite1,player) )
-    {
-        if (clock1.getElapsedTime().asSeconds() > 1.5f)
-        {
-            if (!player.get_isDead())
-            {
-                player.set_isHurt(true);
-                player.set_currentFrame(0);
-            }
-            player-=1;
-            player.checkHp();
-            clock1.restart();
-        }
-    }
-    if ( checkCollision(TrapSprite1,FlyDemon) )
-    {
-        if (clock2.getElapsedTime().asSeconds() > 1.5f)
-        {
-            if (!FlyDemon.get_isDead())
-            {
-                FlyDemon.set_isHurt(true);
-                FlyDemon.set_CurrentFrame(0);
-            }
-            FlyDemon-=1;
-            FlyDemon.checkHp();
-
-            if (!FlyDemon.get_isDead())
-                FlyDemon.escape();
-            clock2.restart();
-        }
-    }
+    trapDealDmg(TrapSprite1,player);
+    trapDealDmg(TrapSprite1,FlyDemon);
 
     sf::Sprite FloorSprite1(FloorTexture);
     FloorSprite1.setOrigin({63.5f, 8.f});
@@ -305,6 +276,45 @@ void GameRoom::draw(sf::RenderWindow &window, Player &player, FlyingDemon &FlyDe
     }
 }
 
+
+void GameRoom::trapDealDmg(sf::Sprite sprite, Player &player)
+{
+    if ( checkCollision(sprite,player) )
+    {
+        if (clock1.getElapsedTime().asSeconds() > 1.5f)
+        {
+            if (!player.get_isDead())
+            {
+                player.set_isHurt(true);
+                player.set_currentFrame(0);
+            }
+            player-=1;
+            player.checkHp();
+            clock1.restart();
+        }
+    }
+}
+
+void GameRoom::trapDealDmg(sf::Sprite sprite, FlyingDemon &FlyDemon)
+{
+    if ( checkCollision(sprite,FlyDemon) )
+    {
+        if (clock2.getElapsedTime().asSeconds() > 1.5f)
+        {
+            if (!FlyDemon.get_isDead())
+            {
+                FlyDemon.set_isHurt(true);
+                FlyDemon.set_CurrentFrame(0);
+            }
+            FlyDemon-=1;
+            FlyDemon.checkHp();
+
+            if (!FlyDemon.get_isDead())
+                FlyDemon.escape();
+            clock2.restart();
+        }
+    }
+}
 
 bool GameRoom::checkCollision(sf::Sprite sprite, Player &player)
 {
