@@ -1,4 +1,4 @@
-g++ -o "bin/Swords & Magic.exe" main.cpp ^
+g++ -mwindows -o "bin/Swords & Magic.exe" main.cpp ^
     "src/Sources/Game.cpp" ^
     "src/Sources/HomeScreen.cpp" ^
     "src/Sources/HowToPlayScreen.cpp" ^
