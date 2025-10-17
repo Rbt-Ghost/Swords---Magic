@@ -138,6 +138,22 @@ void GameRoom::draw(sf::RenderWindow &window, Player &player, FlyingDemon &FlyDe
     trapDealDmg(TrapSprite1,player);
     trapDealDmg(TrapSprite1,FlyDemon);
 
+    sf::Sprite TrapSprite2(TrapTexture);
+    TrapSprite2.setOrigin({69, 10});
+    TrapSprite2.setScale({2.5f, 2.5f});
+    TrapSprite2.move({0, 735});
+    window.draw(TrapSprite2);
+    trapDealDmg(TrapSprite2,player);
+    trapDealDmg(TrapSprite2,FlyDemon);
+
+    sf::Sprite TrapSprite3(TrapTexture);
+    TrapSprite3.setOrigin({69, 10});
+    TrapSprite3.setScale({2.5f, 2.5f});
+    TrapSprite3.move({1440, 735});
+    window.draw(TrapSprite3);
+    trapDealDmg(TrapSprite3,player);
+    trapDealDmg(TrapSprite3,FlyDemon);
+
     sf::Sprite FloorSprite1(FloorTexture);
     FloorSprite1.setOrigin({63.5f, 8.f});
     FloorSprite1.setScale({3.5f, 3.5f});
@@ -234,6 +250,96 @@ void GameRoom::draw(sf::RenderWindow &window, Player &player, FlyingDemon &FlyDe
     {
         FlyDemon.set_GroundLevel(610);
     }
+
+    sf::Sprite PlatformSprite5(PlatformTexture);
+    PlatformSprite5.setScale({2.5f, 2.5f});
+    PlatformSprite5.move({410, 570});
+    window.draw(PlatformSprite5);
+    if ( player.get_isFalling() && player.get_yPos()<=570 && checkCollision(PlatformSprite5,player) )
+    {
+        player.set_yPos(540);
+        player.set_GroundLevel(540);
+    }
+    if (checkCollision(PlatformSprite5,FlyDemon) )
+    {
+        FlyDemon.set_GroundLevel(530);
+    }
+
+
+
+    sf::Sprite PlatformSprite7(PlatformTexture);
+    PlatformSprite7.setScale({2.5f, 2.5f});
+    PlatformSprite7.move({178, 570});
+    window.draw(PlatformSprite7);
+    if ( player.get_isFalling() && player.get_yPos()<=570 && checkCollision(PlatformSprite7,player) )
+    {
+        player.set_yPos(540);
+        player.set_GroundLevel(540);
+    }
+    if (checkCollision(PlatformSprite7,FlyDemon) )
+    {
+        FlyDemon.set_GroundLevel(530);
+    }
+
+    sf::Sprite PlatformSprite8(PlatformTexture);
+    PlatformSprite8.setScale({2.5f, 2.5f});
+    PlatformSprite8.move({101, 650});
+    window.draw(PlatformSprite8);
+    if ( player.get_isFalling() && player.get_yPos()<=650 && checkCollision(PlatformSprite8,player) )
+    {
+        player.set_yPos(620);
+        player.set_GroundLevel(620);
+    
+    }
+    if (checkCollision(PlatformSprite8,FlyDemon) )
+    {
+        FlyDemon.set_GroundLevel(610);
+    }
+
+    sf::Sprite PlatformSprite9(PlatformTexture);
+    PlatformSprite9.setScale({2.5f, 2.5f});
+    PlatformSprite9.move({945, 570});
+    window.draw(PlatformSprite9);
+    if ( player.get_isFalling() && player.get_yPos()<=570 && checkCollision(PlatformSprite9,player) )
+    {
+        player.set_yPos(540);
+        player.set_GroundLevel(540);
+    }
+    if (checkCollision(PlatformSprite9,FlyDemon) )
+    {
+        FlyDemon.set_GroundLevel(530);
+    }
+
+
+
+    sf::Sprite PlatformSprite11(PlatformTexture);
+    PlatformSprite11.setScale({2.5f, 2.5f});
+    PlatformSprite11.move({1167.5, 570});
+    window.draw(PlatformSprite11);
+    if ( player.get_isFalling() && player.get_yPos()<=570 && checkCollision(PlatformSprite11,player) )
+    {
+        player.set_yPos(540);
+        player.set_GroundLevel(540);
+    }
+    if (checkCollision(PlatformSprite11,FlyDemon) )
+    {
+        FlyDemon.set_GroundLevel(530);
+    }
+
+    sf::Sprite PlatformSprite12(PlatformTexture);
+    PlatformSprite12.setScale({2.5f, 2.5f});
+    PlatformSprite12.move({1245, 650});
+    window.draw(PlatformSprite12);
+    if ( player.get_isFalling() && player.get_yPos()<=650 && checkCollision(PlatformSprite12,player) )
+    {
+        player.set_yPos(620);
+        player.set_GroundLevel(620);
+    }
+    if (checkCollision(PlatformSprite12,FlyDemon) )
+    {
+        FlyDemon.set_GroundLevel(610);
+    }
+
 }
 
 void GameRoom::torchAnimation(sf::Sprite &TorchSprite, sf::Clock &AnimationClock, int &CurrentFrame)
