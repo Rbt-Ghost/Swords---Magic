@@ -594,7 +594,7 @@ void Game::playerDefend()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::K))
     {
-        if (!player->get_isDefending() && !player->get_isHurt() && DefendClock.getElapsedTime().asSeconds() > 1.2f)
+        if (!player->get_isDefending() && !player->get_isHurt() && DefendClock.getElapsedTime().asSeconds() > 1.0f)
         {
             player->set_currentFrame(0);
             player->set_isDefending(true);

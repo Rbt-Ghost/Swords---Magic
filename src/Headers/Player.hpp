@@ -56,9 +56,8 @@ private:
 
     sf::Clock animationClock;  
     sf::Clock jumpClock; 
-    const float jumpCooldown = 0.715f;  
+    const float jumpCooldown = 0.6f;  
     sf::Clock defendClock;
-    const float defendCooldown = 2.f;
     
 
     bool isMovingR = false;
