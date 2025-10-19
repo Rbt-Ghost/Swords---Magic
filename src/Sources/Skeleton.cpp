@@ -64,6 +64,8 @@ sound(buffer)
     hitbox.setOutlineColor(sf::Color::Red);
     hitbox.setOutlineThickness(1.f);
     hitbox.setPosition({xPos, yPos});
+
+    sound.setVolume(45.5f);
 }
 
 Skeleton::~Skeleton()

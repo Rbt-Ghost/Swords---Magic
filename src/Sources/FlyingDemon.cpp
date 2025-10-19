@@ -73,6 +73,8 @@ FlyingDemon::FlyingDemon(string Name, int Hp, int Atk, float Speed) : Enemy(Name
     fireballHitbox.setFillColor(sf::Color::Transparent);
     fireballHitbox.setOutlineColor(sf::Color::Red);
     fireballHitbox.setOutlineThickness(1.f);
+
+    sound.setVolume(90.f);
 }
 
 FlyingDemon::~FlyingDemon()

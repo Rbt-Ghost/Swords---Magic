@@ -146,6 +146,8 @@ sound(buffer)
     HpBar.setPosition({-10,-10});
 
     Hp_Bar = sf::IntRect({0,0},{3328,1300});
+
+    sound.setVolume(92.5f);
 }
 
 Player::~Player() 
