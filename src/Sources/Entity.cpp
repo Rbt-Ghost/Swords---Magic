@@ -1,6 +1,6 @@
 #include "..\src\Headers\Entity.hpp"
 
-Entity::Entity(string Name, int Hp, int Atk, float Speed)
+Entity::Entity(string Name, int Hp, int Atk, float Speed) : sprite(texture) 
 {
     setName(Name);
     setHp(Hp);
@@ -28,6 +28,23 @@ void Entity::setSpeed(float Speed)
 {
     this->Speed=Speed;
 }
+void Entity::set_currentFrame(int currentFrame)
+{
+    this->currentFrame = currentFrame;
+}
+void Entity::set_isDead(bool isDead)
+{
+    this->isDead = isDead;
+}
+void Entity::set_xPos(float xPos)
+{
+    this->xPos = xPos;
+}
+void Entity::set_yPos(float yPos)
+{
+    this->yPos = yPos;
+}
+
 
 string Entity::getName()
 {
@@ -45,6 +62,35 @@ float Entity::getSpeed()
 {
     return Speed;
 }
+int Entity::get_currentFrame()
+{
+    return currentFrame;
+}
+bool Entity::get_isDead()
+{
+    return isDead;
+}
+float Entity::get_xPos()
+{
+    return xPos;
+}
+float Entity::get_yPos()
+{
+    return yPos;
+}
+sf::Sprite &Entity::get_Sprite()
+{
+    return sprite;
+}
+sf::Texture &Entity::get_Texture()
+{
+    return texture;
+}
+sf::RectangleShape &Entity::get_Hitbox()
+{
+    return hitbox;
+}
+
 
 Entity &Entity::operator+=(int Heal)
 {
@@ -76,8 +122,28 @@ void Entity::updateAnimation() {}
 
 void Entity::updateLogic() {}
 
-void Entity::move(float x, float y) {}
-
 void Entity::jump() {}
 
 void Entity::updatePhysics() {}
+
+void Entity::move(float x, float y) 
+{
+    if (0 <= xPos + x && xPos + x <= 1440)
+    {
+        sprite.move({x,y});
+        hitbox.move({x,y});
+        xPos+=x;
+        yPos+=y;
+    }
+}
+
+void Entity::checkHp() 
+{
+    if (Hp == 0 && !isDead)
+    {
+        isDead = true;
+        currentFrame = 0;
+    }
+}
+
+void Entity::PlaySound(const std::filesystem::path& filename) {}

@@ -21,7 +21,6 @@ private:
     sf::Texture runningTexture;
     sf::Texture hurtTexture;
     sf::Texture deathTexture;
-    sf::Sprite sprite;
 
     sf::Texture HpBarTexture100;
     sf::Texture HpBarTexture90;
@@ -46,7 +45,6 @@ private:
     sf::IntRect hurtFrames[4];  // Hurt animation frames
     sf::IntRect deathFrames[12];  // Die animation frames
     sf::IntRect Hp_Bar;
-    int currentFrame = 0;       // Track current animation frame
 
     sf::SoundBuffer buffer;
     sf::Sound sound;
@@ -70,7 +68,6 @@ private:
     bool isAttacking2 = false;
     bool isAttacking3 = false;
     bool isHurt = false;
-    bool isDead = false;
 
     bool hurtSoundPlayed = false;
     bool deathSoundPlayed = false;
@@ -82,12 +79,8 @@ private:
 
     float yVelocity = 0;
     float groundLevel = 710;
-    float xPos=1440/2;
-    float yPos=500;
 
-    sf::RectangleShape hitbox;
-
-    void PlaySound(const std::filesystem::path& filename);
+    void PlaySound(const std::filesystem::path& filename) override;
     void PlaySoundWithType(const std::filesystem::path& filename, SoundType type);
     void stopCurrentSound();
 
@@ -104,17 +97,10 @@ public:
     void set_isAttacking3(bool isAttacking3);
     void set_isRunning(bool isRunning);
     void set_isHurt(bool isHurt);
-    void set_isDead(bool isDead);
-    void set_currentFrame(int currentFrame);
     void set_GroundLevel(float groundLevel);
-    void set_xPos(float xPos);
-    void set_yPos(float yPos);
 
-    sf::Sprite& get_Sprite();
     sf::Sprite& get_Hp_Bar();
-    sf::RectangleShape& get_Hitbox();
     sf::Sound& get_Sound();
-    int get_currentFrame();
     bool get_isMovingR();
     bool get_isMovingL();
     bool get_isJumping();
@@ -124,20 +110,15 @@ public:
     bool get_isAttacking3();
     bool get_isRunning();
     bool get_isHurt();
-    bool get_isDead();
-    float get_xPos();
-    float get_yPos();
     bool get_isFalling();
     float get_groundLevel();
 
     Player &operator+=(int Heal);
     Player &operator-=(int Damage);
 
-    void updateAnimation();
-    void move(float x, float y);
-    void jump();
-    void updatePhysics();
-    void checkHp();
+    void updateAnimation() override;
+    void jump() override;
+    void updatePhysics() override;
     void respawn();
     void onShieldBlock();
     void KnightSounds();

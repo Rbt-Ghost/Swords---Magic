@@ -2,7 +2,6 @@
 
 Player::Player(string Name, int Hp, int Atk, float Speed): 
 Entity(Name,Hp,Atk,Speed),
-sprite(idleTexture),
 HpBar(HpBarTexture100),
 sound(buffer)
 {
@@ -89,7 +88,7 @@ sound(buffer)
     }
 
 
-    sprite.setTexture(idleTexture);
+    get_Sprite().setTexture(idleTexture);
 
     for(int i=0; i<7; i++)
     {
@@ -132,14 +131,17 @@ sound(buffer)
         deathFrames[i] = sf::IntRect({96*i, 0}, {96, 84});
     }
 
-    sprite.setTextureRect(idleFrames[0]);
-    sprite.setScale(sf::Vector2f(2.f,2.f));
-    sprite.setOrigin({48,42});
-    sprite.setPosition({xPos, yPos});
-    hitbox.setFillColor(sf::Color::Transparent);
-    hitbox.setOutlineColor(sf::Color::Red);
-    hitbox.setOutlineThickness(1.f);
-    hitbox.setPosition({xPos,yPos});
+    set_xPos(1440/2.f);
+    set_yPos(500.f);
+
+    get_Sprite().setTextureRect(idleFrames[0]);
+    get_Sprite().setScale(sf::Vector2f(2.f,2.f));
+    get_Sprite().setOrigin({48,42});
+    get_Sprite().setPosition({get_xPos(), get_yPos()});
+    get_Hitbox().setFillColor(sf::Color::Transparent);
+    get_Hitbox().setOutlineColor(sf::Color::Red);
+    get_Hitbox().setOutlineThickness(1.f);
+    get_Hitbox().setPosition({get_xPos(), get_yPos()});
 
     HpBar.setScale({0.08,0.08});
     HpBar.setOrigin({0,0});
@@ -213,30 +215,9 @@ void Player::set_isHurt(bool isHurt)
 {
     this->isHurt = isHurt;
 }
-void Player::set_isDead(bool isDead)
-{
-    this->isDead = isDead;
-}
-void Player::set_currentFrame(int currentFrame)
-{
-    this->currentFrame = currentFrame;
-}
 void Player::set_GroundLevel(float groundLevel)
 {
     this->groundLevel = groundLevel;
-}
-void Player::set_xPos(float xPos)
-{
-    this->xPos = xPos;
-}
-void Player::set_yPos(float yPos)
-{
-    this->yPos = yPos;
-}
-
-sf::Sprite& Player::get_Sprite()
-{
-    return sprite;
 }
 sf::Sprite& Player::get_Hp_Bar()
 {
@@ -294,17 +275,9 @@ sf::Sprite& Player::get_Hp_Bar()
 
     return HpBar;
 }
-sf::RectangleShape& Player::get_Hitbox()
-{
-    return hitbox;
-}
 sf::Sound& Player::get_Sound()
 {
     return sound;
-}
-int Player::get_currentFrame()
-{
-    return currentFrame;
 }
 bool Player::get_isMovingR()
 {
@@ -342,18 +315,6 @@ bool Player::get_isHurt()
 {
     return isHurt;
 }
-bool Player::get_isDead()
-{
-    return isDead;
-}
-float Player::get_xPos()
-{
-    return xPos;
-}
-float Player::get_yPos()
-{
-    return yPos;
-}
 bool Player::get_isFalling()
 {
     return isFalling;
@@ -380,108 +341,107 @@ void Player::updateAnimation()
 {
     if (animationClock.getElapsedTime().asSeconds() > 0.1f)
     {
-        currentFrame++;
+        set_currentFrame(get_currentFrame() + 1);
 
         if (isHurt)
         {
-            if (currentFrame >= 4)
+            if (get_currentFrame() >= 4)
             {
                 isAttacking1 = false;
                 isAttacking2 = false;
                 isAttacking3 = false;
-                currentFrame = 0;
+                set_currentFrame(0);
                 isHurt = false;
             }
-            sprite.setTexture(hurtTexture);
-            sprite.setTextureRect(hurtFrames[currentFrame]);
+            get_Sprite().setTexture(hurtTexture);
+            get_Sprite().setTextureRect(hurtFrames[get_currentFrame()]);
         }
-        else if (isDead)
+        else if (get_isDead())
         {
-            if (currentFrame >= 12)
-                currentFrame = 11;
-            sprite.setTexture(deathTexture);
-            sprite.setTextureRect(deathFrames[currentFrame]);
-            if (currentFrame == 11)
+            if (get_currentFrame() >= 12)
+                set_currentFrame(11);
+            get_Sprite().setTexture(deathTexture);
+            get_Sprite().setTextureRect(deathFrames[get_currentFrame()]);
+            if (get_currentFrame() == 11)
             {
-                sprite.setPosition({-1000.f, -1000.f});
-                hitbox.setPosition({-1000.f, -1000.f});
+                get_Sprite().setPosition({-1000.f, -1000.f});
+                get_Hitbox().setPosition({-1000.f, -1000.f});
             }
         }
         else if (isJumping)
         {
-            if (currentFrame >= 5)
-                currentFrame = 0;
-            sprite.setTexture(jumpTexture);
-            sprite.setTextureRect(jumpFrames[currentFrame]);
+            if (get_currentFrame() >= 5)
+                set_currentFrame(0);
+            get_Sprite().setTexture(jumpTexture);
+            get_Sprite().setTextureRect(jumpFrames[get_currentFrame()]);
         }
         else if (isAttacking1)
         {
-            if (currentFrame >= 6)
+            if (get_currentFrame() >= 6)
             {
-                currentFrame = 0;
-                // use setters so swordSoundPlayed is reset when the next attack starts
+                set_currentFrame(0);
                 set_isAttacking1(false);
                 set_isAttacking2(true);
             }
-            sprite.setTexture(attackTexture1);
-            sprite.setTextureRect(attackFrames1[currentFrame]);
+            get_Sprite().setTexture(attackTexture1);
+            get_Sprite().setTextureRect(attackFrames1[get_currentFrame()]);
         }
         else if (isAttacking2)
         {
-            if (currentFrame >= 5)
+            if (get_currentFrame() >= 5)
             {
-                currentFrame = 0;
+                set_currentFrame(0);
                 set_isAttacking2(false);
                 set_isAttacking3(true);
             }
-            sprite.setTexture(attackTexture2);
-            sprite.setTextureRect(attackFrames2[currentFrame]);
+            get_Sprite().setTexture(attackTexture2);
+            get_Sprite().setTextureRect(attackFrames2[get_currentFrame()]);
         }
         else if (isAttacking3)
         {
-            if (currentFrame >= 6)
+            if (get_currentFrame() >= 6)
             {
-                currentFrame = 0;
+                set_currentFrame(0);
                 set_isAttacking3(false);
                 set_isAttacking1(true);
             }
-            sprite.setTexture(attackTexture3);
-            sprite.setTextureRect(attackFrames3[currentFrame]);
+            get_Sprite().setTexture(attackTexture3);
+            get_Sprite().setTextureRect(attackFrames3[get_currentFrame()]);
         }
         else if (isDefending)
         {
-            if (currentFrame >= 6)
-                currentFrame = 0;
-            sprite.setTexture(defendTexture);
-            sprite.setTextureRect(defendFrames[currentFrame]);
+            if (get_currentFrame() >= 6)
+                set_currentFrame(0);
+            get_Sprite().setTexture(defendTexture);
+            get_Sprite().setTextureRect(defendFrames[get_currentFrame()]);
         }
         else if (isMovingR)
         {
-            if (currentFrame >= 8)
-                currentFrame = 0;
-            sprite.setTexture(walkTexture);
-            sprite.setTextureRect(walkFrames[currentFrame]);
+            if (get_currentFrame() >= 8)
+                set_currentFrame(0);
+            get_Sprite().setTexture(walkTexture);
+            get_Sprite().setTextureRect(walkFrames[get_currentFrame()]);
         }
         else if (isMovingL)
         {
-            if (currentFrame >= 8)
-                currentFrame = 0;
-            sprite.setTexture(walkTexture);
-            sprite.setTextureRect(walkFrames[currentFrame]);
+            if (get_currentFrame() >= 8)
+                set_currentFrame(0);
+            get_Sprite().setTexture(walkTexture);
+            get_Sprite().setTextureRect(walkFrames[get_currentFrame()]);
         }
         else if (isRunning)
         {
-            if (currentFrame >= 8)
-                currentFrame = 0;
-            sprite.setTexture(runningTexture);
-            sprite.setTextureRect(runningFrames[currentFrame]);
+            if (get_currentFrame() >= 8)
+                set_currentFrame(0);
+            get_Sprite().setTexture(runningTexture);
+            get_Sprite().setTextureRect(runningFrames[get_currentFrame()]);
         }
         else
         {
-            if (currentFrame >= 7)
-                currentFrame = 0;
-            sprite.setTexture(idleTexture);
-            sprite.setTextureRect(idleFrames[currentFrame]);
+            if (get_currentFrame() >= 7)
+                set_currentFrame(0);
+            get_Sprite().setTexture(idleTexture);
+            get_Sprite().setTextureRect(idleFrames[get_currentFrame()]);
         }
 
         animationClock.restart();
@@ -489,21 +449,9 @@ void Player::updateAnimation()
 }
 
 
-void Player::move(float x, float y)
-{
-    if (0 <= xPos + x && xPos + x <= 1440)
-    {
-        sprite.move({x,y});
-        hitbox.move({x,y});
-        xPos+=x;
-        yPos+=y;
-    }
-}
-
-
 void Player::jump()
 {
-    if (!isJumping && sprite.getPosition().y == groundLevel && jumpClock.getElapsedTime().asSeconds() > jumpCooldown)
+    if (!isJumping && get_Sprite().getPosition().y == groundLevel && jumpClock.getElapsedTime().asSeconds() > jumpCooldown)
     {   
         isJumping = true;
         yVelocity = -14.f;
@@ -520,10 +468,10 @@ void Player::updatePhysics()
         move(0,yVelocity);
     }
 
-    if (sprite.getPosition().y >= groundLevel)
+    if (get_Sprite().getPosition().y >= groundLevel)
     {
-        sprite.setPosition({sprite.getPosition().x, groundLevel});
-        hitbox.setPosition({hitbox.getPosition().x, groundLevel});
+        get_Sprite().setPosition({get_Sprite().getPosition().x, groundLevel});
+        get_Hitbox().setPosition({get_Hitbox().getPosition().x, groundLevel});
         isJumping = false;
         isFalling = false;
         yVelocity = 0;
@@ -535,26 +483,15 @@ void Player::updatePhysics()
 }
 
 
-void Player::checkHp()
-{
-    // Only set death state and reset animation once when HP reaches zero.
-    if (getHp() == 0 && !isDead)
-    {
-        isDead = true;
-        currentFrame = 0;
-    }
-}
-
-
 void Player::respawn()
 {   
-    isDead = false;
+    set_isDead(false);
     setHp(100);
     groundLevel = 710;
-    xPos=1440/2;
-    yPos=500;
-    sprite.setPosition({xPos, yPos});
-    hitbox.setPosition({xPos,yPos});
+    set_xPos(1440/2);
+    set_yPos(500);
+    get_Sprite().setPosition({get_xPos(), get_yPos()});
+    get_Hitbox().setPosition({get_xPos(), get_yPos()});
 }
 
 void Player::KnightSounds()
@@ -575,12 +512,12 @@ void Player::KnightSounds()
     {
         hurtSoundPlayed = false;
     }
-    if (isDead && !deathSoundPlayed)
+    if (get_isDead() && !deathSoundPlayed)
     {
         PlaySound("..//assets//Sounds//Knight//Death.mp3");
         deathSoundPlayed = true;
     }
-    else if (!isDead)
+    else if (!get_isDead())
     {
         deathSoundPlayed = false;
     }
