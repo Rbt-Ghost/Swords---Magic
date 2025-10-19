@@ -120,8 +120,6 @@ bool operator==(const Entity a, const Entity b)
 
 void Entity::updateAnimation() {}
 
-void Entity::updateLogic() {}
-
 void Entity::jump() {}
 
 void Entity::updatePhysics() {}
