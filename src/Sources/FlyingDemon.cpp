@@ -1,7 +1,6 @@
 #include "..\src\Headers\FlyingDemon.hpp"
 
 FlyingDemon::FlyingDemon(string Name, int Hp, int Atk, float Speed) : Enemy(Name, Hp, Atk, Speed),
-                                                                      sprite(idleTexture),
                                                                       fireballSprite(fireballTexture),
                                                                       sound(buffer)
 {
@@ -30,7 +29,7 @@ FlyingDemon::FlyingDemon(string Name, int Hp, int Atk, float Speed) : Enemy(Name
         std::cerr << "ERROR :: COULD NOT LOAD PROJECTILE SPRITE" << std::endl;
     }
 
-    sprite.setTexture(idleTexture);
+    get_Sprite().setTexture(idleTexture);
 
     for (int i = 0; i < 4; i++)
     {
@@ -54,15 +53,15 @@ FlyingDemon::FlyingDemon(string Name, int Hp, int Atk, float Speed) : Enemy(Name
     }
     Fireball = sf::IntRect({0, 0}, {48, 32});
 
-    sprite.setTextureRect(idleFrames[0]);
-    sprite.setScale(sf::Vector2f(1.8f, 1.8f));
-    sprite.setOrigin({40.5, 35.5});
+    get_Sprite().setTextureRect(idleFrames[0]);
+    get_Sprite().setScale(sf::Vector2f(1.8f, 1.8f));
+    get_Sprite().setOrigin({40.5, 35.5});
 
-    hitbox.setSize({95.f, 80.f});
-    hitbox.setFillColor(sf::Color::Transparent);
-    hitbox.setOutlineColor(sf::Color::Red);
-    hitbox.setOutlineThickness(1.f);
-    hitbox.setOrigin({hitbox.getSize().x / 2, hitbox.getSize().y / 2});
+    get_Hitbox().setSize({95.f, 80.f});
+    get_Hitbox().setFillColor(sf::Color::Transparent);
+    get_Hitbox().setOutlineColor(sf::Color::Red);
+    get_Hitbox().setOutlineThickness(1.f);
+    get_Hitbox().setOrigin({get_Hitbox().getSize().x / 2, get_Hitbox().getSize().y / 2});
 
     fireballSprite.setTextureRect(Fireball);
     fireballSprite.setTexture(fireballTexture);
@@ -101,14 +100,6 @@ void FlyingDemon::set_isHurt(bool isHurt)
 {
     this->isHurt = isHurt;
 }
-void FlyingDemon::set_isDead(bool isDead)
-{
-    this->isDead = isDead;
-}
-void FlyingDemon::set_CurrentFrame(int CurrentFrame)
-{
-    this->CurrentFrame = CurrentFrame;
-}
 void FlyingDemon::set_fireball_xPos(float fireball_xPos)
 {
     this->fireball_xPos = fireball_xPos;
@@ -130,17 +121,9 @@ void FlyingDemon::set_GroundLevel(float groundLevel)
     this->groundLevel = groundLevel;
 }
 
-sf::Sprite &FlyingDemon::get_Sprite()
-{
-    return sprite;
-}
 sf::Sprite &FlyingDemon::get_FireballSprite()
 {
     return fireballSprite;
-}
-sf::RectangleShape &FlyingDemon::get_hitbox()
-{
-    return hitbox;
 }
 sf::CircleShape &FlyingDemon::get_fireballHitbox()
 {
@@ -170,18 +153,6 @@ bool FlyingDemon::get_isHurt()
 {
     return isHurt;
 }
-bool FlyingDemon::get_isDead()
-{
-    return isDead;
-}
-float FlyingDemon::get_xPos()
-{
-    return xPos;
-}
-float FlyingDemon::get_yPos()
-{
-    return yPos;
-}
 float FlyingDemon::get_fireball_xPos()
 {
     return fireball_xPos;
@@ -189,10 +160,6 @@ float FlyingDemon::get_fireball_xPos()
 float FlyingDemon::get_fireball_yPos()
 {
     return fireball_yPos;
-}
-float FlyingDemon::get_CurrentFrame()
-{
-    return CurrentFrame;
 }
 int FlyingDemon::get_FireballSpeed()
 {
@@ -222,40 +189,40 @@ void FlyingDemon::updateAnimation()
 {
     if (AnimationClock.getElapsedTime().asSeconds() > 0.15f)
     {
-        CurrentFrame++;
+        set_currentFrame(get_currentFrame() + 1);
 
-        if (isDead)
+        if (get_isDead())
         {
-            sprite.setTexture(deathTexture);
-            sprite.setTextureRect(deathFrames[CurrentFrame]);
+            get_Sprite().setTexture(deathTexture);
+            get_Sprite().setTextureRect(deathFrames[get_currentFrame()]);
         }
         else if (isFlying)
         {
-            if (CurrentFrame >= 4)
-                CurrentFrame = 0;
-            sprite.setTexture(flyingTexture);
-            sprite.setTextureRect(flyingFrames[CurrentFrame]);
+            if (get_currentFrame() >= 4)
+                set_currentFrame(0);
+            get_Sprite().setTexture(flyingTexture);
+            get_Sprite().setTextureRect(flyingFrames[get_currentFrame()]);
         }
         else if (isAttacking)
         {
-            if (CurrentFrame >= 8)
-                CurrentFrame = 0;
-            sprite.setTexture(attackTexture);
-            sprite.setTextureRect(attackFrames[CurrentFrame]);
+            if (get_currentFrame() >= 8)
+                set_currentFrame(0);
+            get_Sprite().setTexture(attackTexture);
+            get_Sprite().setTextureRect(attackFrames[get_currentFrame()]);
         }
         else if (isHurt)
         {
-            if (CurrentFrame >= 4)
-                CurrentFrame = 0;
-            sprite.setTexture(hurtTexture);
-            sprite.setTextureRect(hurtFrames[CurrentFrame]);
+            if (get_currentFrame() >= 4)
+                set_currentFrame(0);
+            get_Sprite().setTexture(hurtTexture);
+            get_Sprite().setTextureRect(hurtFrames[get_currentFrame()]);
         }
         else
         {
-            if (CurrentFrame >= 4)
-                CurrentFrame = 0;
-            sprite.setTexture(idleTexture);
-            sprite.setTextureRect(idleFrames[CurrentFrame]);
+            if (get_currentFrame() >= 4)
+                set_currentFrame(0);
+            get_Sprite().setTexture(idleTexture);
+            get_Sprite().setTextureRect(idleFrames[get_currentFrame()]);
         }
         AnimationClock.restart();
     }
@@ -274,7 +241,7 @@ void FlyingDemon::updateLogic(Player &player)
         get_Sprite().setScale(sf::Vector2f(-1.8f, 1.8f));
     }
 
-    if (!isDead)
+    if (!get_isDead())
     {
         if (checkCollisions(player))
         {
@@ -284,7 +251,7 @@ void FlyingDemon::updateLogic(Player &player)
 
                 if (player.get_currentFrame() == 4 && EscapeClock.getElapsedTime().asSeconds() > 0.4f)
                 {
-                    set_CurrentFrame(0);
+                    set_currentFrame(0);
 
                     *this -= player.getAtk();
                     checkHp();
@@ -302,7 +269,7 @@ void FlyingDemon::updateLogic(Player &player)
 
                 if (player.get_currentFrame() == 1 && EscapeClock.getElapsedTime().asSeconds() > 0.1f)
                 {
-                    set_CurrentFrame(0);
+                    set_currentFrame(0);
 
                     *this -= player.getAtk();
                     checkHp();
@@ -320,7 +287,7 @@ void FlyingDemon::updateLogic(Player &player)
 
                 if (player.get_currentFrame() == 3 && EscapeClock.getElapsedTime().asSeconds() > 0.3f)
                 {
-                    set_CurrentFrame(0);
+                    set_currentFrame(0);
 
                     *this -= player.getAtk();
 
@@ -342,7 +309,7 @@ void FlyingDemon::updateLogic(Player &player)
                 }
             }
         }
-        else if (get_isHurt() && get_CurrentFrame() > 3)
+        else if (get_isHurt() && get_currentFrame() > 3)
             set_isHurt(false);
 
         if (get_isFlying() && distance(player) < 400)
@@ -378,10 +345,10 @@ void FlyingDemon::updateLogic(Player &player)
         if ((get_isFlying() || get_isIdle()) && AtkClock.getElapsedTime().asSeconds() > 2.0f && !get_isHurt() && !player.get_isDead())
         {
             ifAttack();
-            set_CurrentFrame(0);
+            set_currentFrame(0);
             AtkClock.restart();
         }
-        if (get_isAttacking() && get_CurrentFrame() == 3)
+        if (get_isAttacking() && get_currentFrame() == 3)
         {
             set_Fireball(true);
             recalculateFdir = true;
@@ -403,7 +370,7 @@ void FlyingDemon::updateLogic(Player &player)
                 get_fireballHitbox().setPosition({get_xPos() + 50, get_yPos() + 10});
             }
         }
-        if ((get_isAttacking() && get_CurrentFrame() >= 7) || get_isHurt() || get_isDead())
+        if ((get_isAttacking() && get_currentFrame() >= 7) || get_isHurt() || get_isDead())
         {
             set_isAttacking(false);
         }
@@ -467,19 +434,9 @@ void FlyingDemon::updateLogic(Player &player)
         set_isHurt(false);
     }
 
-    if (get_isDead() && get_CurrentFrame() == 6)
+    if (get_isDead() && get_currentFrame() == 6)
     {
         spawn(player);
-    }
-}
-
-void FlyingDemon::checkHp()
-{
-    if (getHp() == 0)
-    {
-        isHurt = false;
-        isDead = true;
-        CurrentFrame = 0;
     }
 }
 
@@ -527,17 +484,6 @@ void FlyingDemon::ifAttack()
     }
 }
 
-void FlyingDemon::move(float x, float y)
-{
-    if (0 <= xPos + x && xPos + x <= 1440 && yPos <= 800)
-    {
-        sprite.move({x, y});
-        hitbox.move({x, y});
-        xPos += x;
-        yPos += y;
-    }
-}
-
 void FlyingDemon::moveFireball(float x, float y)
 {
     fireballSprite.move({x, y});
@@ -546,35 +492,12 @@ void FlyingDemon::moveFireball(float x, float y)
     fireball_yPos += y;
 }
 
-bool FlyingDemon::checkCollisions(Player &player)
-{
-    if (player.get_Hitbox().getGlobalBounds().findIntersection(get_hitbox().getGlobalBounds()))
-        return true;
-    else
-        return false;
-}
-
 bool FlyingDemon::checkFireballCollision(Player &player)
 {
     if (get_fireballHitbox().getGlobalBounds().findIntersection(player.get_Hitbox().getGlobalBounds()))
         return true;
     else
         return false;
-}
-
-float FlyingDemon::distance(Player &player)
-{
-    return sqrt(pow(player.get_xPos() - get_xPos(), 2) + pow(player.get_yPos() - get_yPos(), 2));
-}
-
-bool FlyingDemon::playerLeft(Player &player)
-{
-    return (player.get_xPos() - get_xPos() < 0);
-}
-
-bool FlyingDemon::playerRight(Player &player)
-{
-    return (player.get_xPos() - get_xPos() > 0);
 }
 
 void FlyingDemon::playerTakeDmg(Player &player)
@@ -603,17 +526,17 @@ void FlyingDemon::spawn(Player &player)
     {
         x = dist1(gen);
     } while (abs(x - player.get_xPos()) < 250);
-    xPos = x;
+    set_xPos(x);
 
     uniform_int_distribution<int> dist2(-400, 0);
     y = dist2(gen);
-    yPos = y;
+    set_yPos(y);
 
-    sprite.setPosition({xPos, yPos});
-    hitbox.setPosition({xPos, yPos});
+    get_Sprite().setPosition({get_xPos(), get_yPos()});
+    get_Hitbox().setPosition({get_xPos(), get_yPos()});
 
     setHp(7);
-    isDead = false;
+    set_isDead(false);
     comedown = true;
 
     set_fireball_xPos(get_xPos());
@@ -634,12 +557,12 @@ void FlyingDemon::FlyingDemonSounds()
         hurtSoundPlayed = false;
     }
 
-    if (isDead && !deathSoundPlayed)
+    if (get_isDead() && !deathSoundPlayed)
     {
         PlaySound("../assets//Sounds//FlyingDemon//Death.mp3");
         deathSoundPlayed = true;
     }
-    else if (!isDead)
+    else if (!get_isDead())
     {
         deathSoundPlayed = false;
     }

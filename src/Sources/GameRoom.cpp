@@ -352,7 +352,7 @@ void GameRoom::trapDealDmg(sf::Sprite sprite, FlyingDemon &FlyDemon)
             if (!FlyDemon.get_isDead())
             {
                 FlyDemon.set_isHurt(true);
-                FlyDemon.set_CurrentFrame(0);
+                FlyDemon.set_currentFrame(0);
             }
             FlyDemon-=1;
             FlyDemon.checkHp();
@@ -373,7 +373,7 @@ bool GameRoom::checkCollision(sf::Sprite sprite, Player &player)
 
 bool GameRoom::checkCollision(sf::Sprite sprite ,FlyingDemon &FlyDemon)
 {
-    if (FlyDemon.get_hitbox().getGlobalBounds().findIntersection(sprite.getGlobalBounds()))
+    if (FlyDemon.get_Hitbox().getGlobalBounds().findIntersection(sprite.getGlobalBounds()))
         return true;
     else return false;
 }

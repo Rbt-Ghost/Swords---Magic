@@ -198,7 +198,7 @@ void Game::render()
     for (int i = 0; i < 2; i++)
     {
         window->draw(FlyDemon[i]->get_Sprite());
-        //window->draw(FlyDemon[i]->get_hitbox());
+        window->draw(FlyDemon[i]->get_Hitbox());
     }
 
     for (int i = 0; i < 2; i++)
@@ -206,14 +206,14 @@ void Game::render()
         if (FlyDemon[i]->get_Fireball())
         {
             window->draw(FlyDemon[i]->get_FireballSprite());
-            //window->draw(FlyDemon[i]->get_fireballHitbox());
+            window->draw(FlyDemon[i]->get_fireballHitbox());
         }
     }
 
     for (int i = 0; i < 3; i++)
     {
         window->draw(skeleton[i]->get_Sprite());
-        //window->draw(skeleton[i]->get_hitbox());
+        window->draw(skeleton[i]->get_Hitbox());
     }
 
     window->draw(player->get_Sprite());
@@ -221,7 +221,7 @@ void Game::render()
     {
         window->draw(player->get_Hp_Bar());
     }
-    //window->draw(player->get_Hitbox());
+    window->draw(player->get_Hitbox());
 
     if (isGamePaused)
     {

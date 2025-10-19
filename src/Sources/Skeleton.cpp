@@ -2,7 +2,6 @@
 
 Skeleton::Skeleton(string Name, int Hp, int Atk, float Speed) : 
 Enemy(Name, Hp, Atk, Speed),
-sprite(idleTexture),
 sound(buffer)
 {
     if (!idleTexture.loadFromFile("../assets/Skeleton Sprite Pack/Skeleton/Sprite Sheets/Skeleton Idle.png"))
@@ -55,15 +54,18 @@ sound(buffer)
         reactingFrames[i] = sf::IntRect({22 * i, 0}, {22, 32});
     }
 
-    sprite.setTextureRect(idleFrames[0]);
-    sprite.setScale(sf::Vector2f(3.f, 3.f));
-    sprite.setPosition({xPos, yPos});
+    set_xPos(100);
+    set_yPos(groundLevel);
 
-    hitbox.setSize({50, 95});
-    hitbox.setFillColor(sf::Color::Transparent);
-    hitbox.setOutlineColor(sf::Color::Red);
-    hitbox.setOutlineThickness(1.f);
-    hitbox.setPosition({xPos, yPos});
+    get_Sprite().setTextureRect(idleFrames[0]);
+    get_Sprite().setScale(sf::Vector2f(3.f, 3.f));
+    get_Sprite().setPosition({get_xPos(), get_yPos()});
+
+    get_Hitbox().setSize({50, 95});
+    get_Hitbox().setFillColor(sf::Color::Transparent);
+    get_Hitbox().setOutlineColor(sf::Color::Red);
+    get_Hitbox().setOutlineThickness(1.f);
+    get_Hitbox().setPosition({get_xPos(), get_yPos()});
 
     sound.setVolume(45.5f);
 }
@@ -72,93 +74,78 @@ Skeleton::~Skeleton()
 {
 }
 
-sf::Sprite &Skeleton::get_Sprite()
-{
-    return sprite;
-}
-sf::RectangleShape &Skeleton::get_hitbox()
-{
-    return hitbox;
-}
 sf::Sound& Skeleton::get_Sound()
 {
     return sound;
 }
 
-bool Skeleton::get_isDead()
-{
-    return isDead;
-}
-int Skeleton::get_CurrentFrame()
-{
-    return CurrentFrame;
-}
+
 
 void Skeleton::updateAnimation()
 {
     if (AnimationClock.getElapsedTime().asSeconds() > 0.1f)
     {
-        CurrentFrame++;
+        set_currentFrame(get_currentFrame() + 1);
 
-        if (isDead)
+        if (get_isDead())
         {
-            if (CurrentFrame >= 15)
-                CurrentFrame = 0;
-            sprite.setTexture(deathTexture);
-            sprite.setTextureRect(deathFrames[CurrentFrame]);
+            if (get_currentFrame() >= 15)
+                set_currentFrame(0);
+            get_Sprite().setTexture(deathTexture);
+            get_Sprite().setTextureRect(deathFrames[get_currentFrame()]);
 
-            sprite.setOrigin({12, 16});
-            hitbox.setOrigin({hitbox.getSize().x / 2, hitbox.getSize().y / 2 - 10});
+            get_Sprite().setOrigin({12, 16});
+            get_Hitbox().setOrigin({get_Hitbox().getSize().x / 2, get_Hitbox().getSize().y / 2 - 10});
         }
         else if (isAttacking)
         {
-            if (CurrentFrame >= 18)
-                CurrentFrame = 0;
-            sprite.setTexture(attackTexture);
-            sprite.setTextureRect(attackFrames[CurrentFrame]);
+            if (get_currentFrame() >= 18)
+                set_currentFrame(0);
+            get_Sprite().setTexture(attackTexture);
+            get_Sprite().setTextureRect(attackFrames[get_currentFrame()]);
 
-            sprite.setOrigin({12, 20});
-            hitbox.setOrigin({hitbox.getSize().x / 2, hitbox.getSize().y / 2 - 10});
+            get_Sprite().setOrigin({12, 20});
+            get_Hitbox().setOrigin({get_Hitbox().getSize().x / 2, get_Hitbox().getSize().y / 2 - 10});
         }
         else if (isHurt)
         {
-            if (CurrentFrame > 8)
-                CurrentFrame = 0;
-            sprite.setTexture(hurtTexture);
-            sprite.setTextureRect(hurtFrames[CurrentFrame]);
+            if (get_currentFrame() > 8)
+                set_currentFrame(0);
+            get_Sprite().setTexture(hurtTexture);
+            get_Sprite().setTextureRect(hurtFrames[get_currentFrame()]);
 
-            sprite.setOrigin({18, 16});
-            hitbox.setOrigin({hitbox.getSize().x / 2, hitbox.getSize().y / 2 - 10});
+            get_Sprite().setOrigin({18, 16});
+            get_Hitbox().setOrigin({get_Hitbox().getSize().x / 2, get_Hitbox().getSize().y / 2 - 10});
         }
         else if (isWalking)
         {
-            if (CurrentFrame >= 13)
-                CurrentFrame = 0;
-            sprite.setTexture(walkTexture);
-            sprite.setTextureRect(walkFrames[CurrentFrame]);
+            if (get_currentFrame() >= 13)
+                set_currentFrame(0);
+            get_Sprite().setTexture(walkTexture);
+            get_Sprite().setTextureRect(walkFrames[get_currentFrame()]);
 
-            sprite.setOrigin({12, 16.5});
-            hitbox.setOrigin({hitbox.getSize().x / 2, hitbox.getSize().y / 2 - 10});
+            get_Sprite().setOrigin({12, 16.5});
+            get_Hitbox().setOrigin({get_Hitbox().getSize().x / 2, get_Hitbox().getSize().y / 2 - 10});
         }
         else if (isReacting)
         {
-            if (CurrentFrame >= 4)
-                CurrentFrame = 0;
-            sprite.setTexture(reactingTexture);
-            sprite.setTextureRect(reactingFrames[CurrentFrame]);
+            if (get_currentFrame() >= 4)
+                set_currentFrame(0);
+            get_Sprite().setTexture(reactingTexture);
+            get_Sprite().setTextureRect(reactingFrames[get_currentFrame()]);
 
-            sprite.setOrigin({11, 16});
-            hitbox.setOrigin({hitbox.getSize().x / 2, hitbox.getSize().y / 2 - 10});
+            get_Sprite().setOrigin({11, 16});
+            get_Hitbox().setOrigin({get_Hitbox().getSize().x / 2, get_Hitbox().getSize().y / 2 - 10});
         }
         else
         {
-            if (CurrentFrame >= 11)
-                CurrentFrame = 0;
-            sprite.setTexture(idleTexture);
-            sprite.setTextureRect(idleFrames[CurrentFrame]);
+            if (get_currentFrame() >= 11)
+                set_currentFrame(0);
+            get_Sprite().setTexture(idleTexture);
+            get_Sprite().setTextureRect(idleFrames[get_currentFrame()]);
 
-            sprite.setOrigin({12, 16});
-            hitbox.setOrigin({hitbox.getSize().x / 2, hitbox.getSize().y / 2 - 10});
+            get_Sprite().setOrigin({12, 16});
+            get_Hitbox().setOrigin({get_Hitbox().getSize().x / 2, get_Hitbox().getSize().y / 2 - 10});
         }
         AnimationClock.restart();
     }
@@ -167,13 +154,13 @@ void Skeleton::updateAnimation()
 void Skeleton::updateLogic(Player &player)
 {
 
-    if (!isDead && checkCollisions(player))
+    if (!get_isDead() && checkCollisions(player))
     {
         isWalking = false;
 
         if (AtkClock.getElapsedTime().asSeconds() > 3.5)
         {
-            CurrentFrame = 0;
+            set_currentFrame(0);
             isAttacking = true;
 
             AtkClock.restart();
@@ -181,7 +168,7 @@ void Skeleton::updateLogic(Player &player)
 
         if (isAttacking)
         {
-            if (CurrentFrame == 7)
+            if (get_currentFrame() == 7)
             {
                 bool isBlock = player.get_isDefending() &&
                                ((playerLeft(player) && player.get_Sprite().getScale().x > 0) ||
@@ -205,7 +192,7 @@ void Skeleton::updateLogic(Player &player)
 
                 if (player.get_currentFrame() == 4 && EscapeClock.getElapsedTime().asSeconds() > 0.4f)
                 {
-                    CurrentFrame = 0;
+                    set_currentFrame(0);
 
                     *this -= player.getAtk();
                     checkHp();
@@ -220,7 +207,7 @@ void Skeleton::updateLogic(Player &player)
 
                 if (player.get_currentFrame() == 1 && EscapeClock.getElapsedTime().asSeconds() > 0.1f)
                 {
-                    CurrentFrame = 0;
+                    set_currentFrame(0);
 
                     *this -= player.getAtk();
                     checkHp();
@@ -235,7 +222,7 @@ void Skeleton::updateLogic(Player &player)
 
                 if (player.get_currentFrame() == 3 && EscapeClock.getElapsedTime().asSeconds() > 0.3f)
                 {
-                    CurrentFrame = 0;
+                    set_currentFrame(0);
 
                     *this -= player.getAtk();
 
@@ -246,19 +233,19 @@ void Skeleton::updateLogic(Player &player)
             }
         }
     }
-    if (isHurt && CurrentFrame >= 7)
+    if (isHurt && get_currentFrame() >= 7)
     {
         isHurt = false;
     }
     
 
-    if (isAttacking && CurrentFrame >= 17)
+    if (isAttacking && get_currentFrame() >= 17)
     {
         isAttacking = false;
     }
 
     
-    if (!isHurt && !isAttacking && !isDead)
+    if (!isHurt && !isAttacking && !get_isDead())
     {
         int x;
         random_device rd;
@@ -269,16 +256,16 @@ void Skeleton::updateLogic(Player &player)
         if (Reacting() && !isReacting && !isAttacking && ReactClock.getElapsedTime().asSeconds() > x)
         {
             isReacting = true;
-            CurrentFrame = 0;
+            set_currentFrame(0);
             ReactClock.restart();
         }
 
         if (isAttacking)
             isReacting = false;
-        else if (isReacting && CurrentFrame == 3)
+        else if (isReacting && get_currentFrame() == 3)
         {
             k++;
-            CurrentFrame = 0;
+            set_currentFrame(0);
             if (k == 4)
             {
                 isReacting = false;
@@ -287,7 +274,7 @@ void Skeleton::updateLogic(Player &player)
         }
     }
 
-    if (abs(xPos - player.get_xPos()) > 40 && !isAttacking && !isDead && !isReacting)
+    if (abs(get_xPos() - player.get_xPos()) > 40 && !isAttacking && !get_isDead() && !isReacting)
     {
         isWalking = true;
         if (playerLeft(player))
@@ -306,54 +293,10 @@ void Skeleton::updateLogic(Player &player)
         isWalking = false;
     }
 
-    if (isDead && CurrentFrame == 14)
+    if (get_isDead() && get_currentFrame() == 14)
     {
         spawn();
     }
-}
-
-void Skeleton::checkHp()
-{
-    if (getHp() == 0)
-    {
-        isHurt = false;
-        isDead = true;
-        CurrentFrame = 0;
-    }
-}
-
-
-void Skeleton::move(float x, float y)
-{
-    {
-        sprite.move({x, y});
-        hitbox.move({x, y});
-        xPos += x;
-        yPos += y;
-    }
-}
-
-bool Skeleton::checkCollisions(Player &player)
-{
-    if (player.get_Hitbox().getGlobalBounds().findIntersection(get_hitbox().getGlobalBounds()))
-        return true;
-    else
-        return false;
-}
-
-float Skeleton::distance(Player &player)
-{
-    return sqrt(pow(player.get_xPos() - xPos, 2) + pow(player.get_yPos() - yPos, 2));
-}
-
-bool Skeleton::playerLeft(Player &player)
-{
-    return (player.get_xPos() - xPos < 0);
-}
-
-bool Skeleton::playerRight(Player &player)
-{
-    return (player.get_xPos() - xPos > 0);
 }
 
 bool Skeleton::Reacting()
@@ -370,20 +313,6 @@ bool Skeleton::Reacting()
         return true;
     else
         return false;
-}
-
-void Skeleton::playerTakeDmg(Player &player)
-{
-    if (checkCollisions(player) && !player.get_isDead())
-    {
-        if (!player.get_isHurt())
-        {
-            player.set_isHurt(true);
-            player.set_currentFrame(0);
-            player -= getAtk();
-            player.checkHp();
-        }
-    }
 }
 
 void Skeleton::spawn()
@@ -409,23 +338,23 @@ void Skeleton::spawn()
         uniform_int_distribution<int> dist1(1490, 1800);
         x = dist1(gen);
     }
-    xPos = x;
+    set_xPos(x);
 
-    sprite.setPosition({xPos, yPos});
-    hitbox.setPosition({xPos, yPos});
+    get_Sprite().setPosition({get_xPos(), get_yPos()});
+    get_Hitbox().setPosition({get_xPos(), get_yPos()});
 
     setHp(10);
-    isDead = false;
+    set_isDead(false);
 }
 
 void Skeleton::SkeletonSounds()
 {
-    if (isDead && !deathSoundPlayed)
+    if (get_isDead() && !deathSoundPlayed)
     {
         PlaySound("..//assets/Sounds/Skeleton//Death.mp3");
         deathSoundPlayed = true;
     }
-    else if (!isDead)
+    else if (!get_isDead())
     {
         deathSoundPlayed = false;
     }

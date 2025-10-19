@@ -26,16 +26,12 @@ private:
     sf::Texture walkTexture;
     sf::Texture reactingTexture;
 
-    sf::Sprite sprite;
-    sf::RectangleShape hitbox;
-
     sf::IntRect idleFrames[11];
     sf::IntRect attackFrames[18];
     sf::IntRect hurtFrames[8];
     sf::IntRect deathFrames[15];
     sf::IntRect walkFrames[13];
     sf::IntRect reactingFrames[4];
-    int CurrentFrame = 0;
 
     sf::Clock AnimationClock;
 
@@ -45,13 +41,10 @@ private:
     bool isIdle = true;
     bool isAttacking = false;
     bool isHurt = false;
-    bool isDead = false;
     bool isWalking = false;
     bool isReacting = false;
 
     float groundLevel = 700;
-    float xPos = 100;
-    float yPos = groundLevel;
     int k=0;
 
     bool hurtSoundPlayed = false;
@@ -59,31 +52,18 @@ private:
     bool attackSoundPlayed = false;
     bool walkSoundPlayed = false;
 
-    void PlaySound(const std::filesystem::path& filename);
+    void PlaySound(const std::filesystem::path& filename) override;
 
 public:
     Skeleton(string Name = "Skeleton Warrior", int Hp = 10, int Atk = 1, float Speed = 2);
     ~Skeleton();
 
-    sf::Sprite& get_Sprite();
-    sf::RectangleShape& get_hitbox();
     sf::Sound& get_Sound();
 
-    bool get_isDead();
-    int get_CurrentFrame();
-
-    void updateAnimation();
-    void updateLogic(Player &layer);
-    void checkHp();
-    void ifAttack();
-    void move(float x, float y);
-    bool checkCollisions(Player &player);
-    float distance(Player &player);
-    bool playerLeft(Player &player);
-    bool playerRight(Player &player);
+    void updateAnimation() override;
+    void updateLogic(Player &layer) override;
     bool Reacting();
-    void playerTakeDmg(Player &player);
-    void spawn();
+    void spawn() override;
     void SkeletonSounds();
 };
 

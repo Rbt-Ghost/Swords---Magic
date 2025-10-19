@@ -70,7 +70,7 @@ void Score::updateFlyingDemon(FlyingDemon &FlyDemon)
     {
         checkE1 = true;
     }
-    if (checkE1 && FlyDemon.get_isDead() && FlyDemon.get_CurrentFrame() == 1 && clock1.getElapsedTime().asSeconds() > 0.16f)
+    if (checkE1 && FlyDemon.get_isDead() && FlyDemon.get_currentFrame() == 1 && clock1.getElapsedTime().asSeconds() > 0.16f)
     {
         currentScore += 10;
         checkE1 = false;
@@ -84,7 +84,7 @@ void Score::updateSkeleton(Skeleton &Skeleton)
     {
         checkE2 = true;
     }
-    if (checkE2 && Skeleton.get_isDead() && Skeleton.get_CurrentFrame() == 1 && clock2.getElapsedTime().asSeconds() > 0.11f)
+    if (checkE2 && Skeleton.get_isDead() && Skeleton.get_currentFrame() == 1 && clock2.getElapsedTime().asSeconds() > 0.11f)
     {
         currentScore += 10;
         checkE2 = false;

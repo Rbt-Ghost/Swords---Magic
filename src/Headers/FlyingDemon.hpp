@@ -23,7 +23,6 @@ private:
     sf::Texture attackTexture;
     sf::Texture hurtTexture;
     sf::Texture deathTexture;
-    sf::Sprite sprite;
 
     sf::Texture fireballTexture;
     sf::Sprite fireballSprite;
@@ -34,7 +33,6 @@ private:
     sf::IntRect hurtFrames[4];
     sf::IntRect deathFrames[7];
     sf::IntRect Fireball;
-    int CurrentFrame = 0;
 
     sf::Clock AnimationClock;
 
@@ -46,7 +44,6 @@ private:
     bool isAttacking = false;
     bool FireballLaunched = false;
     bool isHurt = false;
-    bool isDead = false;
     bool comedown = false;
 
     bool rotateUp = true;
@@ -60,8 +57,6 @@ private:
     bool fireballSoundPlayed = false;
     bool flyingSoundPlayed = false;
     
-    float xPos;
-    float yPos;
     float groundLevel = 700;
     float fireball_xPos;
     float fireball_yPos;
@@ -70,10 +65,9 @@ private:
     sf::Vector2f demonPosition;
     sf::Vector2f direction;
 
-    sf::RectangleShape hitbox;
     sf::CircleShape fireballHitbox;
 
-    void PlaySound(const std::filesystem::path& filename);
+    void PlaySound(const std::filesystem::path& filename) override;
 
 public:
     FlyingDemon(string Name = "Flying Demon", int Hp = 5, int Atk = 1, float Speed = 2);
@@ -84,17 +78,13 @@ public:
     void set_isAttacking(bool isAttacking);
     void set_Fireball(bool FireballLaunched);
     void set_isHurt(bool isHurt);
-    void set_isDead(bool isDead);
-    void set_CurrentFrame(int CurrentFrame);
     void set_fireball_xPos(float fireball_xPos);
     void set_fireball_yPos(float fireball_yPos);
     void set_FireballDir(bool FireballDir);
     void set_comeDown(bool comedown);
     void set_GroundLevel(float groundLevel);
 
-    sf::Sprite& get_Sprite();
     sf::Sprite& get_FireballSprite();
-    sf::RectangleShape& get_hitbox();
     sf::CircleShape& get_fireballHitbox();
     sf::Sound& get_Sound();
     bool get_isIdle();
@@ -102,12 +92,8 @@ public:
     bool get_isAttacking();
     bool get_Fireball();
     bool get_isHurt();
-    bool get_isDead();
-    float get_xPos();
-    float get_yPos();
     float get_fireball_xPos();
     float get_fireball_yPos();
-    float get_CurrentFrame();
     int get_FireballSpeed();
     bool get_FireballDir();
     bool get_comeDown();
@@ -115,20 +101,14 @@ public:
     FlyingDemon& operator+=(int Heal);
     FlyingDemon& operator-=(int Damage);
 
-    void updateAnimation();
-    void updateLogic(Player &player);
-    void checkHp();
+    void updateAnimation() override;
+    void updateLogic(Player &player) override;
     void escape();
     void comeDown();
     void ifAttack();
-    void move(float x, float y);
     void moveFireball(float x, float y);
-    bool checkCollisions(Player &player);
     bool checkFireballCollision(Player &player);
-    float distance(Player &player);
-    bool playerLeft(Player &player);
-    bool playerRight(Player &player);
-    void playerTakeDmg(Player &player);
+    void playerTakeDmg(Player &player) override;
     void spawn(Player &player);
     void FlyingDemonSounds();
 };

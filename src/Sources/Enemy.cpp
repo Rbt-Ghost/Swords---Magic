@@ -1,23 +1,70 @@
 #include "..\src\Headers\Enemy.hpp"
 
-    Enemy::Enemy(string Name, int Hp, int Atk, float Speed):
-    Entity(Name, Hp, Atk, Speed) 
-    {}
+Enemy::Enemy(string Name, int Hp, int Atk, float Speed) : 
+Entity(Name, Hp, Atk, Speed)
+{
+}
 
-    Enemy::~Enemy()
-    {}
+Enemy::~Enemy()
+{
+}
 
-    Enemy& Enemy::operator+=(int Heal)
+Enemy &Enemy::operator+=(int Heal)
+{
+    Entity::operator+=(Heal);
+    return *this;
+}
+Enemy &Enemy::operator-=(int Damage)
+{
+    Entity::operator-=(Damage);
+    return *this;
+}
+
+void Enemy::updateLogic(Player &player) {}
+
+void Enemy::move(float x, float y)
+{
+    get_Sprite().move({x, y});
+    get_Hitbox().move({x, y});
+    set_xPos(get_xPos() + x);
+    set_yPos(get_yPos() + y);
+}
+
+bool Enemy::checkCollisions(Player &player)
+{
+    if (player.get_Hitbox().getGlobalBounds().findIntersection(get_Hitbox().getGlobalBounds()))
+        return true;
+    else
+        return false;
+}
+
+float Enemy::distance(Player &player)
+{
+    return sqrt(pow(player.get_xPos() - get_xPos(), 2) + pow(player.get_yPos() - get_yPos(), 2));
+}
+
+bool Enemy::playerLeft(Player &player)
+{
+    return (player.get_xPos() - get_xPos() < 0);
+}
+
+bool Enemy::playerRight(Player &player)
+{
+    return (player.get_xPos() - get_xPos() > 0);
+}
+
+void Enemy::playerTakeDmg(Player &player)
+{
+    if (checkCollisions(player) && !player.get_isDead())
     {
-        Entity::operator+=(Heal);
-        return *this;
+        if (!player.get_isHurt())
+        {
+            player.set_isHurt(true);
+            player.set_currentFrame(0);
+            player -= getAtk();
+            player.checkHp();
+        }
     }
-    Enemy& Enemy::operator-=(int Damage)
-    {
-        Entity::operator-=(Damage);
-        return *this;
-    }
+}
 
-    void Enemy::updateAnimation() {}
-
-    void Enemy::updateLogic(Player &player) {}
+void Enemy::spawn() {}
