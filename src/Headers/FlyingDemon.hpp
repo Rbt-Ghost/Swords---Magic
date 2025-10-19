@@ -36,9 +36,6 @@ private:
 
     sf::Clock AnimationClock;
 
-    sf::SoundBuffer buffer;
-    sf::Sound sound;
-
     bool isIdle = true;
     bool isFlying = false;
     bool isAttacking = false;
@@ -67,8 +64,6 @@ private:
 
     sf::CircleShape fireballHitbox;
 
-    void PlaySound(const std::filesystem::path& filename) override;
-
 public:
     FlyingDemon(string Name = "Flying Demon", int Hp = 5, int Atk = 1, float Speed = 2);
     ~FlyingDemon();
@@ -86,7 +81,6 @@ public:
 
     sf::Sprite& get_FireballSprite();
     sf::CircleShape& get_fireballHitbox();
-    sf::Sound& get_Sound();
     bool get_isIdle();
     bool get_isFlying();
     bool get_isAttacking();

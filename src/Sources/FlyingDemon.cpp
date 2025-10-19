@@ -1,8 +1,7 @@
 #include "..\src\Headers\FlyingDemon.hpp"
 
 FlyingDemon::FlyingDemon(string Name, int Hp, int Atk, float Speed) : Enemy(Name, Hp, Atk, Speed),
-                                                                      fireballSprite(fireballTexture),
-                                                                      sound(buffer)
+                                                                      fireballSprite(fireballTexture)
 {
     if (!idleTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/with_outline/IDLE.png"))
     {
@@ -73,7 +72,7 @@ FlyingDemon::FlyingDemon(string Name, int Hp, int Atk, float Speed) : Enemy(Name
     fireballHitbox.setOutlineColor(sf::Color::Red);
     fireballHitbox.setOutlineThickness(1.f);
 
-    sound.setVolume(90.f);
+    get_Sound().setVolume(90.f);
 }
 
 FlyingDemon::~FlyingDemon()
@@ -128,10 +127,6 @@ sf::Sprite &FlyingDemon::get_FireballSprite()
 sf::CircleShape &FlyingDemon::get_fireballHitbox()
 {
     return fireballHitbox;
-}
-sf::Sound& FlyingDemon::get_Sound()
-{
-    return sound;
 }
 bool FlyingDemon::get_isIdle()
 {
@@ -579,7 +574,7 @@ void FlyingDemon::FlyingDemonSounds()
 
     if ((isFlying || isIdle))
     {
-        if (!flyingSoundPlayed || sound.getStatus() != sf::Sound::Status::Playing)
+        if (!flyingSoundPlayed || get_Sound().getStatus() != sf::Sound::Status::Playing)
         {
             PlaySound("../assets//Sounds//FlyingDemon//Flying.mp3");
             flyingSoundPlayed = true;
@@ -587,30 +582,8 @@ void FlyingDemon::FlyingDemonSounds()
     }
     else
     {
-        if (flyingSoundPlayed && sound.getStatus() == sf::Sound::Status::Playing)
-            sound.stop();
+        if (flyingSoundPlayed && get_Sound().getStatus() == sf::Sound::Status::Playing)
+            get_Sound().stop();
         flyingSoundPlayed = false;
     }
-}
-
-static std::mt19937& flying_demon_rng()
-{
-    static std::mt19937 gen{std::random_device{}()};
-    return gen;
-}
-
-void FlyingDemon::PlaySound(const std::filesystem::path &filename)
-{
-    if (!buffer.loadFromFile(filename.string()))
-    {
-        std::cerr << "Error loading sound file: " << filename.string() << '\n';
-        return;
-    }
-
-    std::uniform_real_distribution<float> dist(-0.10f, 0.10f);
-    float pitchVariation = dist(flying_demon_rng());
-
-    sound.setBuffer(buffer);
-    sound.setPitch(1.0f + pitchVariation);
-    sound.play();
 }

@@ -2,8 +2,7 @@
 
 Player::Player(string Name, int Hp, int Atk, float Speed): 
 Entity(Name,Hp,Atk,Speed),
-HpBar(HpBarTexture100),
-sound(buffer)
+HpBar(HpBarTexture100)
 {
 
     if (!idleTexture.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/IDLE.png"))
@@ -149,7 +148,7 @@ sound(buffer)
 
     Hp_Bar = sf::IntRect({0,0},{3328,1300});
 
-    sound.setVolume(92.5f);
+    get_Sound().setVolume(92.5f);
 }
 
 Player::~Player() 
@@ -177,7 +176,7 @@ void Player::set_isAttacking1(bool isAttacking1)
         swordSoundPlayed = false;
     if (!isAttacking1 && this->isAttacking1)
     {
-        if (currentSoundType == SoundType::Sword && sound.getStatus() == sf::Sound::Status::Playing)
+        if (currentSoundType == SoundType::Sword && get_Sound().getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         swordSoundPlayed = false;
     }
@@ -189,7 +188,7 @@ void Player::set_isAttacking2(bool isAttacking2)
         swordSoundPlayed = false;
     if (!isAttacking2 && this->isAttacking2)
     {
-        if (currentSoundType == SoundType::Sword && sound.getStatus() == sf::Sound::Status::Playing)
+        if (currentSoundType == SoundType::Sword && get_Sound().getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         swordSoundPlayed = false;
     }
@@ -201,7 +200,7 @@ void Player::set_isAttacking3(bool isAttacking3)
         swordSoundPlayed = false;
     if (!isAttacking3 && this->isAttacking3)
     {
-        if (currentSoundType == SoundType::Sword && sound.getStatus() == sf::Sound::Status::Playing)
+        if (currentSoundType == SoundType::Sword && get_Sound().getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         swordSoundPlayed = false;
     }
@@ -274,10 +273,6 @@ sf::Sprite& Player::get_Hp_Bar()
         }
 
     return HpBar;
-}
-sf::Sound& Player::get_Sound()
-{
-    return sound;
 }
 bool Player::get_isMovingR()
 {
@@ -498,10 +493,10 @@ void Player::KnightSounds()
 {
     if (isHurt && !hurtSoundPlayed)
     {
-        if (moveSoundPlayed && currentSoundType == SoundType::Walk && sound.getStatus() == sf::Sound::Status::Playing)
+        if (moveSoundPlayed && currentSoundType == SoundType::Walk && get_Sound().getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         moveSoundPlayed = false;
-        if (runSoundPlayed && currentSoundType == SoundType::Run && sound.getStatus() == sf::Sound::Status::Playing)
+        if (runSoundPlayed && currentSoundType == SoundType::Run && get_Sound().getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         runSoundPlayed = false;
 
@@ -524,7 +519,7 @@ void Player::KnightSounds()
     if (isJumping && !jumpSoundPlayed)
     {
         PlaySound("..//assets//Sounds//Knight//Jump.mp3");
-        sound.setPlayingOffset(sf::seconds(0.24f));
+        get_Sound().setPlayingOffset(sf::seconds(0.24f));
         jumpSoundPlayed = true;
     }
     else if (!isJumping)
@@ -544,13 +539,13 @@ void Player::KnightSounds()
     else if (!isAttacking1 && !isAttacking2 && !isAttacking3)
     {
         swordSoundPlayed = false;
-        if (currentSoundType == SoundType::Sword && sound.getStatus() == sf::Sound::Status::Playing)
+        if (currentSoundType == SoundType::Sword && get_Sound().getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
     }
 
     if ((isMovingR || isMovingL) && !isRunning && !isHurt)
     {
-        if (!moveSoundPlayed || currentSoundType != SoundType::Walk || sound.getStatus() != sf::Sound::Status::Playing)
+        if (!moveSoundPlayed || currentSoundType != SoundType::Walk || get_Sound().getStatus() != sf::Sound::Status::Playing)
         {
             PlaySoundWithType("..//assets//Sounds//Knight//Walking.mp3", SoundType::Walk);
             moveSoundPlayed = true;
@@ -558,14 +553,14 @@ void Player::KnightSounds()
     }
     else
     {
-        if (moveSoundPlayed && currentSoundType == SoundType::Walk && sound.getStatus() == sf::Sound::Status::Playing)
+        if (moveSoundPlayed && currentSoundType == SoundType::Walk && get_Sound().getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         moveSoundPlayed = false;
     }
 
     if (isRunning && !isHurt)
     {
-        if (!runSoundPlayed || currentSoundType != SoundType::Run || sound.getStatus() != sf::Sound::Status::Playing)
+        if (!runSoundPlayed || currentSoundType != SoundType::Run || get_Sound().getStatus() != sf::Sound::Status::Playing)
         {
             PlaySoundWithType("..//assets//Sounds//Knight//Running.mp3", SoundType::Run);
             runSoundPlayed = true;
@@ -573,14 +568,14 @@ void Player::KnightSounds()
     }
     else
     {
-        if (runSoundPlayed && currentSoundType == SoundType::Run && sound.getStatus() == sf::Sound::Status::Playing)
+        if (runSoundPlayed && currentSoundType == SoundType::Run && get_Sound().getStatus() == sf::Sound::Status::Playing)
             stopCurrentSound();
         runSoundPlayed = false;
     }
 }
 void Player::onShieldBlock()
 {
-    if (!defendSoundPlayed || currentSoundType != SoundType::Shield || sound.getStatus() != sf::Sound::Status::Playing)
+    if (!defendSoundPlayed || currentSoundType != SoundType::Shield || get_Sound().getStatus() != sf::Sound::Status::Playing)
     {
         PlaySoundWithType("..//assets//Sounds//Knight//Shield.mp3", SoundType::Shield);
         defendSoundPlayed = true;
@@ -595,7 +590,7 @@ static std::mt19937& player_rng()
 
 void Player::PlaySound(const std::filesystem::path& filename)
 {
-    if (!buffer.loadFromFile(filename.string()))
+    if (!get_SoundBuffer().loadFromFile(filename.string()))
     {
         std::cerr << "Error loading sound file: " << filename.string() << '\n';
         return;
@@ -604,15 +599,15 @@ void Player::PlaySound(const std::filesystem::path& filename)
     std::uniform_real_distribution<float> dist(-0.10f, 0.10f);
     float pitchVariation = dist(player_rng());
 
-    sound.setBuffer(buffer);
-    sound.setPitch(1.0f + pitchVariation);
-    sound.play();
+    get_Sound().setBuffer(get_SoundBuffer());
+    get_Sound().setPitch(1.0f + pitchVariation);
+    get_Sound().play();
     currentSoundType = SoundType::None;
 }
 
 void Player::PlaySoundWithType(const std::filesystem::path& filename, SoundType type)
 {
-    if (!buffer.loadFromFile(filename.string()))
+    if (!get_SoundBuffer().loadFromFile(filename.string()))
     {
         std::cerr << "Error loading sound file: " << filename.string() << '\n';
         return;
@@ -621,15 +616,15 @@ void Player::PlaySoundWithType(const std::filesystem::path& filename, SoundType 
     std::uniform_real_distribution<float> dist(-0.10f, 0.10f);
     float variation = dist(player_rng());
 
-    sound.setBuffer(buffer);
-    sound.setPitch(1.0f + variation);
-    sound.play();
+    get_Sound().setBuffer(get_SoundBuffer());
+    get_Sound().setPitch(1.0f + variation);
+    get_Sound().play();
     currentSoundType = type;
 }
 void Player::stopCurrentSound()
 {
-    if (sound.getStatus() == sf::Sound::Status::Playing)
-        sound.stop();
+    if (get_Sound().getStatus() == sf::Sound::Status::Playing)
+        get_Sound().stop();
     currentSoundType = SoundType::None;
     swordSoundPlayed = false;
 }

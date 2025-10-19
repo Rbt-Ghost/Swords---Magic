@@ -1,8 +1,7 @@
 #include "..\src\Headers\Skeleton.hpp"
 
 Skeleton::Skeleton(string Name, int Hp, int Atk, float Speed) : 
-Enemy(Name, Hp, Atk, Speed),
-sound(buffer)
+Enemy(Name, Hp, Atk, Speed)
 {
     if (!idleTexture.loadFromFile("../assets/Skeleton Sprite Pack/Skeleton/Sprite Sheets/Skeleton Idle.png"))
     {
@@ -67,18 +66,12 @@ sound(buffer)
     get_Hitbox().setOutlineThickness(1.f);
     get_Hitbox().setPosition({get_xPos(), get_yPos()});
 
-    sound.setVolume(45.5f);
+    get_Sound().setVolume(45.5f);
 }
 
 Skeleton::~Skeleton()
 {
 }
-
-sf::Sound& Skeleton::get_Sound()
-{
-    return sound;
-}
-
 
 
 void Skeleton::updateAnimation()
@@ -378,25 +371,4 @@ void Skeleton::SkeletonSounds()
     {
         walkSoundPlayed = false;
     }
-}
-
-static std::mt19937& skeleton_rng()
-{
-    static std::mt19937 gen{std::random_device{}()};
-    return gen;
-}
-
-void Skeleton::PlaySound(const std::filesystem::path& filename)
-{
-    if (!buffer.loadFromFile(filename.string()))
-    {
-        std::cerr << "ERROR :: COULD NOT LOAD SOUND" << std::endl;
-    }
-
-    std::uniform_real_distribution<float> dist(-0.10f, 0.10f);
-    float pitchVariation = dist(skeleton_rng());
-
-    sound.setBuffer(buffer);
-    sound.setPitch(1.0f + pitchVariation);
-    sound.play();
 }

@@ -35,9 +35,6 @@ private:
 
     sf::Clock AnimationClock;
 
-    sf::SoundBuffer buffer;
-    sf::Sound sound;
-
     bool isIdle = true;
     bool isAttacking = false;
     bool isHurt = false;
@@ -52,13 +49,9 @@ private:
     bool attackSoundPlayed = false;
     bool walkSoundPlayed = false;
 
-    void PlaySound(const std::filesystem::path& filename) override;
-
 public:
     Skeleton(string Name = "Skeleton Warrior", int Hp = 10, int Atk = 1, float Speed = 2);
     ~Skeleton();
-
-    sf::Sound& get_Sound();
 
     void updateAnimation() override;
     void updateLogic(Player &layer) override;

@@ -4,7 +4,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
+#include <random>
 using namespace std;
 
 class Entity
@@ -22,6 +24,8 @@ private:
     sf::Sprite sprite;
     sf::Texture texture;
     sf::RectangleShape hitbox;
+    sf::SoundBuffer soundBuffer;
+    sf::Sound sound;
 
 protected: 
     virtual void PlaySound(const std::filesystem::path& filename);
@@ -50,6 +54,8 @@ public:
     sf::Sprite& get_Sprite();
     sf::Texture& get_Texture();
     sf::RectangleShape& get_Hitbox();
+    sf::Sound& get_Sound();
+    sf::SoundBuffer& get_SoundBuffer();
 
     Entity &operator+=(int Heal);
     Entity &operator-=(int Damage);

@@ -46,9 +46,6 @@ private:
     sf::IntRect deathFrames[12];  // Die animation frames
     sf::IntRect Hp_Bar;
 
-    sf::SoundBuffer buffer;
-    sf::Sound sound;
-
     enum class SoundType { None, Sword, Shield, Jump, Hurt, Death, Walk, Run };
     SoundType currentSoundType = SoundType::None;
 
@@ -100,7 +97,6 @@ public:
     void set_GroundLevel(float groundLevel);
 
     sf::Sprite& get_Hp_Bar();
-    sf::Sound& get_Sound();
     bool get_isMovingR();
     bool get_isMovingL();
     bool get_isJumping();
