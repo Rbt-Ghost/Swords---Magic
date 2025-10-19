@@ -136,12 +136,9 @@ sound(buffer)
     sprite.setScale(sf::Vector2f(2.f,2.f));
     sprite.setOrigin({48,42});
     sprite.setPosition({xPos, yPos});
-    
-    hitbox.setSize({40.f,70.f});
     hitbox.setFillColor(sf::Color::Transparent);
     hitbox.setOutlineColor(sf::Color::Red);
     hitbox.setOutlineThickness(1.f);
-    hitbox.setOrigin({hitbox.getSize().x/2, hitbox.getSize().y/2});
     hitbox.setPosition({xPos,yPos});
 
     HpBar.setScale({0.08,0.08});
