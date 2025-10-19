@@ -198,7 +198,7 @@ void Game::render()
     for (int i = 0; i < 2; i++)
     {
         window->draw(FlyDemon[i]->get_Sprite());
-        // window->draw(FlyDemon[i]->get_hitbox());
+        //window->draw(FlyDemon[i]->get_hitbox());
     }
 
     for (int i = 0; i < 2; i++)
@@ -206,14 +206,14 @@ void Game::render()
         if (FlyDemon[i]->get_Fireball())
         {
             window->draw(FlyDemon[i]->get_FireballSprite());
-            // window->draw(FlyDemon[i]->get_fireballHitbox());
+            //window->draw(FlyDemon[i]->get_fireballHitbox());
         }
     }
 
     for (int i = 0; i < 3; i++)
     {
         window->draw(skeleton[i]->get_Sprite());
-        // window->draw(skeleton[i]->get_hitbox());
+        //window->draw(skeleton[i]->get_hitbox());
     }
 
     window->draw(player->get_Sprite());
@@ -221,7 +221,7 @@ void Game::render()
     {
         window->draw(player->get_Hp_Bar());
     }
-    // window->draw(player->get_Hitbox());
+    //window->draw(player->get_Hitbox());
 
     if (isGamePaused)
     {
@@ -261,8 +261,8 @@ void Game::handlePlayerInput()
             }
             else
             {
-                player->get_Hitbox().setSize({40.f, 70.f});
-                player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x / 2, player->get_Hitbox().getSize().y / 2});
+                player->get_Hitbox().setSize({27.5f, 55.f});
+                player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x / 2, player->get_Hitbox().getSize().y / 2  - 7.5f});
             }
 
             playerMoveR();
@@ -279,6 +279,7 @@ void Game::handlePlayerInput()
         }
     }
 }
+
 
 void Game::Home_handlePlayerInput()
 {
@@ -563,8 +564,15 @@ void Game::playerAttack()
                 player->set_currentFrame(0);
                 checkAtk1 = false;
             }
-            player->get_Hitbox().setSize({80.f, 70.f});
-            player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x / 2, player->get_Hitbox().getSize().y / 2});
+            if(player->get_Sprite().getScale().x > 0)
+            {
+                player->get_Hitbox().setSize({75.f, 55.f});
+            }
+            else if(player->get_Sprite().getScale().x < 0)
+            {
+                player->get_Hitbox().setSize({75.f, 55.f});
+                player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x / 2 + 24, player->get_Hitbox().getSize().y / 2 - 7.5f});
+            }
         }
         else if (!player->get_isAttacking1() && !player->get_isAttacking3())
         {
@@ -598,8 +606,6 @@ void Game::playerDefend()
         {
             player->set_currentFrame(0);
             player->set_isDefending(true);
-            player->get_Hitbox().setSize({45.f, 70.f});
-            player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x / 2, player->get_Hitbox().getSize().y / 2});
             DefendClock.restart();
         }
     }
