@@ -1,15 +1,12 @@
 #include "..\src\Headers\HowToPlayScreen.hpp"
 
-HowToPlayScreen::HowToPlayScreen(unsigned int width, unsigned int height): HomeScreen(width, height),
+HowToPlayScreen::HowToPlayScreen(unsigned int width, unsigned int height): Screen(width, height),
 Instructions(font),
 Back(font)
 {
     LoadFont(font, "../assets/Medieval-timeline-font/MedievalTimeline-DOPRE.ttf");
 
     LoadBackground();
-
-    setWidth(width);
-    setHeight(height);
 
     Background.setSize({(float)getWidth(), (float)getHeight()});
     Background.setFillColor(sf::Color(10, 10, 10, 200));
@@ -78,13 +75,4 @@ void HowToPlayScreen::HoverBack()
 sf::RectangleShape HowToPlayScreen::getBackButton()
 {
     return BackButton;
-}
-
-bool HowToPlayScreen::getIsActive()
-{
-    return isActive;
-}
-void HowToPlayScreen::setIsActive(bool isActive)
-{
-    this->isActive = isActive;
 }

@@ -4,20 +4,16 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "HomeScreen.hpp"
+#include "Screen.hpp"
 #include <iostream>
 using namespace std;
 
-class HowToPlayScreen : protected HomeScreen
+class HowToPlayScreen : public Screen
 {
 
 private:
-    bool isActive = false;
-
     sf::RectangleShape Background;
     sf::RectangleShape BackButton;
-    
-    sf::Font font;
 
     sf::Text Instructions;
     sf::Text Back;
@@ -32,9 +28,6 @@ public:
     void HoverBack();
 
     sf::RectangleShape getBackButton();
-
-    bool getIsActive();
-    void setIsActive(bool isActive);
 };
 
 #endif

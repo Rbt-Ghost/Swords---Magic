@@ -1,14 +1,11 @@
 #include "..\src\Headers\CreditsScreen.hpp"
 
-CreditsScreen::CreditsScreen(unsigned int width, unsigned int height) : HomeScreen(width, height),
+CreditsScreen::CreditsScreen(unsigned int width, unsigned int height) : Screen(width, height),
                                                                         Credits(font),
                                                                         Back(font)
 {
     LoadFont(font, "../assets/Medieval-timeline-font/MedievalTimeline-DOPRE.ttf");
     LoadBackground();
-
-    setWidth(width);
-    setHeight(height);
 
     Background.setSize({float(width), float(height)});
     Background.setFillColor(Color(10, 10, 10, 200));
@@ -77,14 +74,4 @@ void CreditsScreen::HoverBack()
 RectangleShape CreditsScreen::getBackButton()
 {
     return BackButton;
-}
-
-bool CreditsScreen::getIsActive()
-{
-    return isActive;
-}
-
-void CreditsScreen::setIsActive(bool isActive)
-{
-    this->isActive = isActive;
 }

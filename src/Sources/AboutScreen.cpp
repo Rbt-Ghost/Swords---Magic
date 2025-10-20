@@ -1,15 +1,12 @@
 #include "..\src\Headers\AboutScreen.hpp"
 
-AboutScreen::AboutScreen(unsigned int width, unsigned int height): HomeScreen(width, height),
+AboutScreen::AboutScreen(unsigned int width, unsigned int height): Screen(width, height),
 About(font),
 Back(font)
 {
     LoadFont(font, "../assets/Medieval-timeline-font/MedievalTimeline-DOPRE.ttf");
 
     LoadBackground();
-
-    setWidth(width);
-    setHeight(height);
 
     Background.setSize({(float)getWidth(), (float)getHeight()});
     Background.setFillColor(sf::Color(10, 10, 10, 200));
@@ -73,13 +70,4 @@ void AboutScreen::HoverBack()
 RectangleShape AboutScreen::getBackButton()
 {
     return BackButton;
-}
-
-bool AboutScreen::getIsActive()
-{
-    return isActive;
-}
-void AboutScreen::setIsActive(bool isActive)
-{
-    this->isActive = isActive;
 }
