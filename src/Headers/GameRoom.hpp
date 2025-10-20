@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <optional>
+#include "Entity.hpp"
 #include "Player.hpp"
 #include "FlyingDemon.hpp"
 using namespace std;
@@ -55,8 +56,7 @@ private:
     void torchAnimation(sf::Sprite &sprite, sf::Clock &AnimationClock, int &CurrentFrame);
     void trapDealDmg(sf::Sprite sprite, Player &player);
     void trapDealDmg(sf::Sprite sprite, FlyingDemon &FlyDemon);
-    bool checkCollision(sf::Sprite sprite ,Player &player);
-    bool checkCollision(sf::Sprite sprite ,FlyingDemon &FlyDemon);
+    bool checkCollision(sf::Sprite sprite ,Entity &entity);
 
 public:
     GameRoom();

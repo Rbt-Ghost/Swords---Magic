@@ -364,16 +364,9 @@ void GameRoom::trapDealDmg(sf::Sprite sprite, FlyingDemon &FlyDemon)
     }
 }
 
-bool GameRoom::checkCollision(sf::Sprite sprite, Player &player)
+bool GameRoom::checkCollision(sf::Sprite sprite, Entity &entity)
 {
-    if (player.get_Hitbox().getGlobalBounds().findIntersection(sprite.getGlobalBounds()))
-        return true;
-    else return false;
-}
-
-bool GameRoom::checkCollision(sf::Sprite sprite ,FlyingDemon &FlyDemon)
-{
-    if (FlyDemon.get_Hitbox().getGlobalBounds().findIntersection(sprite.getGlobalBounds()))
+    if (entity.get_Hitbox().getGlobalBounds().findIntersection(sprite.getGlobalBounds()))
         return true;
     else return false;
 }
