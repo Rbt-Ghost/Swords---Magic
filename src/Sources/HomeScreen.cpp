@@ -138,7 +138,7 @@ void HomeScreen::drawBackground(sf::RenderWindow &window)
 
 void HomeScreen::LoadBackground()
 {
-    if (!backgroundTexture->loadFromFile("../assets/Mokazar - Medieval Castle Background.jpg"))
+    if (!backgroundTexture->loadFromFile("../assets/Backgrounds/Mokazar - Medieval Castle Background.jpg"))
     {
         cerr << "ERROR :: COULD NOT LOAD BACKGROUND TEXTURE" << std::endl;
     }

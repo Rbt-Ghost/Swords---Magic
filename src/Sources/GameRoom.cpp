@@ -7,15 +7,15 @@ TorchSprite3(TorchTexture),
 TorchSprite4(TorchTexture),
 TorchSprite5(TorchTexture)
 {
-    if (!topTileTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Top.png") ||
-        !middleTileTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Middle.png") ||
-        !bottomTileTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Bottom.png") ||
-        !KnightStatueTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/KnightStatue.png") ||
-        !PriestStatueTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/PriestStatue.png") ||
-        !TorchTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Torch.png") ||
-        !FloorTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Floor.png") ||
-        !TrapTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Trap.png") ||
-        !PlatformTexture.loadFromFile("../assets/Medivel Castle Dungeon 2D Pixel Art/Platform.png") )
+    if (!topTileTexture.loadFromFile("../assets/Backgrounds/Medivel Castle Dungeon 2D Pixel Art/Top.png") ||
+        !middleTileTexture.loadFromFile("../assets/Backgrounds/Medivel Castle Dungeon 2D Pixel Art/Middle.png") ||
+        !bottomTileTexture.loadFromFile("../assets/Backgrounds/Medivel Castle Dungeon 2D Pixel Art/Bottom.png") ||
+        !KnightStatueTexture.loadFromFile("../assets/Backgrounds/Medivel Castle Dungeon 2D Pixel Art/KnightStatue.png") ||
+        !PriestStatueTexture.loadFromFile("../assets/Backgrounds/Medivel Castle Dungeon 2D Pixel Art/PriestStatue.png") ||
+        !TorchTexture.loadFromFile("../assets/Backgrounds/Medivel Castle Dungeon 2D Pixel Art/Torch.png") ||
+        !FloorTexture.loadFromFile("../assets/Backgrounds/Medivel Castle Dungeon 2D Pixel Art/Floor.png") ||
+        !TrapTexture.loadFromFile("../assets/Backgrounds/Medivel Castle Dungeon 2D Pixel Art/Trap.png") ||
+        !PlatformTexture.loadFromFile("../assets/Backgrounds/Medivel Castle Dungeon 2D Pixel Art/Platform.png") )
     {
         std::cerr << "ROOM TEXTURES LOAD ERROR" << std::endl;
     }

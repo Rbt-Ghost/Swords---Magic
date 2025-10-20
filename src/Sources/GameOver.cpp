@@ -164,7 +164,7 @@ void GameOver::LoadFont(sf::Font &font, string std)
 }
 void GameOver::LoadBackground()
 {
-    if (!backgroundTexture->loadFromFile("../assets/GameOverBg.png"))
+    if (!backgroundTexture->loadFromFile("../assets/Backgrounds/GameOverBg.png"))
     {
         cerr << "ERROR :: COULD NOT LOAD BACKGROUND TEXTURE" << std::endl;
     }
