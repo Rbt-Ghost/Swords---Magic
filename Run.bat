@@ -4,7 +4,7 @@ g++ -mwindows -o "bin/Swords & Magic.exe" main.cpp ^
     "src/Sources/HowToPlayScreen.cpp" ^
     "src/Sources/CreditsScreen.cpp" ^
     "src/Sources/AboutScreen.cpp" ^
-    "src/Sources/GameOver.cpp" ^
+    "src/Sources/GameOverScreen.cpp" ^
     "src/Sources/Entity.cpp" ^
     "src/Sources/Player.cpp" ^
     "src/Sources/Enemy.cpp" ^
