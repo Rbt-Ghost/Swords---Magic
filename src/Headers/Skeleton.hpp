@@ -55,6 +55,7 @@ public:
 
     void updateAnimation() override;
     void updateLogic(Player &layer) override;
+    virtual void move(float x, float y) override;
     bool Reacting();
     void spawn() override;
     void SkeletonSounds();

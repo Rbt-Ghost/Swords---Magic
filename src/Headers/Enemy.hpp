@@ -22,7 +22,6 @@ public:
     Enemy& operator-=(int Damage);
 
     virtual void updateLogic(Player &player);
-    virtual void move(float x, float y) override;
     virtual bool checkCollisions(Player &player);
     virtual float distance(Player &player);
     virtual bool playerLeft(Player &player);

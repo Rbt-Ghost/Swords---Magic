@@ -22,14 +22,6 @@ Enemy &Enemy::operator-=(int Damage)
 
 void Enemy::updateLogic(Player &player) {}
 
-void Enemy::move(float x, float y)
-{
-    get_Sprite().move({x, y});
-    get_Hitbox().move({x, y});
-    set_xPos(get_xPos() + x);
-    set_yPos(get_yPos() + y);
-}
-
 bool Enemy::checkCollisions(Player &player)
 {
     if (player.get_Hitbox().getGlobalBounds().findIntersection(get_Hitbox().getGlobalBounds()))

@@ -292,6 +292,14 @@ void Skeleton::updateLogic(Player &player)
     }
 }
 
+void Skeleton::move(float x, float y)
+{
+    get_Sprite().move({x, y});
+    get_Hitbox().move({x, y});
+    set_xPos(get_xPos() + x);
+    set_yPos(get_yPos() + y);
+}
+
 bool Skeleton::Reacting()
 {
     int x;
