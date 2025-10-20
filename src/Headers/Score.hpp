@@ -4,8 +4,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
-#include "Skeleton.hpp"
-#include "FlyingDemon.hpp"
+#include "Enemy.hpp"
 #include "fstream"
 #include <vector>
 #include <string>
@@ -15,9 +14,8 @@ using namespace std;
 class Score
 {
 private:
-    sf::Clock clock;
-    sf::Clock clock1;
-    sf::Clock clock2;
+    sf::Clock clockT;
+    sf::Clock clockE;
 
     sf::Font font;
     sf::Text currentScoreText;
@@ -26,8 +24,7 @@ private:
     int currentScore;
     int bestScore;
 
-    bool checkE1 = false;
-    bool checkE2 = false;
+    bool check = false;
 
 public:
     static int globalBestScore;
@@ -39,8 +36,7 @@ public:
     void saveBestScore();
 
     void update(Player &player);
-    void updateFlyingDemon(FlyingDemon &FlyDemon);
-    void updateSkeleton(Skeleton &Skeleton);
+    void updateEnemy(Enemy &enemy);
     void addScore(int amount);
     void reset();
     void draw(sf::RenderWindow& window);

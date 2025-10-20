@@ -175,14 +175,14 @@ void Game::update()
     {
         FlyDemon[i]->updateAnimation();
         FlyDemon[i]->FlyingDemonSounds();
-        score->updateFlyingDemon(*FlyDemon[i]);
+        score->updateEnemy(*FlyDemon[i]);
     }
 
     for (int i = 0; i < 3; i++)
     {
         skeleton[i]->updateAnimation();
         skeleton[i]->SkeletonSounds();
-        score->updateSkeleton(*skeleton[i]);
+        score->updateEnemy(*skeleton[i]);
     }
     score->update(*player);
 }

@@ -56,39 +56,25 @@ void Score::saveBestScore()
 
 void Score::update(Player &player)
 {
-    if (clock.getElapsedTime().asSeconds() >= 1.f && !player.get_isDead()) {
+    if (clockT.getElapsedTime().asSeconds() >= 1.f && !player.get_isDead()) {
         currentScore++;
-        clock.restart();
+        clockT.restart();
     }
 
     currentScoreText.setString("Score: " + std::to_string(currentScore));
 }
 
-void Score::updateFlyingDemon(FlyingDemon &FlyDemon)
+void Score::updateEnemy(Enemy &enemy)
 {
-    if (!FlyDemon.get_isDead())
+    if (!enemy.get_isDead())
     {
-        checkE1 = true;
+        check = true;
     }
-    if (checkE1 && FlyDemon.get_isDead() && FlyDemon.get_currentFrame() == 1 && clock1.getElapsedTime().asSeconds() > 0.16f)
+    if (check && enemy.get_isDead() && enemy.get_currentFrame() == 1 && clockE.getElapsedTime().asSeconds() > 0.16f)
     {
         currentScore += 10;
-        checkE1 = false;
-        clock1.restart();
-    }
-}
-
-void Score::updateSkeleton(Skeleton &Skeleton)
-{
-    if (!Skeleton.get_isDead())
-    {
-        checkE2 = true;
-    }
-    if (checkE2 && Skeleton.get_isDead() && Skeleton.get_currentFrame() == 1 && clock2.getElapsedTime().asSeconds() > 0.11f)
-    {
-        currentScore += 10;
-        checkE2 = false;
-        clock2.restart();
+        check = false;
+        clockE.restart();
     }
 }
 
@@ -110,7 +96,7 @@ void Score::reset()
         saveBestScore();
     }
     currentScore = 0;
-    clock.restart();
+    clockT.restart();
 }
 
 void Score::LoadFont(sf::Font &font, string str)
