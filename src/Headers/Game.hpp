@@ -9,7 +9,7 @@
 #include "HowToPlayScreen.hpp"
 #include "CreditsScreen.hpp"
 #include "AboutScreen.hpp"
-#include "GameOver.hpp"
+#include "GameOverScreen.hpp"
 #include "Player.hpp"
 #include "FlyingDemon.hpp"
 #include "Skeleton.hpp"
@@ -31,7 +31,7 @@ private:
     HowToPlayScreen *howToPlayScreen;
     CreditsScreen *creditsScreen;
     AboutScreen *aboutScreen;
-    GameOver *gameOverScreen;
+    GameOverScreen *gameOverScreen;
     GameRoom *gameRoom;
     Player *player;
     FlyingDemon *FlyDemon[2];

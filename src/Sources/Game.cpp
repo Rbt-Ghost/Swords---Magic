@@ -10,7 +10,7 @@ Game::Game(unsigned int width, unsigned int height) : window(new sf::RenderWindo
                                                       howToPlayScreen(new HowToPlayScreen(width, height)),
                                                       creditsScreen(new CreditsScreen(width, height)),
                                                       aboutScreen(new AboutScreen(width, height)),
-                                                      gameOverScreen(new GameOver(width, height)),
+                                                      gameOverScreen(new GameOverScreen(width, height)),
                                                       player(new Player("Hero", 100, 1, 2.25f)),
                                                       gameRoom(new GameRoom()),
                                                       score(new Score()),

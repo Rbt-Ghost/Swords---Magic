@@ -1,4 +1,4 @@
-#include "..\src\headers\GameOver.hpp"
+#include "..\src\headers\GameOverScreen.hpp"
 #include <algorithm> // ensure std::clamp
 
 // add file-scope animation state
@@ -23,7 +23,7 @@ static void update_go_alpha()
 	}
 }
 
-GameOver::GameOver(unsigned int width, unsigned int height) :                                                             
+GameOverScreen::GameOverScreen(unsigned int width, unsigned int height) :                                                             
 GameOverText(font),                                                              
 PlayAgainText(font),                                                              
 HomeText(font),                                                              
@@ -65,11 +65,11 @@ backgroundTexture(new sf::Texture(sf::Texture()))
     HomeButton.setOutlineColor(sf::Color::Red);
 }
 
-GameOver::~GameOver()
+GameOverScreen::~GameOverScreen()
 {
 }
 
-void GameOver::processEvents(sf::RenderWindow &window)
+void GameOverScreen::processEvents(sf::RenderWindow &window)
 {
     while (const std::optional event = window.pollEvent())
     {
@@ -78,7 +78,7 @@ void GameOver::processEvents(sf::RenderWindow &window)
     }
 }
 
-void GameOver::render(sf::RenderWindow &window)
+void GameOverScreen::render(sf::RenderWindow &window)
 {
     window.setFramerateLimit(60);
     window.clear();
@@ -142,7 +142,7 @@ void GameOver::render(sf::RenderWindow &window)
 
 
 // modify drawBackground to apply current alpha
-void GameOver::drawBackground(sf::RenderWindow &window)
+void GameOverScreen::drawBackground(sf::RenderWindow &window)
 {
     sf::Sprite backgroundSprite(*backgroundTexture);
     backgroundSprite.setScale(
@@ -155,14 +155,14 @@ void GameOver::drawBackground(sf::RenderWindow &window)
     window.draw(backgroundSprite);
 }
 
-void GameOver::LoadFont(sf::Font &font, string std)
+void GameOverScreen::LoadFont(sf::Font &font, string std)
 {
     if (!font.openFromFile(std))
     {
         cerr << endl << "ERROR";
     }
 }
-void GameOver::LoadBackground()
+void GameOverScreen::LoadBackground()
 {
     if (!backgroundTexture->loadFromFile("../assets/Backgrounds/GameOverBg.png"))
     {
@@ -170,48 +170,48 @@ void GameOver::LoadBackground()
     }
 }
 
-void GameOver::DefaultPlayAgain()
+void GameOverScreen::DefaultPlayAgain()
 {
     PlayAgainText.setCharacterSize(50);
     PlayAgainText.setFillColor(sf::Color::Red);
     PlayAgainText.setPosition({getWidth() / 2 - 125 - 360, 330});
 }
-void GameOver::HoverPlayAgain()
+void GameOverScreen::HoverPlayAgain()
 {
     PlayAgainText.setCharacterSize(55);
     PlayAgainText.setFillColor(sf::Color::Yellow);
     PlayAgainText.setPosition({getWidth() / 2 - 135 - 360, 326});
 }
 
-void GameOver::DefaultHome()
+void GameOverScreen::DefaultHome()
 {
     HomeText.setCharacterSize(50);
     HomeText.setFillColor(sf::Color::Red);
     HomeText.setPosition({getWidth() / 2 - 62 - 360 , 420});
 }
 
-void GameOver::HoverHome()
+void GameOverScreen::HoverHome()
 {
     HomeText.setCharacterSize(55);
     HomeText.setFillColor(sf::Color::Yellow);
     HomeText.setPosition({getWidth() / 2 - 66 - 360, 416});
 }
 
-sf::RectangleShape GameOver::getPlayAgainButton()
+sf::RectangleShape GameOverScreen::getPlayAgainButton()
 {
     return PlayAgainButton;
 }
 
-sf::RectangleShape GameOver::getHomeButton()
+sf::RectangleShape GameOverScreen::getHomeButton()
 {
     return HomeButton;
 }
 
-bool GameOver::getIsActive()
+bool GameOverScreen::getIsActive()
 {
     return isActive;
 }
-void GameOver::setIsActive(bool isActive)
+void GameOverScreen::setIsActive(bool isActive)
 {
     this->isActive = isActive;
 
@@ -230,20 +230,20 @@ void GameOver::setIsActive(bool isActive)
     }
 }
 
-void GameOver::setWidth(unsigned int width)
+void GameOverScreen::setWidth(unsigned int width)
 {
     this->width = width;
 }
-void GameOver::setHeight(unsigned int height)
+void GameOverScreen::setHeight(unsigned int height)
 {
     this->height = height;
 }
 
-float GameOver::getWidth()
+float GameOverScreen::getWidth()
 {
     return width;
 }
-float GameOver::getHeight()
+float GameOverScreen::getHeight()
 {
     return height;
 }

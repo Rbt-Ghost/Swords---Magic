@@ -7,7 +7,7 @@
 #include "HomeScreen.hpp"
 using namespace std;
 
-class GameOver
+class GameOverScreen
 {
 private:
     bool isActive = false;
@@ -30,8 +30,8 @@ private:
     sf::Sound sound;
 
 public:
-    GameOver(unsigned int width, unsigned int height);
-    ~GameOver();
+    GameOverScreen(unsigned int width, unsigned int height);
+    ~GameOverScreen();
 
     void processEvents(sf::RenderWindow& window);
 
