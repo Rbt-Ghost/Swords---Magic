@@ -628,3 +628,117 @@ void Player::stopCurrentSound()
     currentSoundType = SoundType::None;
     swordSoundPlayed = false;
 }
+
+void Player::playerAttack()
+{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::J))
+    {
+        if (!get_isAttacking2() && !get_isAttacking3())
+        {
+            set_isAttacking1(true);
+            if (checkAtk1)
+            {
+                set_currentFrame(0);
+                checkAtk1 = false;
+            }
+            if(get_Sprite().getScale().x > 0)
+            {
+                get_Hitbox().setSize({75.f, 55.f});
+            }
+            else if(get_Sprite().getScale().x < 0)
+            {
+                get_Hitbox().setSize({75.f, 55.f});
+                get_Hitbox().setOrigin({get_Hitbox().getSize().x / 2 + 24, get_Hitbox().getSize().y / 2 - 7.5f});
+            }
+        }
+        else if (!get_isAttacking1() && !get_isAttacking3())
+        {
+            set_isAttacking2(true);
+            checkAtk1 = true;
+        }
+        else if (!get_isAttacking1() && !get_isAttacking2())
+        {
+            set_isAttacking3(true);
+        }
+    }
+    else
+    {
+
+        set_isAttacking1(false);
+        set_isAttacking2(false);
+        set_isAttacking3(false);
+    }
+}
+void Player::playerDefend()
+{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::K))
+    {
+        if (!get_isDefending() && !get_isHurt() && DefendClock.getElapsedTime().asSeconds() > 1.0f)
+        {
+            set_currentFrame(0);
+            set_isDefending(true);
+            DefendClock.restart();
+        }
+    }
+    if (get_currentFrame() == 5)
+    {
+        set_isDefending(false);
+    }
+}
+void Player::playerMoveR()
+{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D))
+    {
+        get_Sprite().setScale(sf::Vector2f(2.f, 2.f));
+        set_isMovingR(true);
+        move(getSpeed(), 0.f);
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::LShift))
+        {
+            set_isMovingR(false);
+            set_isRunning(true);
+            move(getSpeed() + 0.5f, 0.f);
+        }
+        else
+        {
+            set_isRunning(false);
+        }
+    }
+    else
+    {
+        set_isMovingR(false);
+        set_isRunning(false);
+    }
+}
+void Player::playerMoveL()
+{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A))
+    {
+        get_Sprite().setScale(sf::Vector2f(-2.f, 2.f));
+        set_isMovingL(true);
+        move(-getSpeed(), 0.f);
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::LShift))
+        {
+            set_isMovingL(false);
+            set_isRunning(true);
+            move(-getSpeed() - 0.5f, 0.f);
+        }
+        else
+        {
+            set_isRunning(false);
+        }
+    }
+    else
+    {
+        set_isMovingL(false);
+    }
+}
+void Player::playerJump()
+{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Space))
+    {
+        if (!get_isJumping())
+            jump();
+    }
+}

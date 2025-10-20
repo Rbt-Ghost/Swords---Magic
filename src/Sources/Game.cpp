@@ -248,9 +248,9 @@ void Game::handlePlayerInput()
     {
         if (!player->get_isHurt() && !player->get_isDead())
         {
-            playerAttack();
+            player->playerAttack();
 
-            playerDefend();
+            player->playerDefend();
 
             if (player->get_isAttacking1() || player->get_isAttacking2() || player->get_isAttacking3() || player->get_isDefending())
             {
@@ -265,10 +265,10 @@ void Game::handlePlayerInput()
                 player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x / 2, player->get_Hitbox().getSize().y / 2  - 7.5f});
             }
 
-            playerMoveR();
-            playerMoveL();
+            player->playerMoveR();
+            player->playerMoveL();
 
-            playerJump();
+            player->playerJump();
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A) && sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D))
             {
@@ -550,129 +550,6 @@ void Game::restartFromGameOver()
 
     gameOverScreen->setIsActive(false);
     score->loadBestScore();
-}
-
-void Game::playerAttack()
-{
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::J))
-    {
-        if (!player->get_isAttacking2() && !player->get_isAttacking3())
-        {
-            player->set_isAttacking1(true);
-            if (checkAtk1)
-            {
-                player->set_currentFrame(0);
-                checkAtk1 = false;
-            }
-            if(player->get_Sprite().getScale().x > 0)
-            {
-                player->get_Hitbox().setSize({75.f, 55.f});
-            }
-            else if(player->get_Sprite().getScale().x < 0)
-            {
-                player->get_Hitbox().setSize({75.f, 55.f});
-                player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x / 2 + 24, player->get_Hitbox().getSize().y / 2 - 7.5f});
-            }
-        }
-        else if (!player->get_isAttacking1() && !player->get_isAttacking3())
-        {
-            player->set_isAttacking2(true);
-            checkAtk1 = true;
-        }
-        else if (!player->get_isAttacking1() && !player->get_isAttacking2())
-        {
-            player->set_isAttacking3(true);
-        }
-    }
-    else
-    {
-
-        player->set_isAttacking1(false);
-        player->set_isAttacking2(false);
-        player->set_isAttacking3(false);
-
-        for (int i = 0; i < 4; i++)
-        {
-            FlyDemon[i]->set_isHurt(false);
-        }
-    }
-}
-
-void Game::playerDefend()
-{
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::K))
-    {
-        if (!player->get_isDefending() && !player->get_isHurt() && DefendClock.getElapsedTime().asSeconds() > 1.0f)
-        {
-            player->set_currentFrame(0);
-            player->set_isDefending(true);
-            DefendClock.restart();
-        }
-    }
-    if (player->get_currentFrame() == 5)
-    {
-        player->set_isDefending(false);
-    }
-}
-
-void Game::playerMoveR()
-{
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D))
-    {
-        player->get_Sprite().setScale(sf::Vector2f(2.f, 2.f));
-        player->set_isMovingR(true);
-        player->move(player->getSpeed(), 0.f);
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::LShift))
-        {
-            player->set_isMovingR(false);
-            player->set_isRunning(true);
-            player->move(player->getSpeed() + 0.5f, 0.f);
-        }
-        else
-        {
-            player->set_isRunning(false);
-        }
-    }
-    else
-    {
-        player->set_isMovingR(false);
-        player->set_isRunning(false);
-    }
-}
-
-void Game::playerMoveL()
-{
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A))
-    {
-        player->get_Sprite().setScale(sf::Vector2f(-2.f, 2.f));
-        player->set_isMovingL(true);
-        player->move(-player->getSpeed(), 0.f);
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::LShift))
-        {
-            player->set_isMovingL(false);
-            player->set_isRunning(true);
-            player->move(-player->getSpeed() - 0.5f, 0.f);
-        }
-        else
-        {
-            player->set_isRunning(false);
-        }
-    }
-    else
-    {
-        player->set_isMovingL(false);
-    }
-}
-
-void Game::playerJump()
-{
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Space))
-    {
-        if (!player->get_isJumping())
-            player->jump();
-    }
 }
 
 void Game::PlayMusic(const std::filesystem::path &filename)

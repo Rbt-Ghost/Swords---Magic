@@ -52,7 +52,9 @@ private:
     sf::Clock animationClock;  
     sf::Clock jumpClock; 
     const float jumpCooldown = 0.6f;  
-    sf::Clock defendClock;
+    sf::Clock DefendClock;
+
+    bool checkAtk1 = true;
     
 
     bool isMovingR = false;
@@ -118,6 +120,12 @@ public:
     void respawn();
     void onShieldBlock();
     void KnightSounds();
+
+    void playerAttack();
+    void playerDefend();
+    void playerMoveR();
+    void playerMoveL();
+    void playerJump();
 
 };
 

@@ -23,7 +23,6 @@ private:
     unsigned int width;
     unsigned int height;
 
-    sf::Clock DefendClock;
     sf::Clock spawnClock;
     
     sf::RenderWindow *window;
@@ -37,8 +36,6 @@ private:
     FlyingDemon *FlyDemon[2];
     Skeleton *skeleton[3];
     Score *score;
-
-    bool checkAtk1 = true;
 
     bool wasHoverStart = false;
     bool wasHoverHowToPlay = false;
@@ -71,12 +68,6 @@ private:
     void GameOver_handlePlayerInput();
 
     void resetGame();
-
-    void playerAttack();
-    void playerDefend();
-    void playerMoveR();
-    void playerMoveL();
-    void playerJump();
 
     void PlayMusic(const std::filesystem::path& filename);
     void PlaySound(const std::filesystem::path& filename);
