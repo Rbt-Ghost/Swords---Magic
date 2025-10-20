@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include "Screen.hpp"
 #include "HomeScreen.hpp"
 #include "HowToPlayScreen.hpp"
 #include "CreditsScreen.hpp"
@@ -66,6 +67,9 @@ private:
     void Home_handlePlayerInput();
 
     void GameOver_handlePlayerInput();
+
+    void HandleScreen(Screen screen);
+    void HandleGameOverScreen(GameOverScreen screen);
 
     void resetGame();
 
