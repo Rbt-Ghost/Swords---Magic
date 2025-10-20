@@ -3,27 +3,27 @@
 Skeleton::Skeleton(string Name, int Hp, int Atk, float Speed) : 
 Enemy(Name, Hp, Atk, Speed)
 {
-    if (!idleTexture.loadFromFile("../assets/Skeleton Sprite Pack/Skeleton/Sprite Sheets/Skeleton Idle.png"))
+    if (!idleTexture.loadFromFile("../assets/2D_Models/Skeleton Sprite Pack/Skeleton Idle.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD SKELETON IDLE SPRITE" << std::endl;
     }
-    if (!attackTexture.loadFromFile("../assets/Skeleton Sprite Pack/Skeleton/Sprite Sheets/Skeleton Attack.png"))
+    if (!attackTexture.loadFromFile("../assets/2D_Models/Skeleton Sprite Pack/Skeleton Attack.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD SKELETON ATTACK SPRITE" << std::endl;
     }
-    if (!hurtTexture.loadFromFile("../assets/Skeleton Sprite Pack/Skeleton/Sprite Sheets/Skeleton Hit.png"))
+    if (!hurtTexture.loadFromFile("../assets/2D_Models/Skeleton Sprite Pack/Skeleton Hit.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD SKELETON HIT SPRITE" << std::endl;
     }
-    if (!deathTexture.loadFromFile("../assets/Skeleton Sprite Pack/Skeleton/Sprite Sheets/Skeleton Dead.png"))
+    if (!deathTexture.loadFromFile("../assets/2D_Models/Skeleton Sprite Pack/Skeleton Dead.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD SKELETON DEAD SPRITE" << std::endl;
     }
-    if (!walkTexture.loadFromFile("../assets/Skeleton Sprite Pack/Skeleton/Sprite Sheets/Skeleton Walk.png"))
+    if (!walkTexture.loadFromFile("../assets/2D_Models/Skeleton Sprite Pack/Skeleton Walk.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD SKELETON WALK SPRITE" << std::endl;
     }
-    if (!reactingTexture.loadFromFile("../assets/Skeleton Sprite Pack/Skeleton/Sprite Sheets/Skeleton React.png"))
+    if (!reactingTexture.loadFromFile("../assets/2D_Models/Skeleton Sprite Pack/Skeleton React.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD SKELETON REACT SPRITE" << std::endl;
     }

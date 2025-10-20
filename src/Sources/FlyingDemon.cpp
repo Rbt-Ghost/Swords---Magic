@@ -3,27 +3,27 @@
 FlyingDemon::FlyingDemon(string Name, int Hp, int Atk, float Speed) : Enemy(Name, Hp, Atk, Speed),
                                                                       fireballSprite(fireballTexture)
 {
-    if (!idleTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/with_outline/IDLE.png"))
+    if (!idleTexture.loadFromFile("../assets/2D_Models/Flying Demon 2D Pixel Art/IDLE.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD IDLE SPRITE" << std::endl;
     }
-    if (!flyingTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/with_outline/FLYING.png"))
+    if (!flyingTexture.loadFromFile("../assets/2D_Models/Flying Demon 2D Pixel Art/FLYING.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD FLYING SPRITE" << std::endl;
     }
-    if (!attackTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/with_outline/ATTACK.png"))
+    if (!attackTexture.loadFromFile("../assets/2D_Models/Flying Demon 2D Pixel Art/ATTACK.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD ATTACK SPRITE" << std::endl;
     }
-    if (!hurtTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/with_outline/HURT.png"))
+    if (!hurtTexture.loadFromFile("../assets/2D_Models/Flying Demon 2D Pixel Art/HURT.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD HURT SPRITE" << std::endl;
     }
-    if (!deathTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/with_outline/DEATH.png"))
+    if (!deathTexture.loadFromFile("../assets/2D_Models/Flying Demon 2D Pixel Art/DEATH.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD DEATH SPRITE" << std::endl;
     }
-    if (!fireballTexture.loadFromFile("../assets/Flying Demon 2D Pixel Art/Sprites/projectile.png"))
+    if (!fireballTexture.loadFromFile("../assets/2D_Models/Flying Demon 2D Pixel Art/projectile.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD PROJECTILE SPRITE" << std::endl;
     }

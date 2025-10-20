@@ -5,83 +5,83 @@ Entity(Name,Hp,Atk,Speed),
 HpBar(HpBarTexture100)
 {
 
-    if (!idleTexture.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/IDLE.png"))
+    if (!idleTexture.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Sprites/IDLE.png"))
     {
         std::cerr << "ERROR :: COULD NOT LOAD IDLE SPRITE" << std::endl;
     }
-    if (!walkTexture.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/WALK.png"))
+    if (!walkTexture.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Sprites/WALK.png"))
     {
         cerr << "ERROR :: COULD NOT LOAD WALK SPRITE" << endl;
     }
-    if (!jumpTexture.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/JUMP.png"))
+    if (!jumpTexture.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Sprites/JUMP.png"))
     {
         cerr << "ERROR :: COULD NOT LOAD JUMP SPRITE" << endl;
     }
-    if (!defendTexture.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/DEFEND.png"))
+    if (!defendTexture.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Sprites/DEFEND.png"))
     {
         cerr << "ERROR :: COULD NOT LOAD DEFEND SPRITE" << endl;
     }
-    if (!attackTexture1.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/ATTACK 1.png"))
+    if (!attackTexture1.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Sprites/ATTACK 1.png"))
     {
         cerr << "ERROR :: COULD NOT LOAD ATTACK SPRITE" << endl;
     }
-    if (!attackTexture2.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/ATTACK 2.png"))
+    if (!attackTexture2.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Sprites/ATTACK 2.png"))
     {
         cerr << "ERROR :: COULD NOT LOAD ATTACK SPRITE" << endl;
     }
-    if (!attackTexture3.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/ATTACK 3.png"))
+    if (!attackTexture3.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Sprites/ATTACK 3.png"))
     {
         cerr << "ERROR :: COULD NOT LOAD ATTACK SPRITE" << endl;
     }
-    if (!runningTexture.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/RUN.png"))
+    if (!runningTexture.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Sprites/RUN.png"))
     {
         cerr << "ERROR :: COULD NOT LOAD RUNNING SPRITE" << endl;
     }
-    if (!deathTexture.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/DEATH.png"))
+    if (!deathTexture.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Sprites/DEATH.png"))
     {
         cerr << "ERROR :: COULD NOT LOAD IDLE SPRITE" << endl;
     }
-    if (!hurtTexture.loadFromFile("../assets/Knight 2D Pixel Art/Sprites/with_outline/HURT.png"))
+    if (!hurtTexture.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Sprites/HURT.png"))
     {
         cerr << "ERROR :: COULD NOT LOAD IDLE SPRITE" << endl;
     }
-    if (!HpBarTexture100.loadFromFile("../assets/Hp_Bar/hp100.png"))
+    if (!HpBarTexture100.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Hp_Bar/hp100.png"))
     {
         cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
     }
-    if (!HpBarTexture90.loadFromFile("../assets/Hp_Bar/hp90.png"))
+    if (!HpBarTexture90.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Hp_Bar/hp90.png"))
     {
         cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
     }
-    if (!HpBarTexture80.loadFromFile("../assets/Hp_Bar/hp80.png"))
+    if (!HpBarTexture80.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Hp_Bar/hp80.png"))
     {
         cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
     }
-    if (!HpBarTexture70.loadFromFile("../assets/Hp_Bar/hp70.png"))
+    if (!HpBarTexture70.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Hp_Bar/hp70.png"))
     {
         cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
     }
-    if (!HpBarTexture60.loadFromFile("../assets/Hp_Bar/hp60.png"))
+    if (!HpBarTexture60.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Hp_Bar/hp60.png"))
     {
         cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
     }
-    if (!HpBarTexture50.loadFromFile("../assets/Hp_Bar/hp50.png"))
+    if (!HpBarTexture50.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Hp_Bar/hp50.png"))
     {
         cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
     }
-    if (!HpBarTexture40.loadFromFile("../assets/Hp_Bar/hp40.png"))
+    if (!HpBarTexture40.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Hp_Bar/hp40.png"))
     {
         cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
     }
-    if (!HpBarTexture30.loadFromFile("../assets/Hp_Bar/hp30.png"))
+    if (!HpBarTexture30.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Hp_Bar/hp30.png"))
     {
         cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;;
     }
-    if (!HpBarTexture20.loadFromFile("../assets/Hp_Bar/hp20.png"))
+    if (!HpBarTexture20.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Hp_Bar/hp20.png"))
     {
         cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
     }
-    if (!HpBarTexture10.loadFromFile("../assets/Hp_Bar/hp10.png"))
+    if (!HpBarTexture10.loadFromFile("../assets/2D_Models/Knight 2D Pixel Art/Hp_Bar/hp10.png"))
     {
         cerr << "ERROR :: COULD NOT Texture SPRITE" << endl;
     }
