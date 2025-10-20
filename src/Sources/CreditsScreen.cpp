@@ -22,9 +22,10 @@ CreditsScreen::CreditsScreen(unsigned int width, unsigned int height) : HomeScre
                       "HP-Bar by m1ilaan on itch.io\n"
                       "Medieval Timeline Font by Little Red Studio on itch.io\n"
                       "Mokazar - Medieval Castle Background by Arludus on itch.io\n"
-                      "All to background music and soundeffects are royalty-free from pixabay.com\n");
-    Credits.setLineSpacing(1.2f);
-    Credits.setCharacterSize(35);
+                      "All to background music and soundeffects are royalty-free from pixabay.com\n"
+                      "Font - fontspace.com/medieval-timeline-font-f80641\n");
+    Credits.setLineSpacing(1.1f);
+    Credits.setCharacterSize(33);
     Credits.setFillColor(Color::Yellow);
     Credits.setOutlineThickness(5);
     Credits.setOutlineColor(Color::Black);
