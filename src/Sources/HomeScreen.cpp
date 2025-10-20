@@ -9,6 +9,8 @@ Credits(font),
 About(font),
 Quit(font)
 {
+    setIsActive(true);
+
     LoadFont(font, "../assets/Medieval-timeline-font/MedievalTimeline-DOPRE.ttf");
 
     LoadBackground();

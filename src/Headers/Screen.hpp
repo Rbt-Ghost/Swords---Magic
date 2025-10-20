@@ -13,7 +13,7 @@ protected:
     unsigned int width;
     unsigned int height;
 
-    bool isActive = true;
+    bool isActive = false;
 
     sf::Texture *backgroundTexture;
     sf::Font font;
