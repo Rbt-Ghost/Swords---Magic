@@ -1,5 +1,6 @@
 g++ -mwindows -o "bin/Swords & Magic.exe" main.cpp ^
     "src/Sources/Game.cpp" ^
+    "src/Sources/Screen.cpp" ^
     "src/Sources/HomeScreen.cpp" ^
     "src/Sources/HowToPlayScreen.cpp" ^
     "src/Sources/CreditsScreen.cpp" ^

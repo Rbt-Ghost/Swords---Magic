@@ -1,20 +1,17 @@
 #include "..\src\Headers\HomeScreen.hpp"
 
 HomeScreen::HomeScreen(unsigned int width, unsigned int height) : 
+Screen(width, height),
 GameTitle(font),
 Start(font),
 HowToPlay(font),
 Credits(font),
 About(font),
-Quit(font),
-backgroundTexture(new sf::Texture(sf::Texture()))
+Quit(font)
 {
     LoadFont(font, "../assets/Medieval-timeline-font/MedievalTimeline-DOPRE.ttf");
 
     LoadBackground();
-
-    setWidth(width);
-    setHeight(height);
 
     GameTitle.setCharacterSize(100);
     GameTitle.setFillColor(sf::Color::Yellow);
@@ -83,15 +80,6 @@ HomeScreen::~HomeScreen()
 {
 }
 
-void HomeScreen::processEvents(sf::RenderWindow &window)
-{
-    while (const std::optional event = window.pollEvent())
-    {
-        if (event->is<sf::Event::Closed>())
-            window.close();
-    }
-}
-
 void HomeScreen::render(sf::RenderWindow &window)
 {
     window.setFramerateLimit(60);
@@ -116,42 +104,6 @@ void HomeScreen::render(sf::RenderWindow &window)
     //window.draw(QuitButton);
 
     window.display();
-}
-
-void HomeScreen::LoadFont(sf::Font &font, string std)
-{
-    if (!font.openFromFile(std))
-    {
-        cerr << endl << "ERROR";
-    }
-}
-
-void HomeScreen::drawBackground(sf::RenderWindow &window)
-{
-    sf::Sprite backgroundSprite(*backgroundTexture);
-    backgroundSprite.setScale(
-        {float(width) / backgroundTexture->getSize().x,
-         float(height) / backgroundTexture->getSize().y}
-    );
-    window.draw(backgroundSprite);
-}
-
-void HomeScreen::LoadBackground()
-{
-    if (!backgroundTexture->loadFromFile("../assets/Backgrounds/Mokazar - Medieval Castle Background.jpg"))
-    {
-        cerr << "ERROR :: COULD NOT LOAD BACKGROUND TEXTURE" << std::endl;
-    }
-}
-
-void HomeScreen::setIsActive(bool isActive)
-{
-    this->isActive = isActive;
-}
-
-bool HomeScreen::getIsActive()
-{
-    return isActive;
 }
 
 sf::RectangleShape HomeScreen::getStartButton()
@@ -238,22 +190,4 @@ void HomeScreen::HoverQuit()
     Quit.setCharacterSize(55);
     Quit.setFillColor(sf::Color::Red);
     Quit.setPosition({getWidth() / 2 - 54, 595});
-}
-
-void HomeScreen::setWidth(unsigned int width)
-{
-    this->width = width;
-}
-void HomeScreen::setHeight(unsigned int height)
-{
-    this->height = height;
-}
-
-float HomeScreen::getWidth()
-{
-    return width;
-}
-float HomeScreen::getHeight()
-{
-    return height;
 }

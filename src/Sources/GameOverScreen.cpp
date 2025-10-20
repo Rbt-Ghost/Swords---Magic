@@ -23,19 +23,16 @@ static void update_go_alpha()
 	}
 }
 
-GameOverScreen::GameOverScreen(unsigned int width, unsigned int height) :                                                             
+GameOverScreen::GameOverScreen(unsigned int width, unsigned int height) : 
+Screen(width, height),                                                       
 GameOverText(font),                                                              
 PlayAgainText(font),                                                              
 HomeText(font),                                                              
-sound(buffer),
-backgroundTexture(new sf::Texture(sf::Texture()))
+sound(buffer)
 {
     LoadFont(font, "../assets/Medieval-timeline-font/MedievalTimeline-DOPRE.ttf");
 
     LoadBackground();
-
-    setWidth(width);
-    setHeight(height);
 
     GameOverText.setString("Game Over");
     GameOverText.setCharacterSize(100);
@@ -67,15 +64,6 @@ backgroundTexture(new sf::Texture(sf::Texture()))
 
 GameOverScreen::~GameOverScreen()
 {
-}
-
-void GameOverScreen::processEvents(sf::RenderWindow &window)
-{
-    while (const std::optional event = window.pollEvent())
-    {
-        if (event->is<sf::Event::Closed>())
-            window.close();
-    }
 }
 
 void GameOverScreen::render(sf::RenderWindow &window)
@@ -155,13 +143,6 @@ void GameOverScreen::drawBackground(sf::RenderWindow &window)
     window.draw(backgroundSprite);
 }
 
-void GameOverScreen::LoadFont(sf::Font &font, string std)
-{
-    if (!font.openFromFile(std))
-    {
-        cerr << endl << "ERROR";
-    }
-}
 void GameOverScreen::LoadBackground()
 {
     if (!backgroundTexture->loadFromFile("../assets/Backgrounds/GameOverBg.png"))
@@ -207,10 +188,6 @@ sf::RectangleShape GameOverScreen::getHomeButton()
     return HomeButton;
 }
 
-bool GameOverScreen::getIsActive()
-{
-    return isActive;
-}
 void GameOverScreen::setIsActive(bool isActive)
 {
     this->isActive = isActive;
@@ -228,22 +205,4 @@ void GameOverScreen::setIsActive(bool isActive)
         go_animating = false;
         go_alpha = 0.f;
     }
-}
-
-void GameOverScreen::setWidth(unsigned int width)
-{
-    this->width = width;
-}
-void GameOverScreen::setHeight(unsigned int height)
-{
-    this->height = height;
-}
-
-float GameOverScreen::getWidth()
-{
-    return width;
-}
-float GameOverScreen::getHeight()
-{
-    return height;
 }

@@ -5,26 +5,18 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Screen.hpp"
 
 using namespace std;
 
-class HomeScreen
+class HomeScreen : public Screen
 {
 private:
-    unsigned int width;
-    unsigned int height;
-
-    bool isActive = true;
-
-    sf::Texture *backgroundTexture;
-
     sf::RectangleShape StartButton;
     sf::RectangleShape HowToPlayButton;
     sf::RectangleShape CreditsButton;
     sf::RectangleShape AboutButton;
     sf::RectangleShape QuitButton;
-
-    sf::Font font;
     
     sf::Text GameTitle;
     sf::Text Start;
@@ -33,21 +25,11 @@ private:
     sf::Text About;
     sf::Text Quit;
 
-protected:
-
-    void LoadFont(sf::Font &font, string std);
-    void LoadBackground();
-    void drawBackground(sf::RenderWindow& window);
-
 public:
     HomeScreen(unsigned int width, unsigned int height);
     ~HomeScreen();
 
-    void processEvents( sf::RenderWindow& window );
-    void render( sf::RenderWindow& window );
-
-    void setIsActive(bool isActive);
-    bool getIsActive();
+    void render( sf::RenderWindow& window ) override;
 
     sf::RectangleShape getStartButton();
     sf::RectangleShape getHowToPlayButton();
@@ -65,12 +47,6 @@ public:
     void HoverAbout();
     void DefaultQuit();
     void HoverQuit();
-
-    void setWidth(unsigned int width);
-    void setHeight(unsigned int height);
-
-    float getWidth();
-    float getHeight();
 };
 
 #endif
