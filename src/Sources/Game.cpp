@@ -70,24 +70,50 @@ void Game::run()
     {
         if (homeScreen->getIsActive())
         {
-            gameOverMusicPlayed = false;
-            HandleScreen(*homeScreen);
+            gameOverMusicPlayed = false; 
+            PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
+            homeScreen->processEvents(*window);
+            homeScreen->render(*window);
+            if (window->hasFocus())
+                Home_handlePlayerInput();
         }
         else if (howToPlayScreen->getIsActive())
         {
-            HandleScreen(*howToPlayScreen);
+            PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
+            howToPlayScreen->processEvents(*window);
+            howToPlayScreen->render(*window);
+            if (window->hasFocus())
+                Home_handlePlayerInput();
         }
         else if (creditsScreen->getIsActive())
         {
-            HandleScreen(*creditsScreen);
+            PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
+            creditsScreen->processEvents(*window);
+            creditsScreen->render(*window);
+            if (window->hasFocus())
+                Home_handlePlayerInput();
         }
         else if (aboutScreen->getIsActive())
         {
-            HandleScreen(*aboutScreen);
+            PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
+            aboutScreen->processEvents(*window);
+            aboutScreen->render(*window);
+            if (window->hasFocus())
+                Home_handlePlayerInput();
         }
         else if (gameOverScreen->getIsActive())
         {
-            HandleGameOverScreen(*gameOverScreen);
+            // only start the GameOver sound once when entering the GameOver state
+            if (!gameOverMusicPlayed)
+            {
+                backgroundMusic.stop();
+                PlayMusic("..//assets//Sounds//UI//GameOver.mp3");
+                gameOverMusicPlayed = true;
+            }
+            gameOverScreen->processEvents(*window);
+            gameOverScreen->render(*window);
+            if (window->hasFocus())
+                GameOver_handlePlayerInput();
         }
         else
         {
@@ -172,7 +198,7 @@ void Game::render()
     for (int i = 0; i < 2; i++)
     {
         window->draw(FlyDemon[i]->get_Sprite());
-        // window->draw(FlyDemon[i]->get_Hitbox());
+        //window->draw(FlyDemon[i]->get_Hitbox());
     }
 
     for (int i = 0; i < 2; i++)
@@ -180,14 +206,14 @@ void Game::render()
         if (FlyDemon[i]->get_Fireball())
         {
             window->draw(FlyDemon[i]->get_FireballSprite());
-            // window->draw(FlyDemon[i]->get_fireballHitbox());
+            //window->draw(FlyDemon[i]->get_fireballHitbox());
         }
     }
 
     for (int i = 0; i < 3; i++)
     {
         window->draw(skeleton[i]->get_Sprite());
-        // window->draw(skeleton[i]->get_Hitbox());
+        //window->draw(skeleton[i]->get_Hitbox());
     }
 
     window->draw(player->get_Sprite());
@@ -195,7 +221,7 @@ void Game::render()
     {
         window->draw(player->get_Hp_Bar());
     }
-    // window->draw(player->get_Hitbox());
+    //window->draw(player->get_Hitbox());
 
     if (isGamePaused)
     {
@@ -236,7 +262,7 @@ void Game::handlePlayerInput()
             else
             {
                 player->get_Hitbox().setSize({27.5f, 55.f});
-                player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x / 2, player->get_Hitbox().getSize().y / 2 - 7.5f});
+                player->get_Hitbox().setOrigin({player->get_Hitbox().getSize().x / 2, player->get_Hitbox().getSize().y / 2  - 7.5f});
             }
 
             player->playerMoveR();
@@ -253,6 +279,7 @@ void Game::handlePlayerInput()
         }
     }
 }
+
 
 void Game::Home_handlePlayerInput()
 {
@@ -498,29 +525,6 @@ void Game::GameOver_handlePlayerInput()
         }
         wasHoverHome = isHoverHome;
     }
-}
-
-void Game::HandleScreen(Screen screen)
-{
-    PlayMusic("..//assets//Sounds//BackgroundMusic//medieval-ambient-236809.mp3");
-    screen.processEvents(*window);
-    screen.render(*window);
-    if (window->hasFocus())
-        Home_handlePlayerInput();
-}
-
-void Game::HandleGameOverScreen(GameOverScreen screen)
-{
-    if (!gameOverMusicPlayed)
-    {
-        backgroundMusic.stop();
-        PlayMusic("..//assets//Sounds//UI//GameOver.mp3");
-        gameOverMusicPlayed = true;
-    }
-    gameOverScreen->processEvents(*window);
-    gameOverScreen->render(*window);
-    if (window->hasFocus())
-        GameOver_handlePlayerInput();
 }
 
 void Game::resetGame()
