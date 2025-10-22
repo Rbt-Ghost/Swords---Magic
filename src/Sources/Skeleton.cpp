@@ -153,6 +153,14 @@ void Skeleton::updateLogic(Player &player)
 
         if (AtkClock.getElapsedTime().asSeconds() > 3.5)
         {
+            if (playerRight(player))
+            {
+                get_Sprite().setScale(sf::Vector2f(3.f, 3.f));
+            }
+            else if (playerLeft(player))
+            {
+                get_Sprite().setScale(sf::Vector2f(-3.f, 3.f));
+            }
             set_currentFrame(0);
             isAttacking = true;
 
