@@ -30,6 +30,17 @@ private:
     // track which enemy instances already awarded score on death
     std::unordered_set<const void*> awardedEnemies;
 
+    // salt used when hashing saved score to prevent trivial tampering
+    const std::string scoreSalt = "SwordsMagicSalt_v1";
+
+    // compute SHA-256 hex string for input
+    static std::string sha256(const std::string &input);
+
+    // XOR-encrypt then hex-encode; and the reverse (hex-decode then XOR-decrypt)
+    static std::string xorEncryptToHex(const std::string &plain, const std::string &key);
+    static std::string xorDecryptFromHex(const std::string &hexStr, const std::string &key);
+    static bool isDecimalString(const std::string &s);
+
 public:
     static int globalBestScore;
 
