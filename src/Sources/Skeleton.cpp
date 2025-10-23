@@ -151,7 +151,7 @@ void Skeleton::updateLogic(Player &player)
     {
         isWalking = false;
 
-        if (AtkClock.getElapsedTime().asSeconds() > 3.5)
+        if (AtkClock.getElapsedTime().asSeconds() > 4.25f)
         {
             if (playerRight(player))
             {
