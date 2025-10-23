@@ -36,6 +36,10 @@ private:
     // compute SHA-256 hex string for input
     static std::string sha256(const std::string &input);
 
+    // simple reversible XOR encrypt -> hex (hides readable score in file)
+    static std::string xorEncryptHex(const std::string &plain, const std::string &key);
+    static std::string xorDecryptHex(const std::string &hexStr, const std::string &key);
+
 public:
     static int globalBestScore;
 

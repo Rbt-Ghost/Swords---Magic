@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <sstream>
 #include <cstdint>
+#include <stdexcept>
 
 // ------------------ SHA256 implementation (small, self-contained) ------------------
 std::string Score::sha256(const std::string &input)
@@ -80,6 +81,37 @@ std::string Score::sha256(const std::string &input)
 }
 // ------------------ end SHA256 implementation ------------------
 
+// ------------------ simple XOR encrypt/decrypt (hex encoded) ------------------
+std::string Score::xorEncryptHex(const std::string &plain, const std::string &key)
+{
+    if (key.empty()) throw std::invalid_argument("key empty");
+    std::ostringstream os;
+    os << std::hex << std::setfill('0') << std::nouppercase;
+    for (size_t i = 0; i < plain.size(); ++i)
+    {
+        uint8_t b = static_cast<uint8_t>(plain[i]) ^ static_cast<uint8_t>(key[i % key.size()]);
+        os << std::setw(2) << static_cast<int>(b);
+    }
+    return os.str();
+}
+
+std::string Score::xorDecryptHex(const std::string &hexStr, const std::string &key)
+{
+    if (key.empty()) throw std::invalid_argument("key empty");
+    if (hexStr.size() % 2 != 0) return {};
+    std::string out;
+    out.reserve(hexStr.size() / 2);
+    for (size_t i = 0; i < hexStr.size(); i += 2)
+    {
+        std::string byteHex = hexStr.substr(i, 2);
+        uint8_t val = static_cast<uint8_t>(std::stoul(byteHex, nullptr, 16));
+        uint8_t dec = val ^ static_cast<uint8_t>(key[(i/2) % key.size()]);
+        out.push_back(static_cast<char>(dec));
+    }
+    return out;
+}
+// ------------------ end XOR helpers ------------------
+
 int Score::globalBestScore = 0;
 
 Score::Score():
@@ -116,28 +148,28 @@ void Score::loadBestScore()
         globalBestScore = 0;
         return;
     }
-    std::string scoreLine;
+    std::string encLine;
     std::string hashLine;
-    if (!std::getline(file, scoreLine) || !std::getline(file, hashLine))
+    if (!std::getline(file, encLine) || !std::getline(file, hashLine))
     {
         globalBestScore = 0;
         file.close();
         return;
     }
     file.close();
-    // verify hash
-    std::string expected = sha256(scoreLine + this->scoreSalt);
-    if (expected == hashLine)
+    // verify integrity: hash is computed over the encrypted blob + salt
+    std::string expected = sha256(encLine + this->scoreSalt);
+    if (expected != hashLine)
     {
-        try {
-            globalBestScore = std::stoi(scoreLine);
-        } catch (...) {
-            globalBestScore = 0;
-        }
+        globalBestScore = 0; // tampered or corrupted
+        return;
     }
-    else
-    {
-        // tampered or corrupted file -> ignore
+    // decrypt
+    std::string scoreStr;
+    try {
+        scoreStr = xorDecryptHex(encLine, this->scoreSalt);
+        globalBestScore = std::stoi(scoreStr);
+    } catch (...) {
         globalBestScore = 0;
     }
 }
@@ -147,13 +179,14 @@ void Score::saveBestScore()
     if (currentScore > globalBestScore) {
         globalBestScore = currentScore;
     }
-    // write score and its sha256(score + salt) on two lines
+    // encrypt the score string, then store encryptedHex and sha256(encryptedHex + salt)
     std::ofstream file("../Score.txt", std::ios::trunc);
     if (file.is_open())
     {
         std::string scoreStr = std::to_string(globalBestScore);
-        std::string h = sha256(scoreStr + this->scoreSalt);
-        file << scoreStr << "\n" << h << "\n";
+        std::string enc = xorEncryptHex(scoreStr, this->scoreSalt);
+        std::string h = sha256(enc + this->scoreSalt);
+        file << enc << "\n" << h << "\n";
         file.close();
     }
     bestScoreText.setString("Best: " + std::to_string(globalBestScore));
