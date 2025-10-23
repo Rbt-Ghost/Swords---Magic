@@ -80,74 +80,6 @@ std::string Score::sha256(const std::string &input)
 }
 // ------------------ end SHA256 implementation ------------------
 
-static std::string hexEncode(const std::string &bytes)
-{
-    static const char* hex = "0123456789abcdef";
-    std::string out;
-    out.reserve(bytes.size() * 2);
-    for (unsigned char c : bytes)
-    {
-        out.push_back(hex[(c >> 4) & 0xF]);
-        out.push_back(hex[c & 0xF]);
-    }
-    return out;
-}
-
-static std::string hexDecode(const std::string &hex)
-{
-    if (hex.size() % 2 != 0) return {};
-    std::string out;
-    out.reserve(hex.size() / 2);
-    auto val = [](char c)->int {
-        if (c >= '0' && c <= '9') return c - '0';
-        if (c >= 'a' && c <= 'f') return c - 'a' + 10;
-        if (c >= 'A' && c <= 'F') return c - 'A' + 10;
-        return -1;
-    };
-    for (size_t i = 0; i < hex.size(); i += 2)
-    {
-        int hi = val(hex[i]);
-        int lo = val(hex[i+1]);
-        if (hi < 0 || lo < 0) return {};
-        out.push_back(static_cast<char>((hi << 4) | lo));
-    }
-    return out;
-}
-
-std::string Score::xorEncryptToHex(const std::string &plain, const std::string &key)
-{
-    if (key.empty()) return hexEncode(plain);
-    std::string out;
-    out.reserve(plain.size());
-    for (size_t i = 0; i < plain.size(); ++i)
-    {
-        out.push_back(static_cast<char>(plain[i] ^ key[i % key.size()]));
-    }
-    return hexEncode(out);
-}
-
-std::string Score::xorDecryptFromHex(const std::string &hexStr, const std::string &key)
-{
-    std::string raw = hexDecode(hexStr);
-    if (raw.empty()) return {};
-    if (key.empty()) return raw;
-    std::string out;
-    out.reserve(raw.size());
-    for (size_t i = 0; i < raw.size(); ++i)
-    {
-        out.push_back(static_cast<char>(raw[i] ^ key[i % key.size()]));
-    }
-    return out;
-}
-
-bool Score::isDecimalString(const std::string &s)
-{
-    if (s.empty()) return false;
-    for (char c : s)
-        if (c < '0' || c > '9') return false;
-    return true;
-}
-
 int Score::globalBestScore = 0;
 
 Score::Score():
@@ -174,7 +106,6 @@ bestScoreText(font)
 
 Score::~Score()
 {
-    saveBestScore();
 }
 
 void Score::loadBestScore()
@@ -185,38 +116,30 @@ void Score::loadBestScore()
         globalBestScore = 0;
         return;
     }
-    std::string firstLine;
+    std::string scoreLine;
     std::string hashLine;
-    if (!std::getline(file, firstLine) || !std::getline(file, hashLine))
+    if (!std::getline(file, scoreLine) || !std::getline(file, hashLine))
     {
         globalBestScore = 0;
         file.close();
         return;
     }
     file.close();
-    // verify integrity: hash = sha256(firstLine + salt)
-    std::string expected = sha256(firstLine + this->scoreSalt);
-    if (expected != hashLine)
+    // verify hash
+    std::string expected = sha256(scoreLine + this->scoreSalt);
+    if (expected == hashLine)
     {
-        globalBestScore = 0; // tampered or corrupted
-        return;
+        try {
+            globalBestScore = std::stoi(scoreLine);
+        } catch (...) {
+            globalBestScore = 0;
+        }
     }
-    // If the first line is a plain decimal number (backward-compatible), use it directly
-    if (isDecimalString(firstLine))
+    else
     {
-        try { globalBestScore = std::stoi(firstLine); }
-        catch (...) { globalBestScore = 0; }
-        return;
-    }
-    // Otherwise treat firstLine as hex-encoded XOR-encrypted data and decrypt
-    std::string decrypted = xorDecryptFromHex(firstLine, this->scoreSalt);
-    if (decrypted.empty() || !isDecimalString(decrypted))
-    {
+        // tampered or corrupted file -> ignore
         globalBestScore = 0;
-        return;
     }
-    try { globalBestScore = std::stoi(decrypted); }
-    catch (...) { globalBestScore = 0; }
 }
 
 void Score::saveBestScore()
@@ -224,15 +147,13 @@ void Score::saveBestScore()
     if (currentScore > globalBestScore) {
         globalBestScore = currentScore;
     }
-    std::string scoreStr = std::to_string(globalBestScore);
-    // encrypt (XOR) and hex-encode so the saved value is not human-readable
-    std::string encryptedHex = xorEncryptToHex(scoreStr, this->scoreSalt);
-    // store encryptedHex and integrity hash = sha256(encryptedHex + salt)
-    std::string integrity = sha256(encryptedHex + this->scoreSalt);
+    // write score and its sha256(score + salt) on two lines
     std::ofstream file("../Score.txt", std::ios::trunc);
     if (file.is_open())
     {
-        file << encryptedHex << "\n" << integrity << "\n";
+        std::string scoreStr = std::to_string(globalBestScore);
+        std::string h = sha256(scoreStr + this->scoreSalt);
+        file << scoreStr << "\n" << h << "\n";
         file.close();
     }
     bestScoreText.setString("Best: " + std::to_string(globalBestScore));
