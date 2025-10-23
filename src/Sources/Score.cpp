@@ -56,25 +56,34 @@ void Score::saveBestScore()
 
 void Score::update(Player &player)
 {
-    if (clockT.getElapsedTime().asSeconds() >= 1.f && !player.get_isDead()) {
-        currentScore++;
-        clockT.restart();
-    }
-
     currentScoreText.setString("Score: " + std::to_string(currentScore));
 }
 
-void Score::updateEnemy(Enemy &enemy)
+void Score::updateFlyingDemon(FlyingDemon &enemy)
 {
     if (!enemy.get_isDead())
     {
         check = true;
     }
-    if (check && enemy.get_isDead() && enemy.get_currentFrame() == 1 && clockE.getElapsedTime().asSeconds() > 0.16f)
+    if (check && enemy.get_isDead() && enemy.get_currentFrame() == 1 && clockF.getElapsedTime().asSeconds() > 0.16f)
     {
         currentScore += 10;
         check = false;
-        clockE.restart();
+        clockF.restart();
+    }
+}
+
+void Score::updateSkeleton(Skeleton &enemy)
+{
+    if (!enemy.get_isDead())
+    {
+        check = true;
+    }
+    if (check && enemy.get_isDead() && enemy.get_currentFrame() == 1 && clockS.getElapsedTime().asSeconds() > 0.11f)
+    {
+        currentScore += 25;
+        check = false;
+        clockS.restart();
     }
 }
 
@@ -96,7 +105,6 @@ void Score::reset()
         saveBestScore();
     }
     currentScore = 0;
-    clockT.restart();
 }
 
 void Score::LoadFont(sf::Font &font, string str)

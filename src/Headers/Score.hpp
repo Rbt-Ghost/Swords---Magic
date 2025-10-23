@@ -5,6 +5,8 @@
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
 #include "Enemy.hpp"
+#include "FlyingDemon.hpp"
+#include "Skeleton.hpp"
 #include "fstream"
 #include <vector>
 #include <string>
@@ -14,8 +16,8 @@ using namespace std;
 class Score
 {
 private:
-    sf::Clock clockT;
-    sf::Clock clockE;
+    sf::Clock clockF;
+    sf::Clock clockS;
 
     sf::Font font;
     sf::Text currentScoreText;
@@ -36,7 +38,8 @@ public:
     void saveBestScore();
 
     void update(Player &player);
-    void updateEnemy(Enemy &enemy);
+    void updateFlyingDemon(FlyingDemon &flyingDemon);
+    void updateSkeleton(Skeleton &skeleton);
     void addScore(int amount);
     void reset();
     void draw(sf::RenderWindow& window);

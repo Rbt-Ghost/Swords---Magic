@@ -18,7 +18,7 @@ Back(font)
                            "Press K to raise the shield.\n"
                            "Press Esc/P to pause/resume the game.\n"
                            "Defeat enemies to earn points and increase your score!\n"
-                           "1 point for every second you survive and 10 points for defeating an enemy.\n"
+                           "10 points for defeating a Flying Demon and 25 points for defeating a Skeleton.\n"
                            "Avoid enemy attacks to stay alive.\n"
                            "Reach the highest score possible!");
     Instructions.setLineSpacing(1.2f);
