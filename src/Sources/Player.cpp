@@ -631,7 +631,7 @@ void Player::stopCurrentSound()
 
 void Player::playerAttack()
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::J) && isJumping == false)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::J) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && isJumping == false)
     {
         if (!get_isAttacking2() && !get_isAttacking3())
         {
@@ -671,7 +671,7 @@ void Player::playerAttack()
 }
 void Player::playerDefend()
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::K))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::K) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
     {
         if (!get_isDefending() && !get_isHurt() && DefendClock.getElapsedTime().asSeconds() > 1.0f)
         {
