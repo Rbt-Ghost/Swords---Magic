@@ -352,7 +352,7 @@ void Skeleton::spawn()
     get_Sprite().setPosition({get_xPos(), get_yPos()});
     get_Hitbox().setPosition({get_xPos(), get_yPos()});
 
-    setHp(10);
+    setHp(20);
     set_isDead(false);
 }
 
