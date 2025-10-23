@@ -61,29 +61,31 @@ void Score::update(Player &player)
 
 void Score::updateFlyingDemon(FlyingDemon &enemy)
 {
+    const void* key = static_cast<const void*>(&enemy);
     if (!enemy.get_isDead())
     {
-        check = true;
+        awardedEnemies.erase(key);
+        return;
     }
-    if (check && enemy.get_isDead() && enemy.get_currentFrame() == 1 && clockF.getElapsedTime().asSeconds() > 0.16f)
+    if (awardedEnemies.find(key) == awardedEnemies.end())
     {
         currentScore += 10;
-        check = false;
-        clockF.restart();
+        awardedEnemies.insert(key);
     }
 }
 
 void Score::updateSkeleton(Skeleton &enemy)
 {
+    const void* key = static_cast<const void*>(&enemy);
     if (!enemy.get_isDead())
     {
-        check = true;
+        awardedEnemies.erase(key);
+        return;
     }
-    if (check && enemy.get_isDead() && enemy.get_currentFrame() == 1 && clockS.getElapsedTime().asSeconds() > 0.11f)
+    if (awardedEnemies.find(key) == awardedEnemies.end())
     {
         currentScore += 25;
-        check = false;
-        clockS.restart();
+        awardedEnemies.insert(key);
     }
 }
 

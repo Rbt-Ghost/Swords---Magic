@@ -11,6 +11,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <unordered_set> // added
 using namespace std;
 
 class Score
@@ -26,7 +27,8 @@ private:
     int currentScore;
     int bestScore;
 
-    bool check = false;
+    // track which enemy instances already awarded score on death
+    std::unordered_set<const void*> awardedEnemies;
 
 public:
     static int globalBestScore;
