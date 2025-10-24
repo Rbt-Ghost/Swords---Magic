@@ -37,6 +37,8 @@ private:
     Skeleton *skeleton[3];
     Score *score;
 
+    sf::Image icon;
+
     bool wasHoverStart = false;
     bool wasHoverHowToPlay = false;
     bool wasHoverCredits = false;

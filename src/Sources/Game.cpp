@@ -21,6 +21,12 @@ pauseText(font)
     setW(width);
     setH(height);
 
+    if(!icon.loadFromFile("../assets/Game-Icon.png"))
+    {
+        std::cerr << "ERROR :: COULD NOT LOAD ICON IMAGE" << std::endl;
+    }
+    window->setIcon(icon);
+
     for (int i = 0; i < 2; i++)
     {
         FlyDemon[i] = new FlyingDemon("Flying Demon", 13, 3, 1.85f);
