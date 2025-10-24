@@ -304,7 +304,7 @@ void FlyingDemon::updateLogic(Player &player)
                 }
             }
         }
-        else if (get_isHurt() && get_currentFrame() >= 3)
+        if (get_isHurt() && get_currentFrame() >= 3)
             set_isHurt(false);
 
         if (get_isFlying() && distance(player) < 400)
