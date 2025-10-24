@@ -15,6 +15,7 @@ class FlyingDemon : public Enemy
 private:
 
     sf::Clock AtkClock;
+    sf::Clock minAtkClock;
     sf::Clock EscapeClock;
     sf::Clock comeDownClock;
 

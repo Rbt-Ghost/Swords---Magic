@@ -472,10 +472,11 @@ void FlyingDemon::ifAttack()
 
     int r = dist(gen);
 
-    if (r == 2 && !isAttacking)
+    if (r == 2 && !isAttacking || minAtkClock.getElapsedTime().asSeconds() > 3.5f)
     {
         isAttacking = true;
         isFlying = false;
+        minAtkClock.restart();
     }
 }
 
