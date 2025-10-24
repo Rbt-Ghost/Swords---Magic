@@ -157,14 +157,12 @@ void Score::loadBestScore()
         return;
     }
     file.close();
-    // verify integrity: hash is computed over the encrypted blob + salt
     std::string expected = sha256(encLine + this->scoreSalt);
     if (expected != hashLine)
     {
-        globalBestScore = 0; // tampered or corrupted
+        globalBestScore = 0;
         return;
     }
-    // decrypt
     std::string scoreStr;
     try {
         scoreStr = xorDecryptHex(encLine, this->scoreSalt);
@@ -179,7 +177,6 @@ void Score::saveBestScore()
     if (currentScore > globalBestScore) {
         globalBestScore = currentScore;
     }
-    // encrypt the score string, then store encryptedHex and sha256(encryptedHex + salt)
     std::ofstream file("../Score.txt", std::ios::trunc);
     if (file.is_open())
     {
