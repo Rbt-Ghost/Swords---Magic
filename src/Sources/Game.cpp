@@ -12,7 +12,7 @@ howToPlayScreen(new HowToPlayScreen(width, height)),
 creditsScreen(new CreditsScreen(width, height)),                                                      
 aboutScreen(new AboutScreen(width, height)),                                                      
 gameOverScreen(new GameOverScreen(width, height)),                                                      
-player(new Player("Hero", 100, 2, 2.15f)),                                                      
+player(new Player("Hero", 100, 1, 2.15f)),                                                      
 gameRoom(new GameRoom()),                                                      
 score(new Score()),                                                      
 sound(buffer),                                                      
@@ -23,13 +23,13 @@ pauseText(font)
 
     for (int i = 0; i < 2; i++)
     {
-        FlyDemon[i] = new FlyingDemon("Flying Demon", 15, 5, 1.85f);
+        FlyDemon[i] = new FlyingDemon("Flying Demon", 13, 3, 1.85f);
         FlyDemon[i]->spawn(*player);
     }
 
     for (int i = 0; i < 3; i++)
     {
-        skeleton[i] = new Skeleton("Skeleton Warrior", 20, 3, 1.75f);
+        skeleton[i] = new Skeleton("Skeleton Warrior", 17, 2, 1.75f);
         skeleton[i]->spawn();
     }
 
