@@ -631,7 +631,7 @@ void Player::stopCurrentSound()
 
 void Player::playerAttack()
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::J) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && isJumping == false)
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::J) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) && isJumping == false)
     {
         if (!get_isAttacking2() && !get_isAttacking3())
         {
