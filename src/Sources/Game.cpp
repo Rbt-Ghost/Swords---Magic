@@ -29,13 +29,13 @@ pauseText(font)
 
     for (int i = 0; i < 2; i++)
     {
-        FlyDemon[i] = new FlyingDemon("Flying Demon", 13, 3, 1.85f);
+        FlyDemon[i] = new FlyingDemon("Flying Demon", 5, 4, 1.85f);
         FlyDemon[i]->spawn(*player);
     }
 
     for (int i = 0; i < 3; i++)
     {
-        skeleton[i] = new Skeleton("Skeleton Warrior", 17, 2, 1.75f);
+        skeleton[i] = new Skeleton("Skeleton Warrior", 7, 2, 1.75f);
         skeleton[i]->spawn();
     }
 

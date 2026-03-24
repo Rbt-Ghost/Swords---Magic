@@ -1,7 +1,6 @@
 #include "..\src\Headers\Skeleton.hpp"
 
-Skeleton::Skeleton(string Name, int Hp, int Atk, float Speed) : 
-Enemy(Name, Hp, Atk, Speed)
+Skeleton::Skeleton(string Name, int Hp, int Atk, float Speed) : Enemy(Name, Hp, Atk, Speed)
 {
     if (!idleTexture.loadFromFile("../assets/2D_Models/Skeleton Sprite Pack/Skeleton Idle.png"))
     {
@@ -72,7 +71,6 @@ Enemy(Name, Hp, Atk, Speed)
 Skeleton::~Skeleton()
 {
 }
-
 
 void Skeleton::updateAnimation()
 {
@@ -185,52 +183,66 @@ void Skeleton::updateLogic(Player &player)
                 }
             }
         }
-        else
+        if (getHp() > 0 && player.get_isAttacking1() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
         {
-            if (getHp() > 0 && player.get_isAttacking1() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
+            if (!isAttacking)
             {
                 isHurt = true;
-
-                if (player.get_currentFrame() == 4 && EscapeClock.getElapsedTime().asSeconds() > 0.4f)
-                {
-                    set_currentFrame(0);
-
-                    *this -= player.getAtk();
-                    checkHp();
-
-                    EscapeClock.restart();
-                }
             }
 
-            if (getHp() > 0 && player.get_isAttacking2() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
+            if (player.get_currentFrame() == 4 && EscapeClock.getElapsedTime().asSeconds() > 0.4f)
             {
-                isHurt = true;
-
-                if (player.get_currentFrame() == 1 && EscapeClock.getElapsedTime().asSeconds() > 0.1f)
+                if (!isAttacking)
                 {
                     set_currentFrame(0);
-
-                    *this -= player.getAtk();
-                    checkHp();
-
-                    EscapeClock.restart();
                 }
+
+                *this -= player.getAtk();
+                checkHp();
+
+                EscapeClock.restart();
+            }
+        }
+
+        if (getHp() > 0 && player.get_isAttacking2() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
+        {
+            if (!isAttacking)
+            {
+                isHurt = true;
             }
 
-            if (getHp() > 0 && player.get_isAttacking3() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
+            if (player.get_currentFrame() == 1 && EscapeClock.getElapsedTime().asSeconds() > 0.1f)
             {
-                isHurt = true;
-
-                if (player.get_currentFrame() == 3 && EscapeClock.getElapsedTime().asSeconds() > 0.3f)
+                if (!isAttacking)
                 {
                     set_currentFrame(0);
-
-                    *this -= player.getAtk();
-
-                    checkHp();
-
-                    EscapeClock.restart();
                 }
+
+                *this -= player.getAtk();
+                checkHp();
+
+                EscapeClock.restart();
+            }
+        }
+
+        if (getHp() > 0 && player.get_isAttacking3() && (playerLeft(player) && player.get_Sprite().getScale().x > 0 || playerRight(player) && player.get_Sprite().getScale().x < 0))
+        {
+            if (!isAttacking)
+            {
+                isHurt = true;
+            }
+
+            if (player.get_currentFrame() == 3 && EscapeClock.getElapsedTime().asSeconds() > 0.3f)
+            {
+                if (!isAttacking)
+                {
+                    set_currentFrame(0);
+                }
+
+                *this -= player.getAtk();
+                checkHp();
+
+                EscapeClock.restart();
             }
         }
     }
@@ -238,14 +250,12 @@ void Skeleton::updateLogic(Player &player)
     {
         isHurt = false;
     }
-    
 
     if (isAttacking && get_currentFrame() >= 17)
     {
         isAttacking = false;
     }
 
-    
     if (!isHurt && !isAttacking && !get_isDead())
     {
         int x;
@@ -352,7 +362,7 @@ void Skeleton::spawn()
     get_Sprite().setPosition({get_xPos(), get_yPos()});
     get_Hitbox().setPosition({get_xPos(), get_yPos()});
 
-    setHp(17);
+    setHp(get_MaxHP());
     set_isDead(false);
 }
 

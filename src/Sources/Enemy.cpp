@@ -3,6 +3,7 @@
 Enemy::Enemy(string Name, int Hp, int Atk, float Speed) : 
 Entity(Name, Hp, Atk, Speed)
 {
+    MaxHP = Hp;
 }
 
 Enemy::~Enemy()
@@ -19,6 +20,11 @@ Enemy &Enemy::operator-=(int Damage)
     Entity::operator-=(Damage);
     return *this;
 }
+
+int Enemy::get_MaxHP()
+{
+    return MaxHP;
+}   
 
 void Enemy::updateLogic(Player &player) {}
 

@@ -531,7 +531,7 @@ void FlyingDemon::spawn(Player &player)
     get_Sprite().setPosition({get_xPos(), get_yPos()});
     get_Hitbox().setPosition({get_xPos(), get_yPos()});
 
-    setHp(13);
+    setHp(get_MaxHP());
     set_isDead(false);
     comedown = true;
 

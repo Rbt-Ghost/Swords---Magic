@@ -14,9 +14,13 @@ private:
     int Atk;
     float Speed;
 
+    int MaxHP;
+
 public:
     Enemy(string Name, int Hp, int Atk, float Speed);
     virtual ~Enemy();
+
+    int get_MaxHP();
 
     Enemy& operator+=(int Heal);
     Enemy& operator-=(int Damage);
